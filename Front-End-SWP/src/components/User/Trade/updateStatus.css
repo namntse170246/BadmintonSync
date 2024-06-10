@@ -1,0 +1,13 @@
+.updateStatus {
+  display: flex;
+  background-color: white;
+}
+.updatestatus-btn {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 20px;
+  padding: 18px;
+  border-radius: 5px;
+  background-color: orange;
+}

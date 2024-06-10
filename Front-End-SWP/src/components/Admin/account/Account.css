@@ -1,0 +1,18 @@
+.info-account {
+  margin: 30px 10px;
+  width: 40%;
+}
+.title {
+  font-size: 25px;
+}
+.btn-account {
+  padding: 100px;
+  margin: 30px;
+  font-size: 30px;
+}
+.title-account {
+  max-width: 50%;
+  font-size: 30px;
+  display: flex;
+  justify-content: space-around;
+}

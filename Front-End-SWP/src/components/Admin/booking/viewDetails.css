@@ -1,0 +1,52 @@
+/* Checkout Card Styles */
+.checkoutCard-adim {
+  border-radius: 30px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
+    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  padding: 40px;
+  width: 100%;
+}
+
+/* Checkout Content Styles */
+.checkoutContent-admin {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Checkout Text Styles */
+.checkoutText-admin {
+  flex: 2;
+}
+
+/* Image Booking Styles */
+.image-booking-admin {
+  height: 65%;
+  width: 90%;
+}
+
+/* Title Styles */
+.title-booking {
+  display: flex;
+  max-width: 780px;
+  padding: 20px;
+  width: 100%;
+}
+
+/* Title Real Styles */
+.tittle-real {
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.tittle-real h1 {
+  margin-bottom: 10px;
+}
+
+/* Line Styles */
+._line {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  width: 540px;
+}

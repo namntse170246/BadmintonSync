@@ -1,0 +1,13 @@
+.date-input-range {
+    border: none;
+    background-color: #fdf7ee;
+    width: 100%;
+    padding: 2px 0px;
+}
+.date-input-range:focus-within {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+.react-datepicker-wrapper {
+    width: 100%;
+}

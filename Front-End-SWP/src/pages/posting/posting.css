@@ -1,0 +1,135 @@
+/* posting.css */
+.main-content {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  height: 720px;
+}
+.posting_container {
+  max-width: 1180px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  border-radius: 30px;
+  height: 650px;
+  margin-bottom: 20px;
+}
+.booking-form,
+.booking-summary {
+  padding: 20px;
+
+  border-radius: 30px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  width: 100%;
+}
+
+.booking-form {
+  margin-right: 20px; /* Adjust the margin as needed */
+}
+
+.booking-summary {
+  width: 300px;
+  flex-shrink: 0; /* Prevents the summary from shrinking */
+}
+
+.booking-form h1,
+.booking-summary h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+.booking-title {
+  font-size: 24px;
+}
+.form-section {
+  margin-top: 20px;
+}
+.form-section,
+.formSection_noti {
+  margin-bottom: 20px;
+}
+.form-group {
+  margin: 15px 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+.form-group input[type='text'],
+.form-group input[type='email'],
+.form-group input[type='tel'],
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+}
+.form-group-div-date {
+  display: flex;
+  justify-content: space-between;
+}
+.form-group-date {
+  display: flex; /* Use flexbox to align items horizontally */
+  align-items: center; /* Align items vertically in the center */
+  margin-bottom: 15px;
+}
+
+.form-group-date label {
+  font-weight: bold;
+  margin-right: 10px; /* Add some space between the label and the input */
+}
+
+.form-group-date input[type='date'] {
+  flex: 1; /* Allow the input to grow and fill the available space */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.form-group-date input[type='date']:focus {
+  outline: none;
+  border-color: #0071c2;
+}
+
+.btn-primary {
+  background-color: #70a5dd;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  margin-top: 20px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #004494;
+}
+
+.booking-summary img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+._linePosting {
+  border: #ccc 0.5px solid;
+  margin: 10px 0;
+}
+.text-summary,
+.h2 {
+  font-size: 19px;
+}
+.total-summary {
+  font-size: 20px;
+  font-weight: bold;
+}

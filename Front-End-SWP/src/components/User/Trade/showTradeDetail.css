@@ -1,0 +1,93 @@
+.tradeWapperTradeDetail {
+  width: 1024px;
+  height: 780px;
+  border-radius: 25px;
+  align-items: center;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+.tradeInfor {
+  margin-left: 65px;
+  margin-top: 20px;
+  border-top: 1px solid #333;
+  width: 900px;
+  padding: 20px;
+}
+.tradeTitleDetail {
+  margin-top: 35px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 24px;
+}
+.tradeInforDetail {
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+.tradeInforDetail,
+h1 {
+  margin-top: 15px;
+  font-weight: 550;
+  font-size: 16px;
+}
+.tradeInfor1,
+.tradeInfor2 {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+.tradeInfor1 {
+  margin-right: 50px;
+}
+.tradeInforTitle {
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 20px;
+}
+/* Styles for trade1 when status is 1 */
+.statusTrade {
+  margin-top: 40px;
+  margin-left: 90px;
+  display: flex;
+  width: 840px;
+  justify-content: space-between;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.status-1 {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+
+  padding: 18px;
+  border-radius: 5px;
+  background-color: orange; /* Change background color to orange */
+}
+
+/* Styles for trade2 when status is 2 */
+.status-2 {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+
+  padding: 18px;
+  border-radius: 5px;
+  background-color: green; /* Change background color to green */
+}
+
+/* Styles for trade2 when status is 3 */
+.status-3 {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+
+  padding: 18px;
+  border-radius: 5px;
+  background-color: red; /* Change background color to red */
+}

@@ -1,0 +1,218 @@
+/* .navbar {
+  height: 75px;
+  background-color: #003580;
+  display: flex;
+  justify-content: center;
+}
+.navContainer {
+  width: 100%;
+  max-width: 1024px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 500;
+  font-size: 35px;
+  line-height: 20px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.btn-icon {
+  padding: 0.75rem 1.75rem;
+}
+.navButton {
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid #fff;
+  background: transparent;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+} */
+
+.navbar-wrapper.new-navbar-wrapper {
+  height: 136px;
+  width: 100%;
+  position: relative;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  transition: 0.5s;
+}
+
+.navbar-wrapper.new-navbar-wrapper.other {
+  height: 95px;
+  /* width: 100%;
+
+    max-width: 100% !important;
+    position: relative;
+    background-color: #fff; */
+  border-bottom: 1px solid #ccc;
+}
+.navbar-wrapper.new-navbar-wrapper.other .navbar-right {
+  height: 95px;
+  align-items: center;
+}
+/* .navbar-wrapper.new-navbar-wrapper.other .ht_tablet_hide,
+.navbar-wrapper.new-navbar-wrapper.other .navbar-container,
+.navbar-wrapper.new-navbar-wrapper.other .navbar-left,
+.navbar-wrapper.new-navbar-wrapper.other .navbar-center,
+.navbar-wrapper.new-navbar-wrapper.other .navbar-right {
+    height: 100%;
+} */
+.navbar-wrapper.new-navbar-wrapper.other .navbar-left .logo-wrapper {
+  margin-bottom: 0;
+}
+.navbar-wrapper.new-navbar-wrapper.other
+  .navbar-left
+  .btn_navbar-lef
+  .nav-logo_signature {
+  color: #2a398c;
+}
+.navbar-wrapper.new-navbar-wrapper.other .navbar-right .btn-icon button {
+  color: #cccccc !important;
+}
+.navbar-wrapper > div > .navbar-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  height: 100%;
+  position: relative;
+  /* padding: 15px; */
+  max-width: 1170px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.navbar-container {
+  width: 100%;
+  margin: 0 auto;
+}
+.navbar-wrapper .logo-wrapper {
+  /* height: 95px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    transition: 0.5s; */
+  display: flex;
+  position: relative;
+  align-items: center;
+  /* height: 95px; */
+  justify-content: center;
+  margin-bottom: -21px;
+}
+.navbar-wrapper .navbar-center {
+  height: 95px;
+  width: calc(100% - (118px * 2));
+}
+.navbar-wrapper .main-menu-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin: 0 auto;
+  justify-content: space-between;
+  text-align: center;
+  height: 95px;
+  position: relative;
+  transition: 0.5s;
+}
+.nav-logo_signature {
+  position: absolute;
+  bottom: 0;
+  top: 50px;
+  text-transform: uppercase;
+  font-size: 17px;
+  color: #fff;
+}
+.navbar-wrapper .navbar-left,
+.navbar-wrapper .navbar-right {
+  width: 118px;
+  height: calc(95px - 8px);
+  display: flex;
+  align-items: flex-end;
+  transition: 0.5s;
+}
+.btn_navbar-lef {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #ffffff00;
+  right: 8px;
+}
+.navbar-link {
+  display: flex;
+  text-decoration: none;
+  font-weight: bold;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #fff; */
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+.btn-div {
+  width: 118px;
+  height: calc(95px - 8px);
+  display: flex;
+  align-items: flex-end;
+  transition: 0.5s;
+}
+.ht_mirror:after {
+  background: #fff;
+  height: calc(100% + 50px);
+  left: -40px;
+  top: -25px;
+  width: 10px;
+  z-index: 1;
+  content: "";
+  opacity: 0.2;
+  position: absolute;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+}
+.ht_mirror:hover:after {
+  left: 145%;
+  transition: 3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.navbar-wrapper .booking-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(0deg, #3379ab, #3379ab), #bbd2e3;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 22px;
+  color: #fff;
+  /* margin-bottom: -21px; */
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.navbar-wrapper .booking-btn:hover {
+  background: #efb56d;
+}
+
+.navbar-wrapper.new-navbar-wrapper.home-navbar {
+  height: 136px;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  transition: 0.5s;
+  background: none;
+}

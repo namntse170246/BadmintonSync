@@ -1,0 +1,27 @@
+.Footer {
+  width: 100%;
+  width: 1024px;
+  font-size: 13px;
+  font-weight: 400;
+}
+.FLists {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.FList {
+  list-style: none;
+  padding: 0;
+}
+.fListItem {
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: blue;
+}
+.fListItem:hover {
+  color: #c27e21;
+}
+.text {
+  margin: 50px 0;
+}

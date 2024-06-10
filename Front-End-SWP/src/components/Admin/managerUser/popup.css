@@ -1,0 +1,36 @@
+.popupStatus {
+  /* Cài đặt chung cho popup */
+  border-radius: 10px;
+  /* Bóng đổ */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.popupStatus .MuiDialogTitle-root {
+  /* Cài đặt cho tiêu đề popup */
+  padding: 16px 24px;
+}
+
+.popupStatus .MuiDialogContent-root {
+  /* Cài đặt cho nội dung popup */
+  padding: 24px;
+}
+
+.popupStatus .MuiDialogActions-root {
+  /* Cài đặt cho phần hành động (button) */
+  padding: 16px 24px;
+  /* Căn chỉnh button sang phải */
+  text-align: right;
+}
+
+.popupStatus .MuiButton-root {
+  /* Cài đặt cho button */
+  margin-left: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.popupStatus .MuiSelect-root {
+  /* Cài đặt cho select */
+  margin-top: 16px;
+  width: 100%;
+}

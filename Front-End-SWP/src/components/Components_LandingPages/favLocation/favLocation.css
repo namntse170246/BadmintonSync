@@ -1,0 +1,35 @@
+.fav__container {
+  width: 1024px;
+  max-width: 100%;
+}
+.fav__location__item {
+  width: 170px;
+  height: 220px;
+  padding: 20px 10px;
+}
+.fav__card {
+  cursor: pointer;
+  width: 170px;
+  height: 188px;
+
+  transition: transform 0.3s ease;
+}
+.fav__card:hover {
+  transform: scale(1.1); /* this will make the item 90% of its original size */
+}
+.fav__img {
+  width: 170px;
+  height: 136px;
+  border-radius: 10px;
+}
+.fav__name {
+  margin: 10px 0;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+.fav__des {
+  margin-top: 7px;
+  font-size: 14px;
+  font-weight: 400;
+}

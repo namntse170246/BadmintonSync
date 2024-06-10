@@ -1,0 +1,11 @@
+.btn-payment {
+  padding: 10px 20px;
+  border: 1px solid #1c9416;
+  border-radius: 999px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}

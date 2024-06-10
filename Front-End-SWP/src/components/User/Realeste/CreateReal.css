@@ -1,0 +1,64 @@
+.dialog-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 800px;
+    margin: 0 auto;
+}
+.createRealTitle {
+    text-align: center;
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.createRealTitle_Form {
+    width: 500px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+}
+
+.createRealTitle_Form label {
+    margin-bottom: 5px;
+    align-self: flex-start; /* Align labels to the left */
+}
+
+.createRealTitle_Form input[type="text"],
+.createRealTitle_Form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.createRealTitle_Form input[type="file"] {
+    margin-bottom: 20px;
+}
+
+.createRealTitle_Form .preview-images {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.createRealTitle_Form .preview-images img {
+    width: 200px;
+    height: 100px;
+    margin: 5px;
+}
+
+.createRealTitle_Form .form-field {
+    margin-top: 20px;
+}
