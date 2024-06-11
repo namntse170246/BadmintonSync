@@ -12,7 +12,7 @@ const SearchItem = ({ searchResult }) => {
     const BASE_URL = "http://meokool-001-site1.ltempurl.com/";
     const [value, setValue] = useState(4);
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
+    const {  isLoggedIn } = useAuth();
     const [userLoggedIn, setUserLoggedIn] = useState(isLoggedIn);
 
     useEffect(() => {

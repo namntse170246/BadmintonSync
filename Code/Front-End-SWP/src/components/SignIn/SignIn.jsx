@@ -109,19 +109,19 @@ const SignIn = ({ setShowLoading }) => {
     return (
         <>
             <form onSubmit={handleSubmit} className="sign-in-up-form">
-                <h1 className="sign-up-title">Đăng Nhập</h1>
+                <h1 className="sign-up-title">Login</h1>
                 <div className="social-container">
                     <a href="#" className="social">
                         <GoogleIcon />
                     </a>
                 </div>
-                <span className="introduce">hoặc sử dụng tài khoản của bạn</span>
+                <span className="introduce">or use your account</span>
                 <div className="infield">
                     <div className="infield-text">
                         <input
                             className="input-infield"
                             type="text"
-                            placeholder="Tài khoản"
+                            placeholder="Username"
                             name="Username"
                             id="username"
                             onChange={handleChange}
@@ -138,7 +138,7 @@ const SignIn = ({ setShowLoading }) => {
                         <input
                             className="input-infield"
                             type={showPassword ? "text" : "password"}
-                            placeholder="Mật khẩu"
+                            placeholder="Password"
                             id="password"
                             onChange={handleChange}
                         />
@@ -153,7 +153,7 @@ const SignIn = ({ setShowLoading }) => {
                 </div>
 
                 <a href="#" className="forgot">
-                    Quên mật khẩu ?
+                    Forgot password ?
                 </a>
                 <button className="btn-form">Đăng nhập</button>
             </form>
