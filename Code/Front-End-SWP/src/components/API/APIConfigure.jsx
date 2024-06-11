@@ -1,6 +1,6 @@
 import instance, { customAxios } from '../setUp/axios';
 
-export const BASE_URL = 'http://meokool-001-site1.ltempurl.com/';
+export const BASE_URL = 'https://localhost:7155/';
 
 const SignInAccount = (userData) => {
   return instance.post(`api/Accounts/Signin?${userData}`);
@@ -42,7 +42,7 @@ const GetAllFeedback = () => {
   return customAxios.get(`api/Feedbacks/GetAll`);
 };
 const GetAllRealestates = () => {
-  return customAxios.get(`api/Realestates/GetAll`);
+  return customAxios.get(`api/Court`);
 };
 const GetUserByID = (userID) => {
   return customAxios.get(`api/Accounts/GetbyID?id=${userID}`);
