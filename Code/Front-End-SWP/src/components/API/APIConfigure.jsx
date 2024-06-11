@@ -36,7 +36,7 @@ const GetAllBookings = () => {
   return customAxios.get(`api/Bookings/GetAll`);
 };
 const GetAllVoucher = () => {
-  return customAxios.get(`api/Vouchers/GetAll`);
+  return instance.get(`api/Vouchers/GetAll`);
 };
 const GetAllFeedback = () => {
   return customAxios.get(`api/Feedbacks/GetAll`);

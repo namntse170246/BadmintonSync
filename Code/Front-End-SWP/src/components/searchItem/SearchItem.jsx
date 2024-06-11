@@ -9,7 +9,7 @@ import { useAuth } from "../../hook/AuthContext";
 import Swal from "sweetalert2";
 
 const SearchItem = ({ searchResult }) => {
-    const BASE_URL = "http://meokool-001-site1.ltempurl.com/";
+    const BASE_URL = "https://localhost:7155/";
     const [value, setValue] = useState(4);
     const navigate = useNavigate();
     const {  isLoggedIn } = useAuth();
@@ -41,7 +41,7 @@ const SearchItem = ({ searchResult }) => {
         if (userLoggedIn) {
             try {
                 const response = await GetbyRealestateID(itemId);
-
+                console.log(itemId);
                 const realEstate = response;
 
                 localStorage.setItem("Realestate", JSON.stringify(realEstate));

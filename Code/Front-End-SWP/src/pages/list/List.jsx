@@ -107,6 +107,7 @@ const List = () => {
             if (response === null) {
                 throw new Error("Network response was not ok");
             }
+            console.log(typeof response)
             const normalizedDestination = keepDiacritics(searchValue.toLowerCase());
             const filteredResults = response.filter((item) => {
                 if (startDate === null && endDate === null) {
