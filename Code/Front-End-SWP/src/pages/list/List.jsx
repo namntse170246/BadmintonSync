@@ -99,54 +99,45 @@ const List = () => {
         getData();
     }, []);
 
+    // const fetchCourtData = async () => {
+    //     try {
+    //         const response = await fetch('https://localhost:7155/api/Court', {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! Status: ${response.status}`);
+    //         }
+
+    //         const data = await response.json();
+    //         console.log('Response from API:', data);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // };
+    //     fetchCourtData();
+
     const getData = async () => {
         try {
             setShowLoadingPage(true);
 
             const response = await GetAllRealestates();
+
             if (response === null) {
                 throw new Error("Network response was not ok");
             }
-            console.log(typeof response)
-            const normalizedDestination = keepDiacritics(searchValue.toLowerCase());
-            const filteredResults = response.filter((item) => {
-                if (startDate === null && endDate === null) {
-                    return (
-                        item.location &&
-                        keepDiacritics(item.location.toLowerCase()).includes(normalizedDestination) &&
-                        item.price >= minPrice &&
-                        item.price <= maxPrice
-                    );
-                }
-                return (
-                    item.location &&
-                    keepDiacritics(item.location.toLowerCase()).includes(normalizedDestination) &&
-                    item.timeshares.some((timeshare) => {
-                        const timeshareStart = new Date(timeshare.startDay);
-                        const timeshareEnd = new Date(timeshare.endDay);
-                        const selectedStart = startDate ? new Date(startDate) : null;
-                        const selectedEnd = endDate ? new Date(endDate) : null;
-
-                        if (selectedStart === null && selectedEnd === null) {
-                            return true;
-                        }
-
-                        return (
-                            (selectedStart === null || timeshareStart <= selectedEnd) &&
-                            (selectedEnd === null || timeshareEnd >= selectedStart) &&
-                            item.price >= minPrice &&
-                            item.price <= maxPrice
-                        );
-                    })
-                );
-            });
 
             setTimeout(() => {
                 setShowLoadingPage(false);
-                setSearchResult(filteredResults);
+                setSearchResult(response);
+                console.log(response);
             }, 3000);
 
-            setSearchResult(filteredResults);
+            setSearchResult(response);
+
         } catch (error) {
             console.log(error);
             setShowLoadingPage(false);
@@ -156,7 +147,7 @@ const List = () => {
     const handleSearch = (searchValue) => {
         setShowLoadingPage(true);
         const searchTerm = {
-            destination: searchValue,
+            location: searchValue,
         };
         localStorage.setItem("searchkey", JSON.stringify(searchTerm));
         setSearchValue(searchValue);

@@ -5,7 +5,7 @@ const Search = ({ onSearch, searchValue, setSearchValue }) => {
   useEffect(() => {
     const storedSearchTerm = localStorage.getItem("searchkey");
     if (storedSearchTerm) {
-      setSearchValue(JSON.parse(storedSearchTerm).destination);
+      setSearchValue(JSON.parse(storedSearchTerm).location);
     }
   }, []);
   const handleSearch = () => {
@@ -15,7 +15,7 @@ const Search = ({ onSearch, searchValue, setSearchValue }) => {
   const handleChange = (e) => {
     const value = e.target.value;
     setSearchValue(value);
-    localStorage.setItem("searchkey", JSON.stringify({ destination: value }));
+    localStorage.setItem("searchkey", JSON.stringify({ location: value }));
   };
   return (
     <div className="booking-search-block ht_tablet_hide">
@@ -37,7 +37,7 @@ const Search = ({ onSearch, searchValue, setSearchValue }) => {
             onClick={handleSearch}
             className="bs-item-desktop submit ht_mirror"
           >
-            <span className="submit-btn_click">Tìm kiếm</span>
+            <span className="submit-btn_click">Tìm kiếm</span>
           </button>
         </div>
       </div>

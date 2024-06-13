@@ -65,8 +65,8 @@ export const UpdateStatusVoucherByID = (voucherID, newStatus) => {
     status: newStatus,
   });
 };
-export const GetbyRealestateID = (realetatesID) => {
-  return customAxios.get(`api/Realestates/GetbyRealestateID?id=${realetatesID}`);
+export const GetbyRealestateID = (courtID) => {
+  return customAxios.get(`/api/Court/${courtID}`);
 };
 export const GetFeebackbyRealestate = (realetatesID) => {
   return instance.get(`api/Feedbacks/GetbyRealestateID?id=${realetatesID}`);

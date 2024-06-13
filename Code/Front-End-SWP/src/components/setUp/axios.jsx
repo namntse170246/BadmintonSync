@@ -28,10 +28,10 @@ export const customAxios = axios.create({
     baseURL: BASE_URL,
     headers: { "Content-Type": "application/json" },
 });
+
 customAxios.interceptors.request.use(
     (config) => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        // console.log(userInfo);
         if (userInfo && userInfo.accessToken) {
             config.headers["Authorization"] = `Bearer ${userInfo.accessToken}`;
         }
@@ -41,12 +41,15 @@ customAxios.interceptors.request.use(
         return Promise.reject(error);
     },
 );
+
 customAxios.interceptors.response.use(
     function (response) {
-        return response.data.data;
+        // console.log('Full response:', response);  
+        return response.data;  
     },
     function (error) {
         return Promise.reject(error);
     },
 );
+
 export default instance;
