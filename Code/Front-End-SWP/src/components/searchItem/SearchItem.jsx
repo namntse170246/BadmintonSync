@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import CheckIcon from '@mui/icons-material/Check';
 import Rating from '@mui/material/Rating';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../hook/AuthContext';
-
 import { GetbyRealestateID } from "../API/APIConfigure";
+import './searchItem.css';
 
 const SearchItem = ({ searchResult }) => {
     const navigate = useNavigate();
@@ -20,11 +19,9 @@ const SearchItem = ({ searchResult }) => {
         if (userLoggedIn) {
             try {
                 const response = await GetbyRealestateID(courtId);
-                console.log(courtId);
                 const courtDetails = response;
 
                 localStorage.setItem('CourtDetails', JSON.stringify(courtDetails));
-
                 const photoUrls = courtDetails.photo ? courtDetails.photo.split(',') : [];
                 localStorage.setItem('imageCourt', JSON.stringify(photoUrls));
                 navigate(`/court/${courtId}`);
@@ -51,7 +48,7 @@ const SearchItem = ({ searchResult }) => {
         <div className="ResultListPage_content">
             <section className="pb-3 max-w-screen-2xl ItemListWrapper_reponsive">
                 <div className="relative min-h-screen pt-1">
-                    <div className="flex flex-wrap gap-6">
+                    <div className="flex flex-wrap gap-6 justify-center">
                         {searchResult.map((court) => (
                             <div key={court.courtId} className="court-card">
                                 <article className="flex flex-col text-grey-900 relative rounded-md">
