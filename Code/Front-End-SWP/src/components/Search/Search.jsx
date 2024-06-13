@@ -1,6 +1,5 @@
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import { useEffect, useState } from "react";
-import LoadingPage from "../LoadingPage/LoadingPage";
 const Search = ({ onSearch, searchValue, setSearchValue }) => {
   useEffect(() => {
     const storedSearchTerm = localStorage.getItem("searchkey");

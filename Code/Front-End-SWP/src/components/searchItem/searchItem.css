@@ -44,6 +44,8 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.2s;
+    display: flex;
+    flex-direction: column; /* Đảm bảo các phần tử bên trong sắp xếp theo cột */
 }
 
 .court-card:hover {
@@ -52,26 +54,30 @@
 
 .court-card img {
     width: 100%;
-    height: auto;
-    border-bottom: 1px solid #e0e0e0;
+    height: 200px; /* Đặt chiều cao cố định cho hình ảnh để đảm bảo kích thước đồng đều */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
 }
 
 .court-card .p-4 {
     padding: 1.25rem;
+    flex: 1; /* Đảm bảo phần nội dung chiếm toàn bộ không gian còn lại */
+    display: flex;
+    flex-direction: column;
 }
 
 .court-card .font-bold {
     font-size: 1.25rem;
+    margin-bottom: 0.5rem; /* Khoảng cách giữa tên sân và vị trí */
 }
 
 .court-card .text-gray-700 {
     color: #616161;
     font-size: 0.875rem;
-    margin-top: 0.5rem;
+    margin-bottom: 1rem; /* Khoảng cách giữa vị trí và đánh giá */
 }
 
 .court-card .rating {
-    margin-top: auto;
+    margin-top: auto; /* Đẩy đánh giá xuống cuối thẻ */
 }
 
 @media (max-width: 1024px) {

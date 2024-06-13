@@ -81,7 +81,7 @@ const List = () => {
         const storedSearchTerm = localStorage.getItem("searchkey");
         if (storedSearchTerm) {
             const searchTerm = JSON.parse(storedSearchTerm);
-            setSearchValue(searchTerm.destination);
+            setSearchValue(searchTerm.location);
             setIsSearchValueLoaded(true);
         }
         getData();
@@ -149,6 +149,7 @@ const List = () => {
         const searchTerm = {
             location: searchValue,
         };
+        console.log(searchTerm);
         localStorage.setItem("searchkey", JSON.stringify(searchTerm));
         setSearchValue(searchValue);
 
