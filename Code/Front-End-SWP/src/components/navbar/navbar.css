@@ -149,6 +149,7 @@
   position: relative;
   background-color: #ffffff00;
   right: 8px;
+  border: 0cm;
 }
 .navbar-link {
   display: flex;

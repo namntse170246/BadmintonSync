@@ -3,14 +3,14 @@ import instance, { customAxios } from '../setUp/axios';
 export const BASE_URL = 'https://localhost:7155/';
 
 const SignInAccount = (userData) => {
-  return instance.post(`api/Accounts/Signin?${userData}`);
+  return customAxios.post(`api/User/Login`, userData);
 };
 
 const SignUpAccount = (userData) => {
-  return instance.post(`api/Accounts/SignUpUser`, userData);
+  return instance.post(`api/User/Register`, userData);
 };
 const GetAllAccounts = () => {
-  return customAxios.get(`api/Accounts/GetAll`);
+  return customAxios.get(`api/User/GetAll`);
 };
 
 const DeleteAccount = (userID) => {

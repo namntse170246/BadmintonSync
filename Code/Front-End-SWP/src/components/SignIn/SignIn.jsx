@@ -49,24 +49,21 @@ const SignIn = ({ setShowLoading }) => {
         if (Object.keys(newErrors).length === 0) {
             setShowLoading(true);
             try {
-                const queryParams = new URLSearchParams({
-                    username: formData.username,
+                const requestData = {
+                    userName: formData.username, // Sử dụng đúng tên thuộc tính
                     password: formData.password,
-                });
+                };
 
-                const response = await SignInAccount(queryParams);
+                const response = await SignInAccount(requestData);
+
+                console.log(response);
 
                 setTimeout(() => {
                     setShowLoading(false);
-                    if (response === null) {
+                    if (response === null || response.success === false) {
                         Swal.fire({
                             icon: "error",
                             title: "Sai tài khoản hoặc mật khẩu",
-                        });
-                    } else if (response.status === false) {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Tài khoản đã bị vô hiệu hoá",
                         });
                     } else {
                         Swal.fire({
@@ -77,13 +74,12 @@ const SignIn = ({ setShowLoading }) => {
                                 localStorage.removeItem("userInfo");
 
                                 const userInfo = {
-                                    id: response.id,
-                                    accessToken: response.accessToken,
-                                    isAdmin: response.isAdmin,
+                                    accessToken: response.data.token,
+                                    role: response.data.role,
                                 };
                                 login(userInfo);
 
-                                if (userInfo.isAdmin === true) {
+                                if (userInfo.role === "Administrator") {
                                     navigate("/admin");
                                 } else {
                                     navigate("/");
@@ -91,7 +87,7 @@ const SignIn = ({ setShowLoading }) => {
                             } else {
                                 Swal.fire({
                                     icon: "error",
-                                    title: response.messageError,
+                                    title: "Đã xảy ra lỗi",
                                 });
                             }
                         });
