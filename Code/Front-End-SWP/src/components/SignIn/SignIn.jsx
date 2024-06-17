@@ -60,12 +60,18 @@ const SignIn = ({ setShowLoading }) => {
 
                 setTimeout(() => {
                     setShowLoading(false);
-                    if (response === null || response.success === false) {
+                    if (response === null) {
                         Swal.fire({
                             icon: "error",
                             title: "Sai tài khoản hoặc mật khẩu",
+                        })
+                    } else if (response.success === false) {
+                        Swal.fire({
+                            icon: "error",
+                            title: response.message,
                         });
-                    } else {
+                    }
+                    else {
                         Swal.fire({
                             icon: "success",
                             title: "Đăng nhập thành công",

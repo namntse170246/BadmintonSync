@@ -7,7 +7,7 @@ const SignInAccount = (userData) => {
 };
 
 const SignUpAccount = (userData) => {
-  return instance.post(`api/User/Register`, userData);
+  return customAxios.post(`api/User/Register`, userData);
 };
 const GetAllAccounts = () => {
   return customAxios.get(`api/User/GetAll`);

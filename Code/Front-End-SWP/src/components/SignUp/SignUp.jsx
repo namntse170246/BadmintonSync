@@ -9,24 +9,21 @@ import Swal from "sweetalert2";
 const SignUp = ({ handleToggleForm, setShowLoading }) => {
     const [formData, setFormData] = useState({
         username: "",
-        fullName: "",
-        address: "",
+        email: "",
         password: "",
         confirmPassword: "",
         phone: "",
-        status: true,
-        sex: true,
     });
     const [errors, setErrors] = useState({
         username: "",
-        fullName: "",
-        address: "",
+        email: "",
         password: "",
         confirmPassword: "",
         phone: "",
     });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
@@ -38,12 +35,8 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             newErrors.username = "Tên người dùng không được để trống.";
         }
 
-        if (!formData.fullName) {
-            newErrors.fullName = "Họ và tên không được để trống.";
-        }
-
-        if (!formData.address) {
-            newErrors.address = "Địa chỉ không được để trống.";
+        if (!formData.email) {
+            newErrors.email = "Email không được để trống.";
         }
 
         if (!formData.password) {
@@ -65,16 +58,16 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         } else if (formData.phone.length !== 10 || !/^\d{10}$/.test(formData.phone)) {
             newErrors.phone = "Số điện thoại phải có đúng 10 chữ số.";
         }
+
         setErrors(newErrors);
         return newErrors;
     };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        const idSex = id === "sex" ? value === "male" : value;
         setFormData({
             ...formData,
-            [id]: idSex,
+            [id]: value,
         });
         setErrors({
             ...errors,
@@ -89,18 +82,21 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         if (Object.keys(newErrors).length === 0) {
             setShowLoading(true);
 
-            const userData = {
-                username: formData.username,
-                fullName: formData.fullName,
-                address: formData.address,
-                password: formData.password,
-                phone: formData.phone,
-                status: formData.status,
-                sex: formData.sex,
-            };
-
+            
+            
             try {
+                const userData = {
+                    username: formData.username,
+                    password: formData.password,
+                    confirmPassword: formData.confirmPassword,
+                    email: formData.email,
+                    phone: formData.phone,
+                };
+
+                console.log(userData);
+
                 const response = await SignUpAccount(userData);
+
                 console.log(response);
 
                 setTimeout(() => {
@@ -109,16 +105,20 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
                     if (response === null) {
                         Swal.fire({
                             icon: "error",
-                            title: response.messageError,
+                            title: "Có lỗi xảy ra khi đăng ký tài khoản.",
                         });
-                    } else {
-                        console.log(response);
+                    }  else if (response.success === false) {
+                        Swal.fire({
+                            icon: "error",
+                            title: response.message,
+                        });
+                    }
+                    else {
                         Swal.fire({
                             icon: "success",
                             title: "Tạo tài khoản thành công !!!",
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                console.log("Người dùng đã nhấp OK");
                                 handleToggleForm();
                             }
                         });
@@ -130,15 +130,14 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             }
         }
     };
+
     return (
         <>
             <form onSubmit={handleSubmit} className="sign-in-up-form">
-                <h1 className="sign-up-title">Tạo Tài Khoản</h1>
+                <h1 className="sign-up-title">Tạo Tài Khoản</h1>
                 <div className="social-container">
                     <a href="#" className="social">
-                        <i className="fab fa-google-plus-g">
-                            <GoogleIcon />
-                        </i>
+                        <GoogleIcon />
                     </a>
                 </div>
                 <div className="infield">
@@ -146,7 +145,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
                         <input
                             className="input-infield"
                             type="text"
-                            placeholder="Tài khoản"
+                            placeholder="Tài khoản"
                             id="username"
                             value={formData.username}
                             onChange={handleChange}
@@ -161,8 +160,24 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
                     <div className="infield-text">
                         <input
                             className="input-infield"
+                            type="text"
+                            placeholder="Email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                        <label className="input__label-field"></label>
+                    </div>
+                    <div className="error-box">
+                        {errors.email && <span className="error-message">{errors.email}</span>}
+                    </div>
+                </div>
+                <div className="infield">
+                    <div className="infield-text">
+                        <input
+                            className="input-infield"
                             type={showPassword ? "text" : "password"}
-                            placeholder="Mật khẩu"
+                            placeholder="Mật khẩu"
                             id="password"
                             value={formData.password}
                             onChange={handleChange}
@@ -181,7 +196,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
                         <input
                             className="input-infield"
                             type={showConfirmPassword ? "text" : "password"}
-                            placeholder="Xác nhận mật khẩu"
+                            placeholder="Xác nhận mật khẩu"
                             id="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleChange}
@@ -200,53 +215,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
                         <input
                             className="input-infield"
                             type="text"
-                            placeholder="Họ tên"
-                            id="fullName"
-                            value={formData.fullName}
-                            onChange={handleChange}
-                        />
-                        <label className="input__label-field"></label>
-                    </div>
-                    <div className="error-box">
-                        {errors.fullName && <span className="error-message">{errors.fullName}</span>}
-                    </div>
-                </div>
-                <div className="infield">
-                    <div className="infield-text">
-                        <input
-                            className="input-infield"
-                            type="text"
-                            placeholder="Địa chỉ"
-                            id="address"
-                            value={formData.address}
-                            onChange={handleChange}
-                        />
-                        <label className="input__label-field"></label>
-                    </div>
-                    <div className="error-box">
-                        {errors.address && <span className="error-message">{errors.address}</span>}
-                    </div>
-                </div>
-                <div className="infield">
-                    <select
-                        className="input-infield"
-                        placeholder="GIới tính"
-                        id="sex"
-                        value={formData.sex ? "male" : "female"}
-                        onChange={handleChange}
-                    >
-                        <option value="male">Nam</option>
-                        <option value="female">Nữ</option>
-                    </select>
-                    <label className="input__label-field"></label>
-                </div>
-
-                <div className="infield">
-                    <div className="infield-text">
-                        <input
-                            className="input-infield"
-                            type="text"
-                            placeholder="Số điện thoại"
+                            placeholder="Số điện thoại"
                             id="phone"
                             value={formData.phone}
                             onChange={handleChange}
@@ -257,7 +226,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
                         {errors.phone && <span className="error-message">{errors.phone}</span>}
                     </div>
                 </div>
-                <button className="btn-form">Đăng ký</button>
+                <button className="btn-form">Đăng ký</button>
             </form>
         </>
     );
