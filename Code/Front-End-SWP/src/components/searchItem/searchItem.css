@@ -1,100 +1,100 @@
-.ResultListPage_content {
-    padding-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.ItemListWrapper_reponsive {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.relative {
-    position: relative;
-}
-
-.min-h-screen {
-    min-height: 100vh;
-}
-
-.pt-1 {
-    padding-top: 4px;
-}
-
-.flex {
-    display: flex;
-}
-
-.flex-col {
-    flex-direction: column;
-}
-
-.flex-wrap {
-    flex-wrap: wrap;
-    justify-content: center; /* Canh giữa các thẻ court */
-}
-
 .court-card {
-    width: calc(33.333% - 1rem); /* Adjust width to fit 3 cards per row */
-    margin: 0.5rem; /* Khoảng cách giữa các thẻ */
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.2s;
-    display: flex;
-    flex-direction: column; /* Đảm bảo các phần tử bên trong sắp xếp theo cột */
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.court-card .sup-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+.court-card .sup-card {
+  display: flex;
+  width: 950px;
+  height: 200px;
+  box-shadow: 0 6px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
 }
 
-.court-card:hover {
-    transform: translateY(-5px);
+.court-card .sup-card .infor-part {
+  display: flex;
+  text-decoration: none; /* Bỏ gạch chân */
+  color: black; /* Màu chữ đen */
+  font-weight: bold; /* In đậm */
 }
 
-.court-card img {
-    width: 100%;
-    height: 200px; /* Đặt chiều cao cố định cho hình ảnh để đảm bảo kích thước đồng đều */
-    object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
+.court-card .sup-card .infor-part img {
+  width: 300px;
+  height: 200px;
+  padding-right: 10px;
 }
 
-.court-card .p-4 {
-    padding: 1.25rem;
-    flex: 1; /* Đảm bảo phần nội dung chiếm toàn bộ không gian còn lại */
-    display: flex;
-    flex-direction: column;
+.court-card .sup-card .infor-part .infor-text-part {
+  width: 450px;
+  padding-right: 10px;
 }
 
-.court-card .font-bold {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem; /* Khoảng cách giữa tên sân và vị trí */
+.court-Name {
+  font-size: 25px;
+  font-weight: bold; /* In đậm */
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.court-card .text-gray-700 {
-    color: #616161;
-    font-size: 0.875rem;
-    margin-bottom: 1rem; /* Khoảng cách giữa vị trí và đánh giá */
+.court-Location {
+  margin-bottom: 20px;
 }
 
-.court-card .rating {
-    margin-top: auto; /* Đẩy đánh giá xuống cuối thẻ */
+.court-card .Booking-Area {
+  width: 200px;
+  margin: 5px;
+  background-color: #f1f8ea;
+  border-radius: 15px;
 }
 
-@media (max-width: 1024px) {
-    .court-card {
-        width: calc(50% - 1rem); /* Adjust width for smaller screens */
-    }
+.court-card .Booking-Area p {
+  font-weight: bold;
+  margin-bottom: 40px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
-@media (max-width: 768px) {
-    .court-card {
-        width: calc(50% - 1rem); /* Adjust width for smaller screens */
-    }
+.court-card .Booking-Area button {
+  margin-left: 10px;
+  width: 80px;
+  height: 40px;
+  appearance: none;
+  background-color: #028000;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: 600;
+  line-height: normal;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
 }
 
-@media (max-width: 480px) {
-    .court-card {
-        width: 100%; /* Full width for very small screens */
-        margin: 0.5rem 0;
-    }
+.court-card .Booking-Area button:disabled {
+  pointer-events: none;
+}
+
+.court-card .Booking-Area button:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.court-card .Booking-Area button:active {
+  box-shadow: none;
+  transform: translateY(0);
 }
