@@ -28,9 +28,10 @@ import { useEffect } from "react";
 
 const AdminWrapper = ({ children }) => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    const isAdmin = userInfo?.isAdmin;
+    const isAdmin = userInfo?.role === "Administrator";
     return isAdmin ? children : <ErrorPage />;
 };
+
 const UserWrapper = ({ children }) => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     return userInfo ? children : <ErrorPage />;
