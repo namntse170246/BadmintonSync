@@ -68,19 +68,13 @@ const SearchItem = ({ searchResult }) => {
           </div>
         </Link>
         <div className="Booking-Area">
-          <p>Booking</p>
+          {/* <p>Booking</p> */}
           <div className="button">
             <button
               onClick={() => handleViewCourt(court.courtId)}
               className="btn-view-details"
             >
-              Chi tiết
-            </button>
-            <button
-              onClick={() => handleBooking(court.courtId)}
-              className="btn-book-now"
-            >
-              Đặt lịch
+              Đặt lịch
             </button>
           </div>
         </div>
