@@ -9,12 +9,11 @@ import Order from './Order';
 import Footer from '../../components/footer/Footer';
 import './userPage.css';
 import { GetUserByID } from '../../components/API/APIConfigure';
-import MyPost from './MyPost';
-import MyTrade from './MyTrade';
+import PaymentUser from './PaymentUser';
 
 import MailList from '../../components/mailList/MailList';
 import FeatureProperties from '../../components/featureProperties/FeatureProperties';
-import PaymentUser from './PaymentUser';
+
 const UserPage = () => {
   const [activeMenu, setActiveMenu] = useState('profile');
   const [users, setUsers] = useState([]);
@@ -22,6 +21,7 @@ const UserPage = () => {
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
   };
+
   return (
     <div>
       <Navbar />
@@ -58,27 +58,7 @@ const UserPage = () => {
                       to="/user/order"
                       onClick={() => handleMenuClick('order')}
                     >
-                      Khách sạn đã đặt
-                    </MenuItem>
-                  </div>
-                  <div className={`${activeMenu === 'mypost' ? 'user-active' : ''}`}>
-                    <MenuItem
-                      className="user-item"
-                      component={Link}
-                      to="/user/mypost"
-                      onClick={() => handleMenuClick('mypost')}
-                    >
-                      Bất động sản
-                    </MenuItem>
-                  </div>
-                  <div className={`${activeMenu === 'mytrade' ? 'user-active' : ''}`}>
-                    <MenuItem
-                      className="user-item"
-                      component={Link}
-                      to="/user/trade"
-                      onClick={() => handleMenuClick('mytrade')}
-                    >
-                      Trao Đổi
+                      Sân đã đặt
                     </MenuItem>
                   </div>
                 </div>
@@ -88,8 +68,6 @@ const UserPage = () => {
               {activeMenu === 'profile' && <Profile />}
               {activeMenu === 'payment' && <PaymentUser />}
               {activeMenu === 'order' && <Order />}
-              {activeMenu === 'mypost' && <MyPost />}
-              {activeMenu === 'mytrade' && <MyTrade />}
             </div>
           </div>
         </div>
