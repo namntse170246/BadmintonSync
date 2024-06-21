@@ -30,6 +30,7 @@ function Profile() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
+                // console.log(userInfo);
                 const response = await GetUserByID(userID);
                 setUserData(response);
                 setEditedUser(response); // Initialize editedUser state with fetched user data

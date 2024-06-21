@@ -71,7 +71,7 @@ const List = () => {
       }
       setTimeout(() => {
         setShowLoadingPage(false);
-        setSearchResult(response);
+        setSearchResult(response.data);
         console.log(response);
       }, 3000);
       setSearchResult(response);

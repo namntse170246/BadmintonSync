@@ -1,4 +1,4 @@
-import "./hotel.css";
+import "./court.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
@@ -16,7 +16,7 @@ import { GetbyRealestateID, BASE_URL } from "../../components/API/APIConfigure";
 import { Link, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
 
-const Hotel = ({}) => {
+const Court = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [slideNumber, setSlideNumber] = useState(0);
@@ -26,7 +26,7 @@ const Hotel = ({}) => {
     const fetchData = async () => {
       try {
         const response = await GetbyRealestateID(id);
-        setData(response);
+        setData(response.data);
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -35,7 +35,7 @@ const Hotel = ({}) => {
     fetchData();
   }, [id]);
 
-  localStorage.setItem("Realestate", JSON.stringify(data));
+  localStorage.setItem("Court", JSON.stringify(data));
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -46,23 +46,20 @@ const Hotel = ({}) => {
     let newSlideNumber;
 
     if (direction === "l") {
-      newSlideNumber =
-        slideNumber === 0 ? photoUrls.length - 1 : slideNumber - 1;
+      newSlideNumber = slideNumber === 0 ? photoUrls.length - 1 : slideNumber - 1;
     } else {
-      newSlideNumber =
-        slideNumber === photoUrls.length - 1 ? 0 : slideNumber + 1;
+      newSlideNumber = slideNumber === photoUrls.length - 1 ? 0 : slideNumber + 1;
     }
 
     setSlideNumber(newSlideNumber);
   };
 
-  const photoUrls = data ? data.photo.split(",") : [];
+  const photoUrls = data ? data.image.split(",") : [];
   localStorage.setItem("imageReal", JSON.stringify(photoUrls));
 
   return (
     <div>
       <Navbar isListNavbar={true} />
-      {/* <Header type="list" /> */}
       <div className="hotelContainer">
         {open && (
           <div className="slider">
@@ -79,7 +76,7 @@ const Hotel = ({}) => {
             <div className="sliderWrapper">
               {data && (
                 <img
-                  src={BASE_URL + photoUrls[slideNumber]}
+                  src={photoUrls[slideNumber]}
                   alt=""
                   className="sliderImg"
                 />
@@ -95,11 +92,11 @@ const Hotel = ({}) => {
         {data && (
           <div className="hotelWrapper">
             <button className="bookNow">
-              <Link to={`/timeshare/${data.id}`}>
+              <Link to={`/timeshare/${data.courtId}`}>
                 Timeshare hoặc Booking Ngay !!!
               </Link>
             </button>
-            <h1 className="hotelTitle">{data.name}</h1>
+            <h1 className="hotelTitle">{data.courtName}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
               <span>{data.location}</span>
@@ -108,15 +105,14 @@ const Hotel = ({}) => {
               Vị trí tuyệt vời – cách 800m đến trung tâm
             </span>
             <span className="hotelPriceHighlight">
-              Đặt phòng trên 3.000.00VNĐ tại khách sạn này và nhận taxi sân bay
-              miễn phí!
+              Đặt phòng trên 3.000.000VNĐ tại khách sạn này và nhận taxi sân bay miễn phí!
             </span>
             <div className="hotelImages">
               {photoUrls.map((photoUrl, i) => (
                 <div className="hotelImgWrapper" key={i}>
                   <img
                     onClick={() => handleOpen(i)}
-                    src={BASE_URL + photoUrl}
+                    src={photoUrl}
                     alt=""
                     className="hotelImg"
                   />
@@ -125,17 +121,16 @@ const Hotel = ({}) => {
             </div>
             <div className="hotelDetails">
               <div className="hotelDetailsTexts">
-                <h1 className="hotelTitle">Mô tả chỗ ở: {data.name}</h1>
-                <p className="hotelDesc">{data.description}</p>
+                <h1 className="hotelTitle">Mô tả chỗ ở: {data.courtName}</h1>
+                <p className="hotelDesc">{data.announcement}</p>
               </div>
               <div className="hotelDetailsPrice">
                 <h1>Bắt đầu cuộc hành trình mới!</h1>
                 <span>
-                  Chỗ ở này nằm ngay trung tâm thành phố TP. Hồ Chí Minh, bắt
-                  đầu hành trình với chúng tôi
+                  Chỗ ở này nằm ngay trung tâm thành phố TP. Hồ Chí Minh, bắt đầu hành trình với chúng tôi
                 </span>
                 <h2>
-                  <b>{data.price}VNĐ</b> /1 Đêm
+                  <b>{data.subCourts[0].pricePerHour} VNĐ</b> /1 giờ
                 </h2>
                 <button>Reserve or Book Now!</button>
               </div>
@@ -151,4 +146,4 @@ const Hotel = ({}) => {
   );
 };
 
-export default Hotel;
+export default Court;

@@ -16,40 +16,19 @@ const SearchItem = ({ searchResult }) => {
   }, [isLoggedIn]);
 
   const handleViewCourt = async (courtId) => {
-    if (userLoggedIn) {
-      try {
-        const response = await GetbyRealestateID(courtId);
-        const courtDetails = response;
+    try {
+      const response = await GetbyRealestateID(courtId);
+      const courtDetails = response.data;
 
-        localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
-        const photoUrls = courtDetails.photo
-          ? courtDetails.photo.split(",")
-          : [];
-        localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
-        navigate(`/court/${courtId}`);
-      } catch (error) {
-        console.error("Error fetching court details", error);
-      }
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Vui lòng đăng nhập để xem thông tin!",
-        showConfirmButton: true,
-        confirmButtonText: "Đăng nhập",
-        showCancelButton: true,
-        cancelButtonText: "Huỷ",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login-register");
-        }
-      });
+      localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
+      const photoUrls = courtDetails.image
+        ? courtDetails.image.split(",")
+        : [];
+      localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
+      navigate(`/court/${courtId}`);
+    } catch (error) {
+      console.error("Error fetching court details", error);
     }
-  };
-
-  const handleBooking = (courtId) => {
-    // Implement booking functionality here, based on your requirements
-    // For example, you can navigate to a booking page or show a modal
-    console.log("Booking court:", courtId);
   };
 
   return searchResult.map((court) => (

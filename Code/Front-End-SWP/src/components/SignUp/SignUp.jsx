@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 const SignUp = ({ handleToggleForm, setShowLoading }) => {
     const [formData, setFormData] = useState({
         username: "",
+        fullName: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -16,6 +17,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
     });
     const [errors, setErrors] = useState({
         username: "",
+        fullName: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -33,6 +35,10 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
 
         if (!formData.username) {
             newErrors.username = "Tên người dùng không được để trống.";
+        }
+
+        if (!formData.fullName) {
+            newErrors.fullName = "Họ và tên không được để trống.";
         }
 
         if (!formData.email) {
@@ -82,11 +88,10 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         if (Object.keys(newErrors).length === 0) {
             setShowLoading(true);
 
-            
-            
             try {
                 const userData = {
                     username: formData.username,
+                    name: formData.fullName,
                     password: formData.password,
                     confirmPassword: formData.confirmPassword,
                     email: formData.email,
@@ -154,6 +159,22 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
                     </div>
                     <div className="error-box">
                         {errors.username && <span className="error-message">{errors.username}</span>}
+                    </div>
+                </div>
+                <div className="infield">
+                    <div className="infield-text">
+                        <input
+                            className="input-infield"
+                            type="text"
+                            placeholder="Họ tên"
+                            id="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                        />
+                        <label className="input__label-field"></label>
+                    </div>
+                    <div className="error-box">
+                        {errors.fullName && <span className="error-message">{errors.fullName}</span>}
                     </div>
                 </div>
                 <div className="infield">

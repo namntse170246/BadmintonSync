@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
-import Hotel from "./pages/hotel/Hotel";
+import Court from "./pages/court/Court";
 import Admin from "./pages/admin/Admin";
 import About from "./pages/admin/About";
 import User from "./pages/admin/User";
@@ -57,7 +57,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login-register" element={<Form />} />
             <Route path="/hotels" element={<List />} />
-            <Route path="/hotels/:id" element={<Hotel />} />
+            <Route path="/court/:id" element={<Court />} />
             <Route path="/timeshare/:id" element={<Timeshare />} />
             <Route path="/posting/:id" element={<Posting />} />
             <Route

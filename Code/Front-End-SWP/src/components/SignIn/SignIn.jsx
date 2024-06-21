@@ -82,6 +82,8 @@ const SignIn = ({ setShowLoading }) => {
                                 const userInfo = {
                                     accessToken: response.data.token,
                                     role: response.data.role,
+                                    id: response.data.userId,
+                                    name: response.data.name,
                                 };
                                 login(userInfo);
 

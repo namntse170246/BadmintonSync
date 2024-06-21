@@ -21,7 +21,7 @@ import {
   UpdateRealestateStatus,
 } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
-import Hotel from "../../../pages/hotel/Hotel";
+import Court from "../../../pages/court/Court";
 
 const Dashboard = () => {
   const [feedback, setFeedback] = useState([]);
