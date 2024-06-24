@@ -21,11 +21,23 @@ const SearchItem = ({ searchResult }) => {
       const courtDetails = response.data;
 
       localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
-      const photoUrls = courtDetails.image
-        ? courtDetails.image.split(",")
-        : [];
+      const photoUrls = courtDetails.image ? courtDetails.image.split(",") : [];
       localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
       navigate(`/court/${courtId}`);
+    } catch (error) {
+      console.error("Error fetching court details", error);
+    }
+  };
+
+  const handleBookingCourt = async (courtId) => {
+    try {
+      const response = await GetbyRealestateID(courtId);
+      const courtDetails = response.data;
+
+      localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
+      const photoUrls = courtDetails.image ? courtDetails.image.split(",") : [];
+      localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
+      navigate(``);
     } catch (error) {
       console.error("Error fetching court details", error);
     }
@@ -53,7 +65,13 @@ const SearchItem = ({ searchResult }) => {
               onClick={() => handleViewCourt(court.courtId)}
               className="btn-view-details"
             >
-              Đặt lịch
+              View
+            </button>
+            <button
+              onClick={() => handleBookingCourt(court.courtId)}
+              className="btn-view-details"
+            >
+              Booking
             </button>
           </div>
         </div>
