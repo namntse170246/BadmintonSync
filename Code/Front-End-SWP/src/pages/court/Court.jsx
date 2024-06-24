@@ -8,19 +8,34 @@ import {
   faCircleArrowLeft,
   faCircleArrowRight,
   faCircleXmark,
-  faLocationDot,
+  faHouseChimney,
+  faPhone,
+  faHeart,
+  faClock,
+  faSackDollar,
+  faAngleRight,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
+import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import FeatureProperties from "../../components/featureProperties/FeatureProperties";
 import { GetbyRealestateID, BASE_URL } from "../../components/API/APIConfigure";
 import { Link, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
-
 const Court = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const PolicyClick = () => {
+    setShowPopup(true);
+  };
+
+  const ClosePolicyClick = () => {
+    setShowPopup(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,9 +61,11 @@ const Court = () => {
     let newSlideNumber;
 
     if (direction === "l") {
-      newSlideNumber = slideNumber === 0 ? photoUrls.length - 1 : slideNumber - 1;
+      newSlideNumber =
+        slideNumber === 0 ? photoUrls.length - 1 : slideNumber - 1;
     } else {
-      newSlideNumber = slideNumber === photoUrls.length - 1 ? 0 : slideNumber + 1;
+      newSlideNumber =
+        slideNumber === photoUrls.length - 1 ? 0 : slideNumber + 1;
     }
 
     setSlideNumber(newSlideNumber);
@@ -60,6 +77,10 @@ const Court = () => {
   return (
     <div>
       <Navbar isListNavbar={true} />
+      <div className="announcement">
+        <p className="announcementTitle">Announcement</p>
+        {/* <p className="announcementContent">{data.announcement}</p> */}
+      </div>
       <div className="hotelContainer">
         {open && (
           <div className="slider">
@@ -90,51 +111,121 @@ const Court = () => {
           </div>
         )}
         {data && (
-          <div className="hotelWrapper">
-            <button className="bookNow">
-              <Link to={`/timeshare/${data.courtId}`}>
-                Timeshare hoặc Booking Ngay !!!
-              </Link>
-            </button>
+          <div>
+            <div className="hotelWrapper">
+              <div className="hotelImages">
+                {photoUrls.map((photoUrl, i) => (
+                  <div className="hotelImgWrapper" key={i}>
+                    <img
+                      onClick={() => handleOpen(i)}
+                      src={photoUrl}
+                      alt=""
+                      className="hotelImg"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
             <h1 className="hotelTitle">{data.courtName}</h1>
-            <div className="hotelAddress">
-              <FontAwesomeIcon icon={faLocationDot} />
-              <span>{data.location}</span>
+            <div className="infor">
+              <FontAwesomeIcon icon={faHouseChimney} className="inforIcon" />
+              <div className="inforText">
+                <p>Address</p>
+                <span>{data.location}</span>
+              </div>
             </div>
-            <span className="hotelDistance">
-              Vị trí tuyệt vời – cách 800m đến trung tâm
-            </span>
-            <span className="hotelPriceHighlight">
-              Đặt phòng trên 3.000.000VNĐ tại khách sạn này và nhận taxi sân bay miễn phí!
-            </span>
-            <div className="hotelImages">
-              {photoUrls.map((photoUrl, i) => (
-                <div className="hotelImgWrapper" key={i}>
-                  <img
-                    onClick={() => handleOpen(i)}
-                    src={photoUrl}
-                    alt=""
-                    className="hotelImg"
-                  />
+            <div className="infor">
+              <FontAwesomeIcon icon={faPhone} className="inforIcon" />
+              <div className="inforText">
+                <p>Phone Number</p>
+                <span>{data.phone}</span>
+              </div>
+            </div>
+            <div className="infor">
+              <FontAwesomeIcon icon={faHeart} className="inforIcon" />
+              <div className="inforText">
+                <p>Social Media</p>
+                <FontAwesomeIcon icon={faFacebook} className="inforIcon" />
+              </div>
+            </div>
+            <p className="hotelTitle">Openning Hours</p>
+            <div className="infor">
+              <FontAwesomeIcon icon={faClock} className="inforIcon" />
+              <div className="inforText">
+                <p>Daily</p>
+                <p>{data.openingHours}</p>
+              </div>
+            </div>
+            <p className="hotelTitle">Pricing</p>
+            <div className="infor">
+              <FontAwesomeIcon icon={faSackDollar} className="inforIcon" />
+              <div className="inforText">
+                <p>Every Day</p>
+                <p>{data.priceperhour}</p>
+              </div>
+            </div>
+            <div>
+              <div className="Viewinfor" onClick={PolicyClick}>
+                <FontAwesomeIcon icon={faBook} className="ViewinforIcon" />
+                <div>View Policy</div>
+                <FontAwesomeIcon
+                  icon={faAngleRight}
+                  className="ViewinforIcon"
+                />
+              </div>
+              {showPopup && (
+                <div className="popup-overlay">
+                  <div className="popup-content">
+                    <h2>Policy</h2>
+                    <hr className="header-line" />
+                    <h3>Booking & Reschedule Rules</h3>
+                    <ul>
+                      <li>No refunds or carry forward of unused sessions.</li>
+                      <li>
+                        Changes to booking time require 48 hours notice and are
+                        subject to court availability.
+                      </li>
+                      <li>
+                        Non-seasonal bookings can be rescheduled once only.
+                      </li>
+                      <li>
+                        Seasonal bookings are not eligible for rescheduling.
+                      </li>
+                    </ul>
+                    <h3>Centre Policy</h3>
+                    <ul>
+                      <li>
+                        Only non-marking shoes are allowed on the badminton
+                        court.
+                      </li>
+                      <li>
+                        Players are responsible for any damages caused to the
+                        facility during play.
+                      </li>
+                      <li>
+                        Do not leave valuables unattended; we are not
+                        responsible for theft.
+                      </li>
+                      <li>
+                        Onsite parking is available; park in designated areas at
+                        your own risk.
+                      </li>
+                      <li>
+                        Violations may result in warnings, fines, suspension, or
+                        expulsion.
+                      </li>
+                      <li>Management decisions on penalties are final.</li>
+                    </ul>
+                    <button className="closeButton" onClick={ClosePolicyClick}>
+                      Close
+                    </button>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
-            <div className="hotelDetails">
-              <div className="hotelDetailsTexts">
-                <h1 className="hotelTitle">Mô tả chỗ ở: {data.courtName}</h1>
-                <p className="hotelDesc">{data.announcement}</p>
-              </div>
-              <div className="hotelDetailsPrice">
-                <h1>Bắt đầu cuộc hành trình mới!</h1>
-                <span>
-                  Chỗ ở này nằm ngay trung tâm thành phố TP. Hồ Chí Minh, bắt đầu hành trình với chúng tôi
-                </span>
-                <h2>
-                  <b>{data.subCourts[0].pricePerHour} VNĐ</b> /1 giờ
-                </h2>
-                <button>Reserve or Book Now!</button>
-              </div>
-            </div>
+            <button href="/booking" className="bookNow">
+              Book Now
+            </button>
             <FeedBack realetatesID={id} />
           </div>
         )}
