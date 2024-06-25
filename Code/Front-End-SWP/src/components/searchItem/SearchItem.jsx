@@ -21,11 +21,23 @@ const SearchItem = ({ searchResult }) => {
       const courtDetails = response.data;
 
       localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
-      const photoUrls = courtDetails.image
-        ? courtDetails.image.split(",")
-        : [];
+      const photoUrls = courtDetails.image ? courtDetails.image.split(",") : [];
       localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
       navigate(`/court/${courtId}`);
+    } catch (error) {
+      console.error("Error fetching court details", error);
+    }
+  };
+
+  const handleBookingCourt = async (courtId) => {
+    try {
+      const response = await GetbyRealestateID(courtId);
+      const courtDetails = response.data;
+
+      localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
+      const photoUrls = courtDetails.image ? courtDetails.image.split(",") : [];
+      localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
+      navigate(``);
     } catch (error) {
       console.error("Error fetching court details", error);
     }
@@ -34,7 +46,7 @@ const SearchItem = ({ searchResult }) => {
   return searchResult.map((court) => (
     <div key={court.courtId} className="court-card">
       <div className="sup-card">
-        <Link to={`/court/${court.courtId}`} className="infor-part">
+        <div className="infor-part">
           <img src={court.image} alt={court.courtName} />
           <div className="infor-text-part">
             <div className="court-Name">{court.courtName}</div>
@@ -45,7 +57,7 @@ const SearchItem = ({ searchResult }) => {
               readOnly
             />
           </div>
-        </Link>
+        </div>
         <div className="Booking-Area">
           {/* <p>Booking</p> */}
           <div className="button">
@@ -53,7 +65,13 @@ const SearchItem = ({ searchResult }) => {
               onClick={() => handleViewCourt(court.courtId)}
               className="btn-view-details"
             >
-              Đặt lịch
+              View
+            </button>
+            <button
+              onClick={() => handleBookingCourt(court.courtId)}
+              className="btn-view-details"
+            >
+              Booking
             </button>
           </div>
         </div>
