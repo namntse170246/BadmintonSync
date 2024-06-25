@@ -13,6 +13,10 @@ const GetAllAccounts = () => {
   return customAxios.get(`api/User/GetAll`);
 };
 
+const GetCurrentUser = () => {
+  return customAxios.get(`api/User/GetCurrentUser`);
+};
+
 const DeleteAccount = (userID) => {
   return customAxios.delete(`api/Accounts/DeleteAccount?id=${userID}`);
 };
@@ -22,8 +26,8 @@ const UpdateStatus = (userID, newStatus) => {
     status: newStatus,
   });
 };
-export const UpdateAccountByID = (userID, newUserData) => {
-  return customAxios.put(`api/Accounts/UpdateAccount?id=${userID}`, {
+export const UpdateAccount = (newUserData) => {
+  return customAxios.put(`api/User/EditSelf`, {
     ...newUserData,
   });
 };
@@ -144,6 +148,7 @@ export {
   SignInAccount,
   SignUpAccount,
   GetAllAccounts,
+  GetCurrentUser,
   DeleteAccount,
   UpdateStatus,
   GetAllBookings,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GetUserByID, UpdateAccountByID } from "../../components/API/APIConfigure";
+import { UpdateAccount, GetCurrentUser } from "../../components/API/APIConfigure";
 import "./Profile.css";
 import Swal from "sweetalert2";
 
@@ -16,9 +16,11 @@ const validatePhone = (value) => {
     return phoneRegex.test(value);
 };
 
-const validateAddress = (value) => {
-    return value.trim() !== "";
+const validateEmail = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
 };
+
 function Profile() {
     const [userData, setUserData] = useState(null);
     const [editedUser, setEditedUser] = useState(null);
@@ -26,14 +28,15 @@ function Profile() {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const userID = userInfo.id;
 
-    // Validation
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                // console.log(userInfo);
-                const response = await GetUserByID(userID);
+                // const response1 = await GetCurrentUser();
+                const response = userInfo;
+                console.log("Response: ", response);
+                response.fullName = response.name;
                 setUserData(response);
-                setEditedUser(response); // Initialize editedUser state with fetched user data
+                setEditedUser(response);
             } catch (err) {
                 console.log(err);
             }
@@ -41,22 +44,18 @@ function Profile() {
 
         fetchUser();
     }, [userID]);
-    // Handle changes
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditedUser({ ...editedUser, [name]: value });
         validateField(name, value);
     };
-    // Xử lý sự kiện thay đổi cho trường "sex"
-    const handleSexChange = (e) => {
-        const { value } = e.target;
-        setEditedUser({ ...editedUser, sex: value === "true" });
-    };
-    // Update the fullName in editedUser
+
     const handleFullNameChange = (e) => {
         const { value } = e.target;
         setEditedUser({ ...editedUser, fullName: value });
     };
+
     const validateField = (name, value) => {
         let error = "";
         switch (name) {
@@ -68,8 +67,8 @@ function Profile() {
             case "phone":
                 error = validatePhone(value) ? "" : "Số điện thoại phải có 10 số";
                 break;
-            case "address":
-                error = validateAddress(value) ? "" : "Địa chỉ không được để trống";
+            case "email":
+                error = validateEmail(value) ? "" : "Email không hợp lệ";
                 break;
             case "fullName":
                 error = validateFullName(value) ? "" : "Họ và tên phải trên 5 ký tự";
@@ -81,17 +80,16 @@ function Profile() {
     };
 
     const handleSubmit = () => {
-        // Check for errors before saving changes
         const isValid = Object.values(errors).every((error) => error === "");
         if (isValid) {
-            // Save changes
-            UpdateAccountByID(userID, editedUser);
-            // For demonstration purpose, you can handle saving changes here
+            console.log("updateInfor: ", editedUser);
+            UpdateAccount(editedUser);
             Swal.fire({
                 icon: "success",
                 title: "Cập nhật tài khoản thành công !!!",
             });
             console.log("Changes saved:", editedUser);
+            
         } else {
             Swal.fire({
                 icon: "error",
@@ -104,14 +102,14 @@ function Profile() {
 
     return (
         <div className="container__myprofile">
-            <h2 className="profile-title">Thông tin cá nhân</h2>
+            <h2 className="profile-title">My Profile</h2>
             <h1>Cập nhật thông tin của bạn và tìm hiểu các thông tin này được sử dụng ra sao.</h1>
             <br />
             {userData && (
                 <div className="accountsettings">
                     <div className="form">
                         <div className="form-group">
-                            <label htmlFor="name">Họ Và Tên:</label>
+                            <label htmlFor="name">Full Name:</label>
                             <input
                                 type="text"
                                 name="fullName"
@@ -119,10 +117,11 @@ function Profile() {
                                 value={editedUser.fullName}
                                 onChange={handleFullNameChange}
                             />
+                            {errors.name && <p className="error-message">{errors.name}</p>}
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="username">Tên Đăng Nhập:</label>
+                            <label htmlFor="username">Username:</label>
                             <input
                                 type="text"
                                 name="username"
@@ -135,26 +134,19 @@ function Profile() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="sex">Giới Tính:</label>
-                            <select
-                                name="sex"
-                                id="sex"
-                                value={editedUser.sex} // Giá trị ban đầu được chuyển trực tiếp từ editedUser.sex
-                                onChange={handleSexChange} // Sử dụng hàm xử lý sự kiện mới cho trường "sex"
-                            >
-                                <option value="true">Nam</option>
-                                <option value="false">Nữ</option>
-                            </select>
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                value={editedUser.email}
+                                onChange={handleChange}
+                            />
+                            {errors.email && <p className="error-message">{errors.email}</p>}
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="address">Địa chỉ:</label>
-                            <textarea name="address" id="address" value={editedUser.address} onChange={handleChange} />
-                            {/* No validation for address */}
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="phone">Số điện thoại:</label>
+                            <label htmlFor="phone">Phone:</label>
                             <input
                                 type="text"
                                 name="phone"
@@ -167,7 +159,7 @@ function Profile() {
                     </div>
 
                     <button className="mainbutton1" onClick={handleSubmit}>
-                        Nhấn Lưu Thay Đổi
+                        Save
                     </button>
                 </div>
             )}

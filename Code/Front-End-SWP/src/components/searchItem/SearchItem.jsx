@@ -34,7 +34,7 @@ const SearchItem = ({ searchResult }) => {
   return searchResult.map((court) => (
     <div key={court.courtId} className="court-card">
       <div className="sup-card">
-        <Link to={`/courts/${court.courtId}`} className="infor-part">
+        <Link to={`/court/${court.courtId}`} className="infor-part">
           <img src={court.image} alt={court.courtName} />
           <div className="infor-text-part">
             <div className="court-Name">{court.courtName}</div>

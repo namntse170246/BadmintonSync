@@ -1,6 +1,5 @@
 import "./court.css";
 import Navbar from "../../components/navbar/Navbar";
-import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import FeatureProperties from "../../components/featureProperties/FeatureProperties";
-import { GetbyRealestateID, BASE_URL } from "../../components/API/APIConfigure";
+import { GetbyRealestateID} from "../../components/API/APIConfigure";
 import { Link, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
 
@@ -95,7 +94,7 @@ const Court = () => {
               <Link to={`/timeshare/${data.courtId}`}>
                 Timeshare hoặc Booking Ngay !!!
               </Link>
-            </button>
+</button>
             <h1 className="hotelTitle">{data.courtName}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
