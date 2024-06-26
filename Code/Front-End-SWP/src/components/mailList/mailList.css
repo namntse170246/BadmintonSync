@@ -1,70 +1,70 @@
 .mailContainer {
-    width: 100%;
+  width: 100%;
 }
 .mail {
-    margin-top: 50px;
-    /* background-color: #00224f; */
-    background-color: #0a0f2b;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 50px;
+  margin-top: 50px;
+  /* background-color: #00224f; */
+  background-color: #0a0f2b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 50px;
 }
 
 .mailInputContainer > input {
-    width: 380px;
-    height: 30px;
-    padding: 10px;
-    border: none;
-    margin-right: 10px;
-    border-radius: 5px;
+  width: 380px;
+  height: 30px;
+  padding: 10px;
+  border: none;
+  margin-right: 10px;
+  border-radius: 5px;
 }
 
 .mailInputContainer > button {
-    width: 160px;
-    height: 50px;
-    background-color: #0071c2;
-    color: white;
-    font-weight: 500;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  width: 160px;
+  height: 50px;
+  background-color: #0071c2;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .mailDangky {
-    width: 100%;
-    height: 60px;
-    /* background-color: #003b95; */
-    background-color: #151b40;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 60px;
+  /* background-color: #003b95; */
+  background-color: #151b40;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .mailDangkyText {
-    color: white;
-    border: 1px solid white;
-    border-radius: 5px;
-    padding: 6px 16px;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 6px 16px;
 }
 .mailOptions {
-    width: 100%;
-    margin-top: 1px;
+  width: 100%;
+  margin-top: 1px;
 }
 .ulOptions {
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    /* background-color: #003b95; */
-    background-color: #151b40;
-    align-items: center;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  /* background-color: #003b95; */
+  background-color: #151b40;
+  align-items: center;
 }
 .liOption {
-    color: white;
-    padding: 17px 20px;
-    font-style: unset;
+  color: white;
+  padding: 17px 20px;
+  font-style: unset;
 }
 .liOption:hover {
-    background-color: #023075;
-    cursor: pointer;
+  background-color: #023075;
+  cursor: pointer;
 }

@@ -20,17 +20,13 @@ function FeatureProperties() {
   }, []);
 
   // Chỉ hiển thị 4 card đầu tiên nếu có nhiều hơn
-  const displayedProperties = featureProperties.slice(0, 4);
+  const displayedProperties = featureProperties.slice(0, 5);
 
   return (
     <div className="fp">
       {displayedProperties.map((property, index) => (
         <div className="fpItem" key={index}>
-          <img
-            src={property.image}
-            alt="/"
-            className="fpImg"
-          />
+          <img src={property.image} alt="/" className="fpImg" />
           <span className="fpName">{property.courtName}</span>
           <span className="fpName">{property.phone}</span>
           <div className="fpRating">

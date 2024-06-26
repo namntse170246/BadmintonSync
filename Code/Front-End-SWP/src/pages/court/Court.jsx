@@ -1,6 +1,5 @@
 import "./court.css";
 import Navbar from "../../components/navbar/Navbar";
-import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,8 +18,8 @@ import {
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import FeatureProperties from "../../components/featureProperties/FeatureProperties";
-import { GetbyRealestateID, BASE_URL } from "../../components/API/APIConfigure";
-import { Link, useParams } from "react-router-dom";
+import { GetbyRealestateID } from "../../components/API/APIConfigure";
+import { useNavigate, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
 const Court = () => {
   const { id } = useParams();
@@ -28,6 +27,7 @@ const Court = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate;
 
   const PolicyClick = () => {
     setShowPopup(true);
@@ -71,16 +71,24 @@ const Court = () => {
     setSlideNumber(newSlideNumber);
   };
 
+  const handleBookingCourt = async (courtId) => {
+    try {
+      const response = await GetbyRealestateID(courtId);
+      const courtDetails = response.data;
+      localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
+      navigate(`/booking/${courtId}`);
+    } catch (error) {
+      console.error("Error fetching court details", error);
+    }
+  };
+
   const photoUrls = data ? data.image.split(",") : [];
   localStorage.setItem("imageReal", JSON.stringify(photoUrls));
 
   return (
     <div>
       <Navbar isListNavbar={true} />
-      <div className="announcement">
-        <p className="announcementTitle">Announcement</p>
-        {/* <p className="announcementContent">{data.announcement}</p> */}
-      </div>
+
       <div className="hotelContainer">
         {open && (
           <div className="slider">
@@ -112,6 +120,10 @@ const Court = () => {
         )}
         {data && (
           <div>
+            <div className="announcement">
+              <p className="announcementTitle">Announcement</p>
+              <p className="announcementContent">{data.announcement}</p>
+            </div>
             <div className="hotelWrapper">
               <div className="hotelImages">
                 {photoUrls.map((photoUrl, i) => (
@@ -126,6 +138,7 @@ const Court = () => {
                 ))}
               </div>
             </div>
+
             <h1 className="hotelTitle">{data.courtName}</h1>
             <div className="infor">
               <FontAwesomeIcon icon={faHouseChimney} className="inforIcon" />
@@ -145,7 +158,13 @@ const Court = () => {
               <FontAwesomeIcon icon={faHeart} className="inforIcon" />
               <div className="inforText">
                 <p>Social Media</p>
-                <FontAwesomeIcon icon={faFacebook} className="inforIcon" />
+                <a
+                  target="_blank"
+                  href="https://www.facebook.com/hungtran0706/"
+                  rel="noreferrer"
+                >
+                  <FontAwesomeIcon icon={faFacebook} className="inforIcon" />
+                </a>
               </div>
             </div>
             <p className="hotelTitle">Openning Hours</p>
@@ -161,7 +180,7 @@ const Court = () => {
               <FontAwesomeIcon icon={faSackDollar} className="inforIcon" />
               <div className="inforText">
                 <p>Every Day</p>
-                <p>{data.priceperhour}</p>
+                <p>{data.subCourts[0].pricePerHour}$ /hour</p>
               </div>
             </div>
             <div>
@@ -223,8 +242,11 @@ const Court = () => {
                 </div>
               )}
             </div>
-            <button href="/booking" className="bookNow">
-              Book Now
+            <button
+              onClick={() => handleBookingCourt(data.courtId)}
+              className="bookNow"
+            >
+              Booking
             </button>
             <FeedBack realetatesID={id} />
           </div>

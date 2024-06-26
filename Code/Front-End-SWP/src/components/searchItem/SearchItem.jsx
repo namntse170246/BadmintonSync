@@ -33,11 +33,8 @@ const SearchItem = ({ searchResult }) => {
     try {
       const response = await GetbyRealestateID(courtId);
       const courtDetails = response.data;
-
       localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
-      const photoUrls = courtDetails.image ? courtDetails.image.split(",") : [];
-      localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
-      navigate(``);
+      navigate(`/booking/${courtId}`);
     } catch (error) {
       console.error("Error fetching court details", error);
     }
