@@ -16,7 +16,7 @@ Dự án Đặt Sân Cầu Lông là một hệ thống quản lý đặt sân c
 - **Frontend**: React
 - **Backend**: ASP.NET core API 8
 - **Database**: SQLServer
-- **Authentication**: JWT
+- **Authentication**: JWT Bearer
 #### Bảng phân công công việc
 
 Dưới đây là bảng phân công công việc cho các thành viên tham gia dự án:
@@ -30,3 +30,25 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 | Phạm Quốc Duy                                  | Phát triển tính năng đăng nhập và bảo mật (JWT)                | 3 tuần                       |
 | Nguyễn Phi Hùng                                | Kiểm thử và đảm bảo chất lượng (QA)                            | 2 tuần                       |
 | Nguyễn Trung Nam                               | Viết tài liệu và hướng dẫn sử dụng                             | 1 tuần                       |
+
+| Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 |
+|----------|----------|----------|----------|
+| UC-04    | UC-08    | UC-16    | UC-22    | 
+| UC-05    | UC-09    | UC-20    | UC-20    | 
+| UC-21    | UC-10    | UC-49    | UC-03    |
+| UC-07    | UC-12    | UC-18    | UC-28    |
+| UC-06    | UC-14    | UC-19    | UC-09    |
+| UC-23    | UC-15    | UC-17    | UC-25    |
+|          |          |          | UC-27    |
+
+**SPRINT 1**
+
+| Name |                UC(TC)               |
+|----------------------|---------------------|
+| Pham Quoc Duy        | UC-05 (TC:4,5,6)    | 
+| Nguyen Phi Hung      | UC-04 (TC:1,2,3)| 
+| Nguyen Trung Nam     | UC-06 (TC:1, 2), UC-02 (TC:16)|
+| Nguyen Thanh Thang    |UC-06 (TC:1,2), UC-10 (TC:4)|
+| Truong Le Minh Nghia | UC-14 (TC:17), UC-26 (TC:20)|
+| Vo Anh Hao           | UC-26 (TC:21,22)      |
+| Nguyen Huu Phuc     |  UC-10 (TC:5,6), UC-12 (TC:7)|
