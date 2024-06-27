@@ -28,41 +28,42 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchBookings = async () => {
+      setIsLoading(true);
       try {
         const response = await GetAllBookings();
-        setBookings(Array.isArray(response) ? response : []);
-        fetchUserDetails(response.map((booking) => booking.memberId));
+        setBookings(Array.isArray(response.data) ? response.data : []);
+        fetchUserDetails(response.data.map((booking) => booking.userId));
       } catch (err) {
         console.error(err);
         toast.error("Failed to fetch bookings");
       }
+      setIsLoading(false);
     };
-    setIsLoading(false);
     fetchBookings();
   }, []);
 
-  const fetchUserDetails = async (memberIds) => {
+  const fetchUserDetails = async (userIds) => {
     setIsLoading(true);
-    memberIds.forEach(async (id) => {
-      if (!userDetails[id]) {
+    const userDetailsMap = { ...userDetails };
+
+    for (const id of userIds) {
+      if (!userDetailsMap[id]) {
         try {
           const response = await GetUserByID(id);
           if (response && response.username) {
-            setUserDetails((prevDetails) => ({
-              ...prevDetails,
-              [id]: response.username,
-            }));
+            userDetailsMap[id] = response.username;
           } else {
             console.error(`User with id ${id} does not have a username`);
           }
         } catch (err) {
           console.error(err);
-          toast.error(`Failed to fetch user details for memberId: ${id}`);
+          toast.error(`Failed to fetch user details for userId: ${id}`);
         }
       }
-    });
+    }
+
+    setUserDetails(userDetailsMap);
     setIsLoading(false);
   };
 
@@ -76,7 +77,7 @@ const Dashboard = () => {
   };
 
   const filteredBookings = bookings.filter((booking) => {
-    const userName = userDetails[booking.memberId] || "";
+    const userName = userDetails[booking.userId] || "";
     return (
       !searchTerm || userName.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -170,7 +171,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      Số người
+                      Mã sân
                     </TableCell>
                     <TableCell
                       style={{
@@ -203,16 +204,16 @@ const Dashboard = () => {
                 </TableHead>
                 <TableBody>
                   {slicedBookings.map((booking) => (
-                    <TableRow key={booking.id}>
+                    <TableRow key={booking.bookingId}>
                       <TableCell style={{ fontSize: "13px" }} align="center">
-                        {userDetails[booking.memberId] || booking.memberId}
+                        {userDetails[booking.userId] || booking.userId}
                       </TableCell>
 
                       <TableCell style={{ fontSize: "13px" }} align="center">
-                        {booking.amount.toLocaleString()}VNĐ
+                        {booking.totalPrice.toLocaleString()} VNĐ
                       </TableCell>
                       <TableCell style={{ fontSize: "13px" }} align="center">
-                        {booking.adult}
+                        {booking.subCourtId}
                       </TableCell>
                       <TableCell
                         style={{
@@ -220,7 +221,7 @@ const Dashboard = () => {
                         }}
                         align="center"
                       >
-                        {new Date(booking.startDay).toLocaleDateString(
+                        {new Date(booking.bookingDate).toLocaleDateString(
                           "vi-VN",
                           {
                             day: "2-digit",
@@ -228,12 +229,6 @@ const Dashboard = () => {
                             year: "numeric",
                           }
                         )}
-                        -
-                        {new Date(booking.endDay).toLocaleDateString("vi-VN", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}
                       </TableCell>
                       <TableCell
                         align="center"
@@ -251,7 +246,7 @@ const Dashboard = () => {
                           color="success"
                           className="edit-btn"
                           onClick={() =>
-                            navigate(`/admin/booking/details/${booking.id}`)
+                            navigate(`/admin/booking/details/${booking.bookingId}`)
                           }
                         >
                           <VisibilityIcon sx={{ fontSize: 25 }} />

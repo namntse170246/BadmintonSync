@@ -24,16 +24,16 @@ import {
 const Dashboard = () => {
   const [feedback, setFeedback] = useState([]);
   const [userDetails, setUserDetails] = useState({});
+  const [realEstateDetails, setRealEstateDetails] = useState({});
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [name, setName] = useState("");
 
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
         const response = await GetAllFeedback();
-        setFeedback(Array.isArray(response) ? response : []);
+        setFeedback(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         toast.error("Failed to fetch feedback");
         console.error(err);
@@ -44,22 +44,22 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const userIds = feedback.map((item) => item.memberId);
+    const userIds = feedback.map((item) => item.userId);
     const uniqueUserIds = Array.from(new Set(userIds));
 
     const fetchUserDetails = async () => {
-      uniqueUserIds.forEach(async (id) => {
+      for (const id of uniqueUserIds) {
         try {
           const userData = await GetUserByID(id);
           setUserDetails((prevDetails) => ({
             ...prevDetails,
-            [id]: userData.username,
+            [id]: userData.data.userName,
           }));
         } catch (error) {
           console.error("Failed to fetch user details", error);
           toast.error(`Failed to fetch user details for ID: ${id}`);
         }
-      });
+      }
     };
 
     if (uniqueUserIds.length > 0) {
@@ -67,33 +67,33 @@ const Dashboard = () => {
     }
   }, [feedback]);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
   useEffect(() => {
-    const realIds = feedback.map((item) => item.realestateID);
+    const realIds = feedback.map((item) => item.courtId);
     const uniqueRealIds = Array.from(new Set(realIds));
 
     const fetchRealDetails = async () => {
-      uniqueRealIds.forEach(async (id) => {
+      for (const id of uniqueRealIds) {
         try {
           const realData = await GetbyRealestateID(id);
-          setName((prevDetails) => ({
+          setRealEstateDetails((prevDetails) => ({
             ...prevDetails,
-            [id]: realData.name,
+            [id]: realData.data.courtName,
           }));
         } catch (error) {
           console.error("Failed to fetch real details", error);
           toast.error(`Failed to fetch real details for ID: ${id}`);
         }
-      });
+      }
     };
 
     if (uniqueRealIds.length > 0) {
       fetchRealDetails();
     }
   }, [feedback]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -103,7 +103,7 @@ const Dashboard = () => {
   const filteredFeedback = feedback.filter((item) => {
     return (
       selectedStatusFilter === "all" ||
-      item.rate.toString() === selectedStatusFilter
+      item.rating.toString() === selectedStatusFilter
     );
   });
 
@@ -160,7 +160,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Bất động sản
+                  Sân
                 </TableCell>
                 <TableCell
                   style={{
@@ -184,17 +184,17 @@ const Dashboard = () => {
             </TableHead>
             <TableBody>
               {slicedFeedback.map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item.evaluateId}>
                   <TableCell align="center">
-                    {userDetails[item.memberId] || item.memberId}
+                    {userDetails[item.userId] || item.userId}
                   </TableCell>
                   <TableCell align="center">
-                    {name[item.realestateID] || item.realestateID}
+                    {realEstateDetails[item.courtId] || item.courtId}
                   </TableCell>
-                  <TableCell align="center">{item.text}</TableCell>
+                  <TableCell align="center">{item.comment}</TableCell>
                   <TableCell align="center">
                     <StarRatings
-                      rating={item.rate}
+                      rating={item.rating}
                       starDimension="20px"
                       starSpacing="2px"
                       starRatedColor="orange"

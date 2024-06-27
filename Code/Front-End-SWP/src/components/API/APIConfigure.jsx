@@ -10,7 +10,7 @@ const SignUpAccount = (userData) => {
   return customAxios.post(`api/User/Register`, userData);
 };
 const GetAllAccounts = () => {
-  return customAxios.get(`api/User/GetAll`);
+  return customAxios.get(`api/User/GetAllUsers(Admin)`);
 };
 
 const GetCurrentUser = () => {
@@ -37,19 +37,19 @@ export const UpdatePasswordByID = (userID, newPassword) => {
   });
 };
 const GetAllBookings = () => {
-  return customAxios.get(`api/Bookings/GetAll`);
+  return customAxios.get(`api/Bookings`);
 };
 const GetAllVoucher = () => {
-  return instance.get(`api/Vouchers/GetAll`);
+  return instance.get(`api/Promotion`);
 };
 const GetAllFeedback = () => {
-  return customAxios.get(`api/Feedbacks/GetAll`);
+  return customAxios.get(`api/Evaluate`);
 };
 const GetAllRealestates = () => {
   return customAxios.get(`api/Court`);
 };
 const GetUserByID = (userID) => {
-  return customAxios.get(`api/Accounts/GetbyID?id=${userID}`);
+  return customAxios.get(`api/User/GetUserById(Admin)/${userID}`);
 };
 //GET PAYMENT BY USER ID
 export const GetPaymentByUserID = (userID) => {

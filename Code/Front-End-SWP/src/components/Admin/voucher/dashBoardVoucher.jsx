@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Box, Paper } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -25,12 +24,12 @@ import UpdateStatusVoucher from "./updateStatusVoucher";
 const Dashboard = () => {
   const [voucher, setVoucher] = useState([]);
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [page, setPage] = React.useState(0);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState("md");
+  const [fullWidth, setFullWidth] = useState(true);
+  const [maxWidth, setMaxWidth] = useState("md");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,38 +49,37 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchVouchers();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchVouchers = async () => {
     try {
       const response = await GetAllVoucher();
-      setVoucher(Array.isArray(response) ? response : []);
+      setVoucher(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       setVoucher([]);
       console.error(err);
     }
   };
 
-  const filteredStatus = voucher.filter((voucher) => {
+  const filteredVouchers = voucher.filter((v) => {
     if (
       selectedStatusFilter !== "all" &&
-      voucher.status !== selectedStatusFilter
+      v.status !== selectedStatusFilter
     ) {
       return false;
     }
     if (
       searchTerm &&
-      voucher.name &&
-      !voucher.name.toLowerCase().includes(searchTerm.toLowerCase())
+      v.promotionName &&
+      !v.promotionName.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
       return false;
     }
-
     return true;
   });
 
-  const slicedUser = filteredStatus.slice(
+  const slicedVouchers = filteredVouchers.slice(
     page * rowsPerPage,
     (page + 1) * rowsPerPage
   );
@@ -100,7 +98,7 @@ const Dashboard = () => {
             <MenuItem value={false}>Vô Hiệu Hóa</MenuItem>
           </Select>
           <TextField
-            label=""
+            label="Tìm kiếm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ marginTop: "30px", marginLeft: "20px" }}
@@ -137,7 +135,7 @@ const Dashboard = () => {
               <CreateVoucher
                 isOpen={open}
                 onClose={handleClose}
-                fetchUser={fetchUsers}
+                fetchUser={fetchVouchers}
               />
             </DialogContent>
           </Dialog>
@@ -169,7 +167,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Mã
+                    Tên khuyến mãi
                   </TableCell>
                   <TableCell
                     style={{
@@ -178,7 +176,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Giá trị
+                    Mô tả
                   </TableCell>
                   <TableCell
                     style={{
@@ -187,7 +185,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Loại
+                    Giá trị giảm
                   </TableCell>
                   <TableCell
                     style={{
@@ -196,7 +194,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Ngày hết hạn
+                    Ngày bắt đầu
                   </TableCell>
                   <TableCell
                     style={{
@@ -205,22 +203,30 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Trạng thái
+                    Ngày kết thúc
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontSize: "20px",
+                      fontFamily: "Arial, sans-serif",
+                    }}
+                    align="center"
+                  >
+                    Hành động
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {slicedUser.map((voucher) => (
-                  <TableRow key={voucher.id}>
+                {slicedVouchers.map((v) => (
+                  <TableRow key={v.promotionId}>
                     <TableCell style={{ fontSize: "13px" }} align="center">
-                      {voucher.name}
-                    </TableCell>
-
-                    <TableCell style={{ fontSize: "13px" }} align="center">
-                      {voucher.amount}%
+                      {v.promotionName}
                     </TableCell>
                     <TableCell style={{ fontSize: "13px" }} align="center">
-                      {voucher.type}
+                      {v.description}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "13px" }} align="center">
+                      {v.discountPercentage}%
                     </TableCell>
                     <TableCell
                       style={{
@@ -228,7 +234,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      {new Date(voucher.endDay).toLocaleDateString("vi-VN", {
+                      {new Date(v.startDate).toLocaleDateString("vi-VN", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
@@ -236,15 +242,20 @@ const Dashboard = () => {
                     </TableCell>
                     <TableCell
                       style={{
-                        fontSize: "15px",
-                        color: voucher.status ? "green" : "red",
-                        fontWeight: "bold",
+                        fontSize: "13px",
                       }}
                       align="center"
                     >
+                      {new Date(v.endDate).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </TableCell>
+                    <TableCell align="center">
                       <UpdateStatusVoucher
-                        voucherId={voucher.id}
-                        currentStatus={voucher.status}
+                        voucherId={v.promotionId}
+                        currentStatus={v.status}
                       />
                     </TableCell>
                   </TableRow>

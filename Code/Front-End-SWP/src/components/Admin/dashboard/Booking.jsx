@@ -29,10 +29,11 @@ export default function Booking() {
     setIsLoading(true);
     try {
       const response = await GetAllBookings();
-      let filteredBookings = Array.isArray(response) ? response : [];
+      console.log(response);
+      let filteredBookings = Array.isArray(response.data) ? response.data : [];
       if (startDate && endDate) {
         filteredBookings = filteredBookings.filter((booking) => {
-          const bookingDate = new Date(booking.createdDay);
+          const bookingDate = new Date(booking.bookingDate);
           const start = new Date(startDate);
           const end = new Date(endDate);
 
@@ -63,7 +64,7 @@ export default function Booking() {
   let bookingsPerDay = {};
 
   bookings.forEach((booking) => {
-    const date = convertToDate(booking.createdDay);
+    const date = convertToDate(booking.bookingDate);
     bookingsPerDay[date] = (bookingsPerDay[date] || 0) + 1;
   });
 
@@ -71,7 +72,7 @@ export default function Booking() {
   const dates = Object.keys(bookingsPerDay);
   dates.sort(
     (a, b) =>
-      new Date(a.split('-').reverse().join('-')) - new Date(b.split('-').reverse().join('-'))
+      new Date(a.split('/').reverse().join('/')) - new Date(b.split('/').reverse().join('/'))
   );
   const sortedCounts = dates.map((date) => bookingsPerDay[date]);
 

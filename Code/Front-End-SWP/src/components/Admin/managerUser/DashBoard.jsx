@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Box, Paper, Button } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -42,7 +41,7 @@ const Dashboard = () => {
   const fetchUsers = async () => {
     try {
       const response = await GetAllAccounts();
-      setUsers(Array.isArray(response) ? response : []);
+      setUsers(response.data);
     } catch (err) {
       setUsers([]);
       console.error(err);
@@ -59,7 +58,7 @@ const Dashboard = () => {
 
   const handleUpdateStatus = async (newStatus) => {
     try {
-      await UpdateStatus(currentUserId.id, newStatus);
+      await UpdateStatus(currentUserId.userId, newStatus);
       fetchUsers();
       toast.success("Cập nhật thành công!");
     } catch (err) {
@@ -70,10 +69,10 @@ const Dashboard = () => {
   };
 
   const filteredStatus = users.filter((user) => {
-    // Filter by status
+    // Filter by roleType
     if (
       selectedStatusFilter !== "all" &&
-      user.status !== selectedStatusFilter
+      user.roleType !== selectedStatusFilter
     ) {
       return false;
     }
@@ -81,7 +80,7 @@ const Dashboard = () => {
     // Filter by username
     if (
       searchTerm &&
-      !user.username.toLowerCase().includes(searchTerm.toLowerCase())
+      !user.userName.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
       return false;
     }
@@ -104,8 +103,10 @@ const Dashboard = () => {
             style={{ marginTop: "30px" }}
           >
             <MenuItem value="all">Tất cả</MenuItem>
-            <MenuItem value={true}>Hoạt động</MenuItem>
-            <MenuItem value={false}>Vô Hiệu Hóa</MenuItem>
+            <MenuItem value="Administrator">Administrator</MenuItem>
+            <MenuItem value="User">User</MenuItem>
+            <MenuItem value="Manager">Manager</MenuItem>
+            <MenuItem value="Staff">Staff</MenuItem>
           </Select>
           <TextField
             label="Tên tài khoản"
@@ -171,23 +172,15 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Trạng Thái
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
                     Hành Động
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {slicedUser.map((user) => (
-                  <TableRow key={user.id}>
+                  <TableRow key={user.userId}>
                     <TableCell style={{ fontSize: "13px" }} align="center">
-                      {user.username}
+                      {user.userName}
                     </TableCell>
 
                     <TableCell style={{ fontSize: "13px" }} align="center">
@@ -199,22 +192,11 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontSize: "15px",
-                        color: user.isPremium ? "green" : "gray",
                         fontWeight: "bold",
                       }}
                       align="center"
                     >
-                      {user.isPremium ? "Thành viên" : "Khách"}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        fontSize: "15px",
-                        color: user.status ? "green" : "red",
-                        fontWeight: "bold",
-                      }}
-                      align="center"
-                    >
-                      {user.status ? "Hoạt động" : "Vô hiệu hóa"}
+                      {user.roleType}
                     </TableCell>
                     <TableCell align="center">
                       <Button

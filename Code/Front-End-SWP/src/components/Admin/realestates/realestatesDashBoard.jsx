@@ -16,12 +16,8 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  GetAllRealestates,
-  UpdateRealestateStatus,
-} from "../../API/APIConfigure";
+import { GetAllRealestates, UpdateRealestateStatus } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
-import Court from "../../../pages/court/Court";
 
 const Dashboard = () => {
   const [feedback, setFeedback] = useState([]);
@@ -33,9 +29,9 @@ const Dashboard = () => {
   const fetchRealestates = async () => {
     try {
       const response = await GetAllRealestates();
-      setFeedback(Array.isArray(response) ? response : []);
+      setFeedback(response.data || []);
     } catch (err) {
-      toast.error("Failed to fetch Realestates");
+      toast.error("Failed to fetch courts");
       console.error(err);
     }
   };
@@ -56,7 +52,7 @@ const Dashboard = () => {
   const filteredFeedback = feedback.filter((item) => {
     return (
       selectedStatusFilter === "all" ||
-      item.status.toString() === selectedStatusFilter
+      item.status?.toString() === selectedStatusFilter
     );
   });
 
@@ -75,7 +71,6 @@ const Dashboard = () => {
 
   const handleStatusChange = async (status, id) => {
     try {
-      console.log(status);
       await UpdateRealestateStatus(id, status);
       toast.success("Cập nhật thành công");
       fetchRealestates();
@@ -84,6 +79,7 @@ const Dashboard = () => {
       console.error(err);
     }
   };
+
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
@@ -111,7 +107,7 @@ const Dashboard = () => {
               fontWeight: "bold",
             }}
           >
-            Bất Động Sản
+            Courts
           </h2>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -123,7 +119,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Realestes
+                  Court Name
                 </TableCell>
                 <TableCell
                   style={{
@@ -132,7 +128,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Địa điểm
+                  Location
                 </TableCell>
                 <TableCell
                   style={{
@@ -141,7 +137,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Giá
+                  Phone
                 </TableCell>
                 <TableCell
                   style={{
@@ -159,22 +155,20 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Hành động
+                  Action
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {slicedFeedback.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell align="center">{item.name}</TableCell>
+                <TableRow key={item.courtId}>
+                  <TableCell align="center">{item.courtName}</TableCell>
                   <TableCell align="center">{item.location}</TableCell>
-                  <TableCell align="center">{item.price}</TableCell>
+                  <TableCell align="center">{item.phone}</TableCell>
                   <TableCell align="center">
                     <Select
-                      value={item.status.toString()}
-                      onChange={(e) =>
-                        handleStatusChange(e.target.value, item.id)
-                      }
+                      value={item.status?.toString() || ""}
+                      onChange={(e) => handleStatusChange(e.target.value, item.courtId)}
                     >
                       {Object.keys(statusTexts).map((status) => (
                         <MenuItem key={status} value={status}>
@@ -188,7 +182,7 @@ const Dashboard = () => {
                       variant="outlined"
                       color="success"
                       className="edit-btn"
-                      onClick={() => navigate(`/hotels/${item.id}`)}
+                      onClick={() => navigate(`/courts/${item.courtId}`)}
                     >
                       <VisibilityIcon sx={{ fontSize: 25 }} />
                     </Button>

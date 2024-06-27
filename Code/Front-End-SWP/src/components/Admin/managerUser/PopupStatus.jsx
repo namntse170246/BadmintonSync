@@ -2,7 +2,6 @@ import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
@@ -53,14 +52,7 @@ const PopupStatus = ({
           style={{ display: "flex", alignItems: "center" }}
         >
           <p style={{ fontWeight: "bold", marginRight: "10px" }}>Tài khoản:</p>
-          {currentUserId?.username}
-        </Typography>
-        <Typography
-          variant="h6"
-          style={{ display: "flex", alignItems: "center" }}
-        >
-          <p style={{ fontWeight: "bold", marginRight: "10px" }}>Giới tính:</p>{" "}
-          {currentUserId?.sex === true ? "Nam" : "Nữ"}
+          {currentUserId?.userName}
         </Typography>
         <Typography
           variant="h6"
@@ -73,28 +65,37 @@ const PopupStatus = ({
           variant="h6"
           style={{ display: "flex", alignItems: "center" }}
         >
-          <p style={{ fontWeight: "bold", marginRight: "10px" }}>Địa chỉ:</p>{" "}
-          {currentUserId?.address}
+          <p style={{ fontWeight: "bold", marginRight: "10px" }}>
+            Số điện thoại:
+          </p>{" "}
+          {currentUserId?.phone}
+        </Typography>
+        <Typography
+          variant="h6"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <p style={{ fontWeight: "bold", marginRight: "10px" }}>Email:</p>{" "}
+          {currentUserId?.email}
         </Typography>
         <Typography
           variant="h6"
           style={{ display: "flex", alignItems: "center" }}
         >
           <p style={{ fontWeight: "bold", marginRight: "10px" }}>
-            Số điện thoại:
+            Loại tài khoản:
           </p>{" "}
-          {currentUserId?.phone}
+          {currentUserId?.roleType}
         </Typography>
-        <InputLabel id="demo-simple-select-label">Chọn Trạng Thái</InputLabel>
+        <InputLabel id="status-select-label">Chọn Trạng Thái</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="status-select-label"
+          id="status-select"
           value={status}
           label="Chọn trạng thái"
           onChange={handleChange}
         >
-          <MenuItem value={true}>Hoạt động</MenuItem>
-          <MenuItem value={false}>Vô Hiệu Hóa</MenuItem>
+          <MenuItem value="active">Hoạt động</MenuItem>
+          <MenuItem value="inactive">Vô Hiệu Hóa</MenuItem>
         </Select>
       </DialogContent>
       <DialogActions style={{ backgroundColor: "#f2f2f2" }}>
