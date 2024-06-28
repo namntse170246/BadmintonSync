@@ -46,7 +46,7 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 | Name |                UC(TC)               |
 |----------------------|---------------------|
 | Pham Quoc Duy        | UC-05 (TC:4, 5, 6)  | 
-| Nguyen Phi Hung      | UC-04 (TC:1, 2, 3)  | 
+| Nguyen Phi Hung      | UC-04 (TC:1, 2)     | 
 | Nguyen Trung Nam     | UC-06 (TC:7, 8)     |
 | Bui Duc Trieu        | UC-07 (TC:9, 10)    |
 | Tran Ngoc Long       | UC-21 (TC:11, 12, 13)   |
