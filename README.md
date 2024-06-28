@@ -49,6 +49,6 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 | Nguyen Phi Hung      | UC-04 (TC:1, 2, 3)  | 
 | Nguyen Trung Nam     | UC-06 (TC:7, 8)     |
 | Bui Duc Trieu        | UC-07 (TC:9, 10)    |
-| Tran Ngoc Long       | UC-21 (TC:11, 12)   |
-| Tran Minh Phuc       | UC-49 (TC:13, 14)   |
+| Tran Ngoc Long       | UC-21 (TC:11, 12, 13)   |
+| Tran Minh Phuc       | UC-49 (TC:14, 15)   |
 
