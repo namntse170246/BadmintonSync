@@ -1,0 +1,21 @@
+/* SignUp.css */
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5; /* Mờ đi khi mật khẩu không được hiển thị */
+  transition: opacity 0.3s ease;
+}
+
+.toggle-password:hover {
+  opacity: 1; /* Trở lại bình thường khi di chuột qua */
+}
+
+.toggle-password.visible {
+  opacity: 1; /* Hiển thị rõ khi mật khẩu được hiển thị */
+}

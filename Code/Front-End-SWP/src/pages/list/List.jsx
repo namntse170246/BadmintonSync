@@ -18,6 +18,7 @@ const List = () => {
 
   const dropdownRef = useRef(null);
   const dateDropdownRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -74,7 +75,6 @@ const List = () => {
         setSearchResult(response.data);
         console.log(response);
       }, 3000);
-      setSearchResult(response);
     } catch (error) {
       console.log(error);
       setShowLoadingPage(false);
@@ -86,7 +86,6 @@ const List = () => {
     const searchTerm = {
       location: searchValue,
     };
-    console.log(searchTerm);
     localStorage.setItem("searchkey", JSON.stringify(searchTerm));
     setSearchValue(searchValue);
     getData();
@@ -97,7 +96,11 @@ const List = () => {
       <div className="container-header">
         <Navbar />
       </div>
-      <Search onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Search
+        onSearch={handleSearch}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
       <Filter
         dropdownRef={dropdownRef}
         dateDropdownRef={dateDropdownRef}
@@ -123,7 +126,7 @@ const List = () => {
                   width: "40%",
                 }}
                 src="https://cdni.iconscout.com/illustration/premium/thumb/search-not-found-6275834-5210416.png"
-                alt="Không tìm thấy kết quả trùng khớp"
+                alt="No matching search results found"
               />
               <div
                 style={{
@@ -135,7 +138,7 @@ const List = () => {
                   fontWeight: "bold",
                 }}
               >
-                Không tìm thấy kết quả trùng khớp
+                No matching search results found
               </div>
             </>
           ) : (

@@ -1,10 +1,10 @@
 import GoogleIcon from "@mui/icons-material/Google";
-import IconButton from "@mui/material/IconButton";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import { SignUpAccount } from "../API/APIConfigure";
 import Swal from "sweetalert2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import "./SignUp.css"; // Đảm bảo import file CSS để tùy chỉnh biểu tượng con mắt
 
 const SignUp = ({ handleToggleForm, setShowLoading }) => {
   const [formData, setFormData] = useState({
@@ -30,42 +30,47 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
     let newErrors = {};
 
     if (!formData.username) {
-      newErrors.username = "Tên người dùng không được để trống.";
+      newErrors.username = "Username cannot be empty.";
     }
 
     if (!formData.fullName) {
-      newErrors.fullName = "Họ và tên không được để trống.";
+      newErrors.fullName = "Full name cannot be empty.";
     }
 
     if (!formData.email) {
-      newErrors.email = "Email không được để trống.";
+      newErrors.email = "Email cannot be empty.";
+    } else {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(formData.email)) {
+        newErrors.email = "Invalid email format.";
+      }
     }
 
     if (!formData.password) {
-      newErrors.password = "Mật khẩu không được để trống.";
+      newErrors.password = "Password cannot be empty.";
     } else if (
       formData.password.length < 6 ||
       !/[A-Z]/.test(formData.password)
     ) {
       newErrors.password =
-        "Mật khẩu phải có ít nhất 6 kí tự và ít nhất 1 kí tự viết hoa.";
+        "Password must be at least 6 characters long and contain at least 1 uppercase letter.";
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Xác nhận mật khẩu không được để trống.";
+      newErrors.confirmPassword = "Confirm password cannot be empty.";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Mật khẩu và xác nhận mật khẩu không khớp.";
+      newErrors.confirmPassword = "Password and confirm password do not match.";
     }
 
     if (!formData.phone) {
-      newErrors.phone = "Số điện thoại không được để trống.";
+      newErrors.phone = "Phone number cannot be empty.";
     } else if (
       formData.phone.length !== 10 ||
       !/^\d{10}$/.test(formData.phone)
     ) {
-      newErrors.phone = "Số điện thoại phải có đúng 10 chữ số.";
+      newErrors.phone = "Phone number must be exactly 10 digits.";
     }
 
     setErrors(newErrors);
@@ -101,11 +106,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
           phone: formData.phone,
         };
 
-        console.log(userData);
-
         const response = await SignUpAccount(userData);
-
-        console.log(response);
 
         setTimeout(() => {
           setShowLoading(false);
@@ -113,7 +114,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
           if (response === null) {
             Swal.fire({
               icon: "error",
-              title: "Có lỗi xảy ra khi đăng ký tài khoản.",
+              title: "An error occurred while signing up.",
             });
           } else if (response.success === false) {
             Swal.fire({
@@ -136,6 +137,14 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         console.log(err.message);
       }
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   return (
@@ -212,6 +221,15 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
               onChange={handleChange}
             />
             <label className="input__label-field"></label>
+            <button
+              type="button"
+              className={`toggle-password ${
+                showPassword ? "visible" : "hidden"
+              }`}
+              onClick={toggleShowPassword}
+            >
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </button>
           </div>
           <div className="error-box">
             {errors.password && (
@@ -224,12 +242,21 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type={showConfirmPassword ? "text" : "password"}
-              placeholder="Comfirm Password"
+              placeholder="Confirm Password"
               id="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
             />
             <label className="input__label-field"></label>
+            <button
+              type="button"
+              className={`toggle-password ${
+                showConfirmPassword ? "visible" : "hidden"
+              }`}
+              onClick={toggleShowConfirmPassword}
+            >
+              {showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </button>
           </div>
           <div className="error-box">
             {errors.confirmPassword && (

@@ -21,6 +21,7 @@ import FeatureProperties from "../../components/featureProperties/FeaturePropert
 import { GetbyRealestateID } from "../../components/API/APIConfigure";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
+
 const Court = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -124,7 +125,6 @@ const Court = () => {
               <p className="announcementContent">{data.announcement}</p>
             </div>
             <div className="hotelWrapper">
-            
               <div className="hotelImages">
                 {photoUrls.map((photoUrl, i) => (
                   <div className="hotelImgWrapper" key={i}>
@@ -138,44 +138,45 @@ const Court = () => {
                 ))}
               </div>
             </div>
-
-            <h1 className="hotelTitle">{data.courtName}</h1>
-            <div className="infor">
-              <FontAwesomeIcon icon={faHouseChimney} className="inforIcon" />
-              <div className="inforText">
-                <p>Address</p>
-                <span>{data.location}</span>
+            <div className="CourtInfor">
+              <h1 className="hotelTitle">{data.courtName}</h1>
+              <div className="infor">
+                <FontAwesomeIcon icon={faHouseChimney} className="inforIcon" />
+                <div className="inforText">
+                  <p>Address</p>
+                  <span>{data.location}</span>
+                </div>
               </div>
-            </div>
-            <div className="infor">
-              <FontAwesomeIcon icon={faPhone} className="inforIcon" />
-              <div className="inforText">
-                <p>Phone Number</p>
-                <span>{data.phone}</span>
+              <div className="infor">
+                <FontAwesomeIcon icon={faPhone} className="inforIcon" />
+                <div className="inforText">
+                  <p>Phone Number</p>
+                  <span>{data.phone}</span>
+                </div>
               </div>
-            </div>
-            <div className="infor">
-              <FontAwesomeIcon icon={faHeart} className="inforIcon" />
-              <div className="inforText">
-                <p>Social Media</p>
-                <a
-                  target="_blank"
-                  href="https://www.facebook.com/hungtran0706/"
-                  rel="noreferrer"
-                >
-                  <FontAwesomeIcon icon={faFacebook} className="inforIcon" />
-                </a>
+              {/* <div className="infor">
+                <FontAwesomeIcon icon={faHeart} className="inforIcon" />
+                <div className="inforText">
+                  <p>Social Media</p>
+                  <a
+                    target="_blank"
+                    href="https://www.facebook.com/hungtran0706/"
+                    rel="noreferrer"
+                  >
+                    <FontAwesomeIcon icon={faFacebook} className="inforIcon" />
+                  </a>
+                </div>
+              </div> */}
+              <p className="hotelTitle">Openning Hours</p>
+              <div className="infor">
+                <FontAwesomeIcon icon={faClock} className="inforIcon" />
+                <div className="inforText">
+                  <p>Daily</p>
+                  <p>{data.openingHours}</p>
+                </div>
               </div>
+              <p className="hotelTitle">Pricing</p>
             </div>
-            <p className="hotelTitle">Openning Hours</p>
-            <div className="infor">
-              <FontAwesomeIcon icon={faClock} className="inforIcon" />
-              <div className="inforText">
-                <p>Daily</p>
-                <p>{data.openingHours}</p>
-              </div>
-            </div>
-            <p className="hotelTitle">Pricing</p>
             <div className="infor">
               <FontAwesomeIcon icon={faSackDollar} className="inforIcon" />
               <div className="inforText">
