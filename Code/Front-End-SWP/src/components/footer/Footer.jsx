@@ -3,7 +3,7 @@ import "./footer.css";
 function Footer() {
   return (
     <div className="Footer">
-      <div className="FLists">
+      {/* <div className="FLists">
         <ul className="FList">
           <li className="fListItem">Các quốc gia</li>
           <li className="fListItem">Khu vực</li>
@@ -24,9 +24,9 @@ function Footer() {
           <li className="fListItem">Điều khoản và điều kiện</li>
           <li className="fListItem">Liên hệ công ty</li>
         </ul>
-      </div>
+      </div>  */}
       <div className="text">
-        Bản quyền © 2003–2024 CourtSync.com™. Bảo lưu mọi quyền.
+        Copyright © 2003–2024 CourtSync.com™. All rights reserved.
       </div>
     </div>
   );

@@ -18,12 +18,12 @@ const Header = ({ isUnVisible }) => {
               />
               <div className="banner-container">
                 <div className="banner-info">
-                  <div className="banner-tit">Chào mừng đến CourtSync</div>
+                  <div className="banner-tit">Welcome to CourtSync</div>
                   <div className="banner-des">
                     Why play less, when you can play more !
                   </div>
                   <div className="banner-cta">
-                    <Link to="/hotels">Khám phá ! </Link>
+                    <Link to="/hotels">Discovery ! </Link>
                   </div>
                 </div>
               </div>

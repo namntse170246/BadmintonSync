@@ -7,7 +7,7 @@ const Featured = ({ homeTitleRef }) => {
         <div className="exp-block">
           <div className="home-container">
             <h2 className="homepage-tit wow animate__animated animate__fadeInUp">
-              Địa điểm nổi bật
+              Outstanding Location
             </h2>
             <div className="exp-content wow animate__animated animate__fadeInUp">
               <div className="exp-item exp-item-1 _741x500">
@@ -20,14 +20,14 @@ const Featured = ({ homeTitleRef }) => {
                 </div>
                 <div className="info-wrapper">
                   <div className="exp-item-tit eb-garamond three_dots_1">
-                    Sân mới được thêm 🎉
+                    New Adding Court 🎉
                   </div>
                   <div className="exp-item-des three_dots_1">
-                    Mang đến sự trải nghiệm tốt nhất !
+                  Bring the best experience!
                   </div>
                   <div className="exp-item-cta">
                     <Link to="/hotels" className="eb-garamond three_dots_1">
-                      Khám phá
+                      Discovery!
                     </Link>
                   </div>
                 </div>
@@ -52,14 +52,14 @@ const Featured = ({ homeTitleRef }) => {
                 </div>
                 <div className="info-wrapper">
                   <div className="exp-item-tit eb-garamond three_dots_1">
-                    Khuyến mãi 😉
+                    Promotion 😉
                   </div>
                   <div className="exp-item-des three_dots_1">
-                    Không gian thoải mái với trang thiết bị hiện đại !
+                  Comfortable space with modern equipment!
                   </div>
                   <div className="exp-item-cta">
                     <Link to="/hotels" className="eb-garamond three_dots_1">
-                      Khám phá
+                      Discovery!
                     </Link>
                   </div>
                 </div>

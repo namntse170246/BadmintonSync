@@ -24,7 +24,7 @@ const Search = ({ onSearch, searchValue, setSearchValue }) => {
             <PlaceOutlinedIcon />
             <div className="input-wrapper">
               <input
-                placeholder="Tìm kiếm nơi bạn muốn chơi ngay ?"
+                placeholder="Searching for a place you want to play now?"
                 type="text"
                 value={searchValue}
                 className="bs-tit-desktop bs-info-desktop"
@@ -36,7 +36,7 @@ const Search = ({ onSearch, searchValue, setSearchValue }) => {
             onClick={handleSearch}
             className="bs-item-desktop submit ht_mirror"
           >
-            <span className="submit-btn_click">Tìm kiếm</span>
+            <span className="submit-btn_click">Search</span>
           </button>
         </div>
       </div>

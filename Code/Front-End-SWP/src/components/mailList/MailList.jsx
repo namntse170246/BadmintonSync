@@ -4,24 +4,24 @@ function MailList() {
   return (
     <div className="mailContainer">
       <div className="mail">
-        <h1 className="mailTitle">Tiết kiệm thời gian và tiền bạc!</h1>
+        <h1 className="mailTitle">Save your time and money!</h1>
         <span className="mailDesc">
-          Hãy đăng ký và chúng tôi sẽ gửi những ưu đãi tốt nhất cho bạn
+          Book court and we'll send you the best deals
         </span>
         <div className="mailInputContainer">
           <input type="text" placeholder="Địa chỉ e-mail của bạn" />
-          <button>Đăng ký</button>
+          <button>Sign up</button>
         </div>
       </div>
       <div className="mailDangky">
-        <div className="mailDangkyText">Hợp tác với chúng tôi ?</div>
+        <div className="mailDangkyText">Cooperate with us ?</div>
       </div>
       <div className="mailOptions">
         <ul className="ulOptions">
-          <li className="liOption">Phiên bản di động</li>
-          <li className="liOption">Tài khoản của bạn</li>
-          <li className="liOption">Dịch vụ khách hàng</li>
-          <li className="liOption">Trở thành đối tác của nhà phân phối</li>
+          <li className="liOption">Mobile version</li>
+          <li className="liOption">Your account</li>
+          <li className="liOption">Customer service</li>
+          <li className="liOption">Become a distributor partner</li>
           <li className="liOption">Booking for business</li>
         </ul>
       </div>

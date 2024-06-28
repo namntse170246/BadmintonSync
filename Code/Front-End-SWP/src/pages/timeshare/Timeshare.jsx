@@ -87,7 +87,7 @@ const Timeshare = () => {
                             <span className="siTaxiOp">Miễn phí taxi từ sân bay</span>
                             <span className="siLocation">Địa chỉ: {realEstateData.location}</span>
                             <span className="siRating">
-                                <div className="siValue">Đánh giá:</div>
+                                <div className="siValue">Feedback:</div>
                                 <Rating name="size-large" defaultValue={5} precision={0.5} readOnly />
                             </span>
                         </div>

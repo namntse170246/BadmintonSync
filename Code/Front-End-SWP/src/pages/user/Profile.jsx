@@ -62,16 +62,16 @@ function Profile() {
             case "username":
                 error = validateUsername(value)
                     ? ""
-                    : "Tên đăng nhập phải có ít nhất 6 ký tự bao gồm ký tự viết hoa, 1 số, 1 ký tự đặc biệt";
+                    : "Username must have at least 6 characters including capital letters, 1 number, 1 special character";
                 break;
             case "phone":
-                error = validatePhone(value) ? "" : "Số điện thoại phải có 10 số";
+                error = validatePhone(value) ? "" : "The phone number must have 10 digits";
                 break;
             case "email":
-                error = validateEmail(value) ? "" : "Email không hợp lệ";
+                error = validateEmail(value) ? "" : "Invalid email";
                 break;
             case "fullName":
-                error = validateFullName(value) ? "" : "Họ và tên phải trên 5 ký tự";
+                error = validateFullName(value) ? "" : "Full name must be more than 5 characters";
                 break;
             default:
                 break;
@@ -86,7 +86,7 @@ function Profile() {
             UpdateAccount(editedUser);
             Swal.fire({
                 icon: "success",
-                title: "Cập nhật tài khoản thành công !!!",
+                title: "Account updated successfully!",
             });
             console.log("Changes saved:", editedUser);
             
@@ -94,7 +94,7 @@ function Profile() {
             Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: "Không thể cập nhật người dùng. Vui lòng thử lại sau.",
+                text: "Cannot save changes. Please try again later!",
             });
             console.log("Cannot save changes. Please fix the errors.");
         }
@@ -103,7 +103,7 @@ function Profile() {
     return (
         <div className="container__myprofile">
             <h2 className="profile-title">My Profile</h2>
-            <h1>Cập nhật thông tin của bạn và tìm hiểu các thông tin này được sử dụng ra sao.</h1>
+            <h1>Update your information and learn how it is used!</h1>
             <br />
             {userData && (
                 <div className="accountsettings">

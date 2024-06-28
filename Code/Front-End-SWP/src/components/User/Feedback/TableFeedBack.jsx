@@ -19,6 +19,7 @@ function TableFeedback({ data, userDetails }) {
   const [selectedStatusFilter, setSelectedStatusFilter] = useState('all');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -28,9 +29,11 @@ function TableFeedback({ data, userDetails }) {
     setPage(0);
   };
 
-  const filteredFeedback = data.filter((item) => {
-    return selectedStatusFilter === 'all' || item.rate.toString() === selectedStatusFilter;
-  });
+  const filteredFeedback = Array.isArray(data)
+    ? data.filter((item) => {
+        return selectedStatusFilter === 'all' || item.rating.toString() === selectedStatusFilter;
+      })
+    : [];
 
   const slicedFeedback = filteredFeedback.slice(
     page * rowsPerPage,
@@ -65,7 +68,7 @@ function TableFeedback({ data, userDetails }) {
               fontWeight: 'bold',
             }}
           >
-            Đánh giá
+            Feedback
           </h2>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -77,9 +80,8 @@ function TableFeedback({ data, userDetails }) {
                   }}
                   align="center"
                 >
-                  Tên tài khoản
+                  Username
                 </TableCell>
-
                 <TableCell
                   style={{
                     fontSize: '20px',
@@ -96,20 +98,20 @@ function TableFeedback({ data, userDetails }) {
                   }}
                   align="center"
                 >
-                  Bình chọn
+                  Rating
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {slicedFeedback.map((data) => (
-                <TableRow key={data.id}>
+                <TableRow key={data.evaluateId}>
                   <TableCell align="center">
-                    {userDetails[data.memberId] || data.memberId}
+                    {userDetails[data.userId] || data.userId}
                   </TableCell>
-                  <TableCell align="center">{data.text}</TableCell>
+                  <TableCell align="center">{data.comment}</TableCell>
                   <TableCell align="center">
                     <StarRatings
-                      rating={data.rate}
+                      rating={data.rating}
                       starDimension="20px"
                       starSpacing="2px"
                       starRatedColor="orange"
@@ -133,4 +135,5 @@ function TableFeedback({ data, userDetails }) {
     </Box>
   );
 }
+
 export default TableFeedback;

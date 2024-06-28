@@ -74,7 +74,7 @@ const SignIn = ({ setShowLoading }) => {
                     else {
                         Swal.fire({
                             icon: "success",
-                            title: "Đăng nhập thành công",
+                            title: "Login successfully!",
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 localStorage.removeItem("userInfo");
@@ -116,7 +116,7 @@ const SignIn = ({ setShowLoading }) => {
     return (
         <>
             <form onSubmit={handleSubmit} className="sign-in-up-form">
-                <h1 className="sign-up-title">Login</h1>
+                <h1 className="sign-up-title">Sign in</h1>
                 <div className="social-container">
                     <a href="#" className="social">
                         <GoogleIcon />
@@ -162,7 +162,7 @@ const SignIn = ({ setShowLoading }) => {
                 <a href="#" className="forgot">
                     Forgot password ?
                 </a>
-                <button className="btn-form">Đăng nhập</button>
+                <button className="btn-form">Sign in</button>
             </form>
         </>
     );

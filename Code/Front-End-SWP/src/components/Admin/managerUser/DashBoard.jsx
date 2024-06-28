@@ -109,7 +109,7 @@ const Dashboard = () => {
             <MenuItem value="Staff">Staff</MenuItem>
           </Select>
           <TextField
-            label="Tên tài khoản"
+            label="Username"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ marginTop: "30px", marginLeft: "20px" }}
@@ -140,7 +140,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Tên tài khoản
+                    Username
                   </TableCell>
                   <TableCell
                     style={{

@@ -139,7 +139,7 @@ const Dashboard = () => {
               fontWeight: "bold",
             }}
           >
-            Đánh giá
+            Feedback
           </h2>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -151,7 +151,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Tên tài khoản
+                  Username
                 </TableCell>
                 <TableCell
                   style={{
@@ -178,7 +178,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Bình chọn
+                  Rating
                 </TableCell>
               </TableRow>
             </TableHead>

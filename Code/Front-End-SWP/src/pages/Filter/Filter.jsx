@@ -46,7 +46,7 @@ const Filter = ({
                       onClick={handleButtonClick}
                     >
                       <strong className="RefinementRowElement_titleItem block">
-                        Ngày
+                        Date
                       </strong>
                       <span
                         className={`RefinementRowElement_optionItem ${

@@ -47,7 +47,7 @@ const TableTrade = ({ idUser }) => {
               </span>
               <span className="siLocation">Địa chỉ: {item.location}</span>
               <span className="siRating">
-                <div className="siValue">Đánh giá:</div>
+                <div className="siValue">Feedback:</div>
                 <Rating
                   name="size-large"
                   defaultValue={5}

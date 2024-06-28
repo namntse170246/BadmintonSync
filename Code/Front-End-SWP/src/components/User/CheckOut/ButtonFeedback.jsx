@@ -30,8 +30,8 @@ const ButtonFeedback = ({ status, realID, bookingID }) => {
       const response = await CreateFeedback(feedbackData);
       if (response) {
         Swal.fire({
-          title: "Cảm ơn bạn đã đánh giá ",
-          text: "Đánh giá của bạn góp phần giúp chúng tôi cải thiện dịch vụ tốt hơn",
+          title: "Cảm ơn bạn đã Feedback ",
+          text: "Feedback của bạn góp phần giúp chúng tôi cải thiện dịch vụ tốt hơn",
           icon: "success",
         }).then(() => {
           UpdateBookingStatus(bookingID, "6").then((res) => {
@@ -50,7 +50,7 @@ const ButtonFeedback = ({ status, realID, bookingID }) => {
       <div>
         {status === "5" && (
           <button className="btn-btn-rating" onClick={handleButtonClick}>
-            Đánh giá kỳ nghỉ
+            Feedback kỳ nghỉ
           </button>
         )}
       </div>

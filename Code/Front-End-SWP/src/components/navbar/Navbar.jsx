@@ -117,7 +117,7 @@ function Navbar({ className }) {
                 className="right-panel-open-btn booking-btn ht_mirror ht_tablet_hide"
                 onClick={handleLogin}
               >
-                Đăng nhập
+                Sign in
               </button>
               // </div>
             )}

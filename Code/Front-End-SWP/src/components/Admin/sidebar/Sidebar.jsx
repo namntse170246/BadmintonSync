@@ -342,7 +342,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </FeedbackIcon>
-              <ListItemText primary="Đánh giá" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Feedback" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         </List>

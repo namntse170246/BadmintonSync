@@ -19,7 +19,7 @@ import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import FeatureProperties from "../../components/featureProperties/FeatureProperties";
 import { GetbyRealestateID } from "../../components/API/APIConfigure";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
 const Court = () => {
   const { id } = useParams();
@@ -88,7 +88,6 @@ const Court = () => {
   return (
     <div>
       <Navbar isListNavbar={true} />
-
       <div className="hotelContainer">
         {open && (
           <div className="slider">
@@ -125,6 +124,7 @@ const Court = () => {
               <p className="announcementContent">{data.announcement}</p>
             </div>
             <div className="hotelWrapper">
+            
               <div className="hotelImages">
                 {photoUrls.map((photoUrl, i) => (
                   <div className="hotelImgWrapper" key={i}>
@@ -248,7 +248,7 @@ const Court = () => {
             >
               Booking
             </button>
-            <FeedBack realetatesID={id} />
+            <FeedBack courtId={id} />
           </div>
         )}
         <FeatureProperties />

@@ -10,7 +10,7 @@ const SignUpAccount = (userData) => {
   return customAxios.post(`api/User/Register`, userData);
 };
 const GetAllAccounts = () => {
-  return customAxios.get(`api/User/GetAllUsers(Admin)`);
+  return customAxios.get(`api/User/GetAll`);
 };
 
 const GetCurrentUser = () => {
@@ -73,7 +73,7 @@ export const GetbyRealestateID = (courtID) => {
   return customAxios.get(`api/Court/${courtID}`);
 };
 export const GetFeebackbyRealestate = (realetatesID) => {
-  return instance.get(`api/Feedbacks/GetbyRealestateID?id=${realetatesID}`);
+  return instance.get(`api/Evaluate/${realetatesID}`);
 };
 const CreateBooking = (data) => {
   return customAxios.post(`api/Bookings/Createbooking`, data);

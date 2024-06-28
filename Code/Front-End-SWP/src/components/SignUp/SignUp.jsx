@@ -123,7 +123,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
           } else {
             Swal.fire({
               icon: "success",
-              title: "Tạo tài khoản thành công !!!",
+              title: "Sign up successfully!",
             }).then((result) => {
               if (result.isConfirmed) {
                 handleToggleForm();
@@ -141,7 +141,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="sign-in-up-form">
-        <h1 className="sign-up-title">Tạo Tài Khoản</h1>
+        <h1 className="sign-up-title">Create Account</h1>
         <div className="social-container">
           <a href="#" className="social">
             <GoogleIcon />
@@ -152,7 +152,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type="text"
-              placeholder="Tài khoản"
+              placeholder="Username"
               id="username"
               value={formData.username}
               onChange={handleChange}
@@ -170,7 +170,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type="text"
-              placeholder="Họ tên"
+              placeholder="Full Name"
               id="fullName"
               value={formData.fullName}
               onChange={handleChange}
@@ -206,7 +206,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type={showPassword ? "text" : "password"}
-              placeholder="Mật khẩu"
+              placeholder="Password"
               id="password"
               value={formData.password}
               onChange={handleChange}
@@ -224,7 +224,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type={showConfirmPassword ? "text" : "password"}
-              placeholder="Xác nhận mật khẩu"
+              placeholder="Comfirm Password"
               id="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -242,7 +242,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type="text"
-              placeholder="Số điện thoại"
+              placeholder="Phone"
               id="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -255,7 +255,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             )}
           </div>
         </div>
-        <button className="btn-form">Đăng ký</button>
+        <button className="btn-form">Sign up</button>
       </form>
     </>
   );

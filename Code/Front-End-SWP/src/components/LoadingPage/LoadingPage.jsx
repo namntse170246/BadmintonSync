@@ -1,6 +1,6 @@
-// eslint-disable-next-line no-unused-vars
+
 import React from "react";
-import loadingImage from "../../../src/assets/img/badminton.png"; // adjust the path as needed
+import loadingImage from "../../../src/assets/img/badminton.png"; 
 import BarLoader from "react-spinners/BarLoader";
 export default function LoadingPage() {
   return (
@@ -23,7 +23,7 @@ export default function LoadingPage() {
               margin: "40px",
             }}
           >
-            Mở ra những chân trời mới!
+            Open up new horizons!
           </h1>
           <BarLoader color="#36d7b7" height={5} width={520} />
         </div>
