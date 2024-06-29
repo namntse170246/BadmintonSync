@@ -39,7 +39,7 @@ function Home() {
 
   const handleSearch = (searchValue) => {
     const searchTerm = {
-      destination: searchValue,
+      location: searchValue,
     };
     localStorage.setItem("searchkey", JSON.stringify(searchTerm));
     navigate("/hotels");

@@ -10,7 +10,7 @@ const SignUpAccount = (userData) => {
   return customAxios.post(`api/User/Register`, userData);
 };
 const GetAllAccounts = () => {
-  return customAxios.get(`api/User/GetAll`);
+  return customAxios.get(`api/User/GetAllUsers`);
 };
 
 const GetCurrentUser = () => {

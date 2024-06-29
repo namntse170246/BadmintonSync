@@ -44,21 +44,21 @@ const PopupStatus = ({
           color: "#003580",
         }}
       >
-        Chỉnh sửa
+        Edit
       </DialogTitle>
       <DialogContent style={{ backgroundColor: "#fff" }}>
         <Typography
           variant="h6"
           style={{ display: "flex", alignItems: "center" }}
         >
-          <p style={{ fontWeight: "bold", marginRight: "10px" }}>Tài khoản:</p>
+          <p style={{ fontWeight: "bold", marginRight: "10px" }}>Username:</p>
           {currentUserId?.userName}
         </Typography>
         <Typography
           variant="h6"
           style={{ display: "flex", alignItems: "center" }}
         >
-          <p style={{ fontWeight: "bold", marginRight: "10px" }}>Họ và tên:</p>{" "}
+          <p style={{ fontWeight: "bold", marginRight: "10px" }}>Full Name:</p>{" "}
           {currentUserId?.fullName}
         </Typography>
         <Typography
@@ -66,7 +66,7 @@ const PopupStatus = ({
           style={{ display: "flex", alignItems: "center" }}
         >
           <p style={{ fontWeight: "bold", marginRight: "10px" }}>
-            Số điện thoại:
+            Phone:
           </p>{" "}
           {currentUserId?.phone}
         </Typography>
@@ -82,11 +82,11 @@ const PopupStatus = ({
           style={{ display: "flex", alignItems: "center" }}
         >
           <p style={{ fontWeight: "bold", marginRight: "10px" }}>
-            Loại tài khoản:
+            Role:
           </p>{" "}
           {currentUserId?.roleType}
         </Typography>
-        <InputLabel id="status-select-label">Chọn Trạng Thái</InputLabel>
+        <InputLabel id="status-select-label">Choose Status</InputLabel>
         <Select
           labelId="status-select-label"
           id="status-select"
@@ -94,8 +94,8 @@ const PopupStatus = ({
           label="Chọn trạng thái"
           onChange={handleChange}
         >
-          <MenuItem value="active">Hoạt động</MenuItem>
-          <MenuItem value="inactive">Vô Hiệu Hóa</MenuItem>
+          <MenuItem value="active">Active</MenuItem>
+          <MenuItem value="inactive">Disable</MenuItem>
         </Select>
       </DialogContent>
       <DialogActions style={{ backgroundColor: "#f2f2f2" }}>

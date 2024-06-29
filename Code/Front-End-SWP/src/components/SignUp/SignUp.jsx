@@ -99,12 +99,14 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
       try {
         const userData = {
           username: formData.username,
-          name: formData.fullName,
+          fullName: formData.fullName,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
           email: formData.email,
           phone: formData.phone,
         };
+
+        console.log(userData);
 
         const response = await SignUpAccount(userData);
 
@@ -131,7 +133,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
               }
             });
           }
-        }, 3000);
+        }, 5000);
       } catch (err) {
         console.log(err);
         console.log(err.message);

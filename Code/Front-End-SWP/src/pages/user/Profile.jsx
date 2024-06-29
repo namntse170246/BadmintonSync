@@ -7,6 +7,7 @@ const validateUsername = (value) => {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])([A-Za-z\d@#$%^&+=!]{6,})$/;
     return regex.test(value);
 };
+
 const validateFullName = (value) => {
     return value.length >= 6;
 };
@@ -31,7 +32,6 @@ function Profile() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                // const response1 = await GetCurrentUser();
                 const response = userInfo;
                 console.log("Response: ", response);
                 response.fullName = response.name;
@@ -79,17 +79,31 @@ function Profile() {
         setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const isValid = Object.values(errors).every((error) => error === "");
         if (isValid) {
             console.log("updateInfor: ", editedUser);
-            UpdateAccount(editedUser);
-            Swal.fire({
-                icon: "success",
-                title: "Account updated successfully!",
-            });
+
+            const response = await UpdateAccount(editedUser);
+            console.log(response);
+            if (response === null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "An error occurred while updating the account.",
+                });
+            } else if (response.success === false) {
+                Swal.fire({
+                    icon: "error",
+                    title: response.message,
+                });
+            } else {
+                Swal.fire({
+                    icon: "success",
+                    title: "Account updated successfully!",
+                });
+                localStorage.setItem("userInfo", JSON.stringify(editedUser));
+            }
             console.log("Changes saved:", editedUser);
-            
         } else {
             Swal.fire({
                 icon: "error",

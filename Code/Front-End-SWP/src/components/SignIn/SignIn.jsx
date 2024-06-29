@@ -58,6 +58,7 @@ const SignIn = ({ setShowLoading }) => {
         };
 
         const response = await SignInAccount(requestData);
+        console.log(response);
 
         setTimeout(() => {
           setShowLoading(false);
@@ -91,7 +92,7 @@ const SignIn = ({ setShowLoading }) => {
                 login(userInfo);
 
                 if (userInfo.role === "Administrator") {
-                  navigate("/admin");
+                  navigate("/admin/user");
                 } else {
                   navigate("/");
                 }

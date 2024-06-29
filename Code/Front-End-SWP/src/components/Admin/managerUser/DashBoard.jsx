@@ -102,7 +102,7 @@ const Dashboard = () => {
             onChange={(e) => setSelectedStatusFilter(e.target.value)}
             style={{ marginTop: "30px" }}
           >
-            <MenuItem value="all">Tất cả</MenuItem>
+            <MenuItem value="all">All Role</MenuItem>
             <MenuItem value="Administrator">Administrator</MenuItem>
             <MenuItem value="User">User</MenuItem>
             <MenuItem value="Manager">Manager</MenuItem>
@@ -125,7 +125,7 @@ const Dashboard = () => {
                 fontWeight: "bold",
               }}
             >
-              Tài Khoản Người Dùng
+              Account
             </h2>
             <Table
               sx={{ minWidth: 650 }}
@@ -148,7 +148,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Tên người dùng
+                    Full Name
                   </TableCell>
                   <TableCell
                     style={{
@@ -156,7 +156,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Số điện thoại
+                    Phone
                   </TableCell>
                   <TableCell
                     style={{
@@ -164,7 +164,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Loại tài khoản
+                    Role
                   </TableCell>
                   <TableCell
                     style={{
@@ -172,7 +172,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Hành Động
+                    Action
                   </TableCell>
                 </TableRow>
               </TableHead>

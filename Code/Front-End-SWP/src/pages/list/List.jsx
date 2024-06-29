@@ -6,6 +6,9 @@ import Navbar from "../../components/navbar/Navbar";
 import SearchItem from "../../components/searchItem/SearchItem";
 import Filter from "../Filter/Filter";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
+import MailList from "../../components/mailList/MailList";
+import Footer from "../../components/footer/Footer";
+
 
 const List = () => {
   const [searchResult, setSearchResult] = useState([]);
@@ -59,6 +62,10 @@ const List = () => {
     }
   }, [isSearchValueLoaded]);
 
+  const keepDiacritics = (str) => {
+    return str.normalize("NFD");
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -67,13 +74,22 @@ const List = () => {
     try {
       setShowLoadingPage(true);
       const response = await GetAllRealestates();
-      if (response === null) {
+      if (!response || !response.data) {
         throw new Error("Network response was not ok");
       }
+
+      const normalizedDestination = keepDiacritics(searchValue.toLowerCase());
+      const filteredResults = response.data.filter((item) => {
+        return (
+          item.location &&
+          keepDiacritics(item.location.toLowerCase()).includes(normalizedDestination)
+        );
+      });
+
       setTimeout(() => {
         setShowLoadingPage(false);
-        setSearchResult(response.data);
-        console.log(response);
+        setSearchResult(filteredResults);
+        console.log(filteredResults);
       }, 3000);
     } catch (error) {
       console.log(error);
@@ -146,6 +162,13 @@ const List = () => {
           )}
         </>
       )}
+
+      <div className="main-home-container">
+        <MailList />
+        <div className="homeContainer" style={{ marginTop: "50px" }}>
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 };

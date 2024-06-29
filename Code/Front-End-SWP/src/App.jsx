@@ -206,7 +206,7 @@ function App() {
                 }
             />
             <Route
-                path="/admin/realetates"
+                path="/admin/courts"
                 element={
                     <AdminWrapper>
                         <Realestates />

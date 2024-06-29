@@ -116,7 +116,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </SpaceDashboardIcon>
-              <ListItemText primary="Thống kê" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem
@@ -178,7 +178,7 @@ export default function Sidebar() {
             disablePadding
             sx={{ display: "block" }}
             onClick={() => {
-              navigate("/admin/realetates");
+              navigate("/admin/courts");
             }}
           >
             <ListItemButton
@@ -198,7 +198,7 @@ export default function Sidebar() {
                 <InboxIcon />
               </MapIcon>
               <ListItemText
-                primary="Realestates"
+                primary="Courts"
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
@@ -227,7 +227,7 @@ export default function Sidebar() {
                 <InboxIcon />
               </ManageAccountsIcon>
               <ListItemText
-                primary="Người dùng"
+                primary="Account"
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
@@ -285,7 +285,7 @@ export default function Sidebar() {
                 <InboxIcon />
               </AccountBalanceWalletIcon>
               <ListItemText
-                primary="Thanh toán"
+                primary="Payment"
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
@@ -314,7 +314,7 @@ export default function Sidebar() {
                 <InboxIcon />
               </AddCardIcon>
               <ListItemText
-                primary="Mã giảm giá"
+                primary="Promotion"
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>

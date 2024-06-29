@@ -13,6 +13,7 @@ const Feedback = ({ courtId }) => {
     const fetchFeedback = async () => {
       try {
         const response = await GetbyRealestateID(courtId);
+        console.log(response);
         if (Array.isArray(response.evaluates)) {
           setFeedback(response);
         } else {
