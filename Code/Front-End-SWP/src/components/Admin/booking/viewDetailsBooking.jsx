@@ -5,7 +5,7 @@ import {
   BASE_URL,
   GetAllBookingsByID,
   GetTimeShareById,
-  GetbyRealestateID,
+  GetbyCourtID,
 } from "../../API/APIConfigure";
 
 import "./viewDetails.css";
@@ -23,7 +23,7 @@ const Checkout = () => {
         if (response) {
           const timeshare = await GetTimeShareById(response.timeshareId);
           if (timeshare) {
-            const realestate = await GetbyRealestateID(timeshare.realestateId);
+            const realestate = await GetbyCourtID(timeshare.realestateId);
             if (realestate) {
               setBooking({ ...response, realestate });
             }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BASE_URL, GetbyRealestateID } from "../../API/APIConfigure";
+import { BASE_URL, GetbyCourtID } from "../../API/APIConfigure";
 import "./tabletrade.css";
 import { useParams } from "react-router-dom";
 import ConfirmTrade from "../Trade/ConfirmTrade";
@@ -14,7 +14,7 @@ const TableTradeConfirm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await GetbyRealestateID(id);
+        const response = await GetbyCourtID(id);
         setDataReal(response);
       } catch (error) {
         console.error("Error fetching data:", error);

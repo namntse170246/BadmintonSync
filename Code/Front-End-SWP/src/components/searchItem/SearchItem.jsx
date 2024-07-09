@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import Swal from "sweetalert2";
 import { useAuth } from "../../hook/AuthContext";
-import { GetbyRealestateID } from "../API/APIConfigure";
+import { GetbyCourtID } from "../API/APIConfigure";
 import "./searchItem.css";
 
 const SearchItem = ({ searchResult }) => {
@@ -17,7 +17,7 @@ const SearchItem = ({ searchResult }) => {
 
   const handleViewCourt = async (courtId) => {
     try {
-      const response = await GetbyRealestateID(courtId);
+      const response = await GetbyCourtID(courtId);
       const courtDetails = response.data;
 
       localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
@@ -31,7 +31,7 @@ const SearchItem = ({ searchResult }) => {
 
   const handleBookingCourt = async (courtId) => {
     try {
-      const response = await GetbyRealestateID(courtId);
+      const response = await GetbyCourtID(courtId);
       const courtDetails = response.data;
       localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
       navigate(`/booking/${courtId}`);
@@ -40,41 +40,50 @@ const SearchItem = ({ searchResult }) => {
     }
   };
 
-  return searchResult.map((court) => (
-    <div key={court.courtId} className="court-card">
-      <div className="sup-card">
-        <div className="infor-part">
-          <img src={court.image} alt={court.courtName} />
-          <div className="infor-text-part">
-            <div className="court-Name">{court.courtName}</div>
-            <div className="court-Location">{court.location}</div>
-            <Rating
-              name="court-rating"
-              value={court.evaluates.length > 0 ? court.evaluates[0].rating : 0}
-              readOnly
+  return searchResult.map((court) => {
+    const firstImageUrl = court.image ? court.image.split(",")[0].trim() : "";
+
+    return (
+      <div key={court.courtId} className="court-card">
+        <div className="sup-card">
+          <div className="infor-part">
+            <img
+              src={`https://localhost:7155/Uploads/${firstImageUrl}`}
+              alt={court.courtName}
             />
+            <div className="infor-text-part">
+              <div className="court-Name">{court.courtName}</div>
+              <div className="court-Location">{court.location}</div>
+              <Rating
+                name="court-rating"
+                value={
+                  court.evaluates.length > 0 ? court.evaluates[0].rating : 0
+                }
+                readOnly
+              />
+            </div>
           </div>
-        </div>
-        <div className="Booking-Area">
-          {/* <p>Booking</p> */}
-          <div className="button">
-            <button
-              onClick={() => handleViewCourt(court.courtId)}
-              className="btn-view-details"
-            >
-              View
-            </button>
-            <button
-              onClick={() => handleBookingCourt(court.courtId)}
-              className="btn-view-details"
-            >
-              Booking
-            </button>
+          <div className="Booking-Area">
+            {/* <p>Booking</p> */}
+            <div className="button">
+              <button
+                onClick={() => handleViewCourt(court.courtId)}
+                className="btn-view-details"
+              >
+                View
+              </button>
+              <button
+                onClick={() => handleBookingCourt(court.courtId)}
+                className="btn-view-details"
+              >
+                Booking
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  ));
+    );
+  });
 };
 
 export default SearchItem;

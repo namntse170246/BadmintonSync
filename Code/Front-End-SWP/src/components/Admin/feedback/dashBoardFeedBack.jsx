@@ -18,7 +18,7 @@ import StarRatings from "react-star-ratings";
 import {
   GetAllFeedback,
   GetUserByID,
-  GetbyRealestateID,
+  GetbyCourtID,
 } from "../../API/APIConfigure";
 
 const Dashboard = () => {
@@ -74,7 +74,7 @@ const Dashboard = () => {
     const fetchRealDetails = async () => {
       for (const id of uniqueRealIds) {
         try {
-          const realData = await GetbyRealestateID(id);
+          const realData = await GetbyCourtID(id);
           setRealEstateDetails((prevDetails) => ({
             ...prevDetails,
             [id]: realData.data.courtName,

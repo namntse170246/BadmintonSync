@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import Search from "../../components/Search/Search";
 import "./list.css";
-import { GetAllRealestates } from "../../components/API/APIConfigure";
+import { GetAllCourts } from "../../components/API/APIConfigure";
 import Navbar from "../../components/navbar/Navbar";
 import SearchItem from "../../components/searchItem/SearchItem";
 import Filter from "../Filter/Filter";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
-
 
 const List = () => {
   const [searchResult, setSearchResult] = useState([]);
@@ -73,7 +72,7 @@ const List = () => {
   const getData = async () => {
     try {
       setShowLoadingPage(true);
-      const response = await GetAllRealestates();
+      const response = await GetAllCourts();
       if (!response || !response.data) {
         throw new Error("Network response was not ok");
       }
@@ -82,7 +81,9 @@ const List = () => {
       const filteredResults = response.data.filter((item) => {
         return (
           item.location &&
-          keepDiacritics(item.location.toLowerCase()).includes(normalizedDestination)
+          keepDiacritics(item.location.toLowerCase()).includes(
+            normalizedDestination
+          )
         );
       });
 

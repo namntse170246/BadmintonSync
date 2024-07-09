@@ -18,7 +18,7 @@ import {
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import FeatureProperties from "../../components/featureProperties/FeatureProperties";
-import { GetbyRealestateID } from "../../components/API/APIConfigure";
+import { GetbyCourtID } from "../../components/API/APIConfigure";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
 
@@ -41,7 +41,7 @@ const Court = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await GetbyRealestateID(id);
+        const response = await GetbyCourtID(id);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -72,19 +72,47 @@ const Court = () => {
     setSlideNumber(newSlideNumber);
   };
 
-  const handleBookingCourt = async (courtId) => {
-    try {
-      const response = await GetbyRealestateID(courtId);
-      const courtDetails = response.data;
-      localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
-      navigate(`/booking/${courtId}`);
-    } catch (error) {
-      console.error("Error fetching court details", error);
-    }
-  };
+  // const handleBookingCourt = async (courtId) => {
+  //   try {
+  //     const response = await GetbyCourtID(courtId);
+  //     const courtDetails = response.data;
+  //     localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
+  //     navigate(`/booking/${courtId}`);
+  //   } catch (error) {
+  //     console.error("Error fetching court details", error);
+  //   }
+  // };
 
-  const photoUrls = data ? data.image.split(",") : [];
-  localStorage.setItem("imageReal", JSON.stringify(photoUrls));
+  const HotelImages = ({ data }) => {
+    // Handle photo URLs
+    const photoUrls = data ? data.image.split(",") : [];
+
+    // Save to local storage
+    useEffect(() => {
+      localStorage.setItem("imageReal", JSON.stringify(photoUrls));
+    }, [photoUrls]);
+
+    // Handle image click
+    const handleOpen = (index) => {
+      console.log("Image clicked:", index);
+      // Your handle open logic here
+    };
+
+    return (
+      <div className="hotelImages">
+        {photoUrls.map((photoUrl, i) => (
+          <div className="hotelImgWrapper" key={i}>
+            <img
+              onClick={() => handleOpen(i)}
+              src={"https://localhost:7155/Uploads/" + photoUrl.trim()}
+              alt={`Hotel ${i}`}
+              className="hotelImg"
+            />
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -102,15 +130,6 @@ const Court = () => {
               className="arrow"
               onClick={() => handleMove("l")}
             />
-            <div className="sliderWrapper">
-              {data && (
-                <img
-                  src={photoUrls[slideNumber]}
-                  alt=""
-                  className="sliderImg"
-                />
-              )}
-            </div>
             <FontAwesomeIcon
               icon={faCircleArrowRight}
               className="arrow"
@@ -124,20 +143,7 @@ const Court = () => {
               <p className="announcementTitle">Announcement</p>
               <p className="announcementContent">{data.announcement}</p>
             </div>
-            <div className="hotelWrapper">
-              <div className="hotelImages">
-                {photoUrls.map((photoUrl, i) => (
-                  <div className="hotelImgWrapper" key={i}>
-                    <img
-                      onClick={() => handleOpen(i)}
-                      src={photoUrl}
-                      alt=""
-                      className="hotelImg"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <HotelImages data={data} />
             <div className="CourtInfor">
               <h1 className="hotelTitle">{data.courtName}</h1>
               <div className="infor">
@@ -154,7 +160,7 @@ const Court = () => {
                   <span>{data.phone}</span>
                 </div>
               </div>
-              {/* <div className="infor">
+              <div className="infor">
                 <FontAwesomeIcon icon={faHeart} className="inforIcon" />
                 <div className="inforText">
                   <p>Social Media</p>
@@ -166,7 +172,7 @@ const Court = () => {
                     <FontAwesomeIcon icon={faFacebook} className="inforIcon" />
                   </a>
                 </div>
-              </div> */}
+              </div>
               <p className="hotelTitle">Openning Hours</p>
               <div className="infor">
                 <FontAwesomeIcon icon={faClock} className="inforIcon" />
@@ -243,11 +249,9 @@ const Court = () => {
                 </div>
               )}
             </div>
-            <button
-              onClick={() => handleBookingCourt(data.courtId)}
-              className="bookNow"
-            >
-              Booking
+
+            <button className="bookNow">
+              <Link to={`/booking/${data.courtId}`}>Booking</Link>
             </button>
             <FeedBack courtId={id} />
           </div>

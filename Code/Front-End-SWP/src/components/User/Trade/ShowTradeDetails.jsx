@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { BASE_URL, GetTradeByID, GetUserByID, GetbyRealestateID } from '../../API/APIConfigure';
-import './tabletrade.css';
-import { useParams } from 'react-router-dom';
-import ConfirmTrade from '../Trade/ConfirmTrade';
-import UpdateStatus from './UpdateStatus';
-import './showTradeDetail.css';
+import React, { useEffect, useState } from "react";
+import {
+  BASE_URL,
+  GetTradeByID,
+  GetUserByID,
+  GetbyCourtID,
+} from "../../API/APIConfigure";
+import "./tabletrade.css";
+import { useParams } from "react-router-dom";
+import ConfirmTrade from "../Trade/ConfirmTrade";
+import UpdateStatus from "./UpdateStatus";
+import "./showTradeDetail.css";
 const ShowTradeDetails = () => {
   const { id } = useParams();
   const [trade, setTrade] = useState(null);
@@ -20,10 +25,10 @@ const ShowTradeDetails = () => {
         setTrade(tradeResponse);
 
         if (tradeResponse) {
-          const real1Response = await GetbyRealestateID(tradeResponse.timeshareId1);
+          const real1Response = await GetbyCourtID(tradeResponse.timeshareId1);
           setDataReal1(real1Response);
 
-          const real2Response = await GetbyRealestateID(tradeResponse.timeshareId2);
+          const real2Response = await GetbyCourtID(tradeResponse.timeshareId2);
           setDataReal2(real2Response);
 
           const member1Response = await GetUserByID(tradeResponse.memberId1);
@@ -33,7 +38,7 @@ const ShowTradeDetails = () => {
           setMember2(member2Response);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
@@ -41,21 +46,23 @@ const ShowTradeDetails = () => {
 
   function getStatus(status) {
     switch (status) {
-      case '1':
-        return { className: 'status-1', text: 'Chờ xác nhận' }; // Return class name and text for status 1
-      case '2':
-        return { className: 'status-2', text: 'Đã xác nhận' }; // Return class name and text for status 2
-      case '3':
-        return { className: 'status-3', text: 'Hủy' }; // Return class name and text for status 3
+      case "1":
+        return { className: "status-1", text: "Chờ xác nhận" }; // Return class name and text for status 1
+      case "2":
+        return { className: "status-2", text: "Đã xác nhận" }; // Return class name and text for status 2
+      case "3":
+        return { className: "status-3", text: "Hủy" }; // Return class name and text for status 3
       default:
-        return { className: '', text: 'Trạng thái không xác định' }; // Return default class name and text for undefined status
+        return { className: "", text: "Trạng thái không xác định" }; // Return default class name and text for undefined status
     }
   }
 
   return (
     <div className="homeContainer">
       <div className="tradeWapperTradeDetail">
-        <h1 className="tradeTitleDetail">Thông tin chi tiết về trao đổi của bạn</h1>
+        <h1 className="tradeTitleDetail">
+          Thông tin chi tiết về trao đổi của bạn
+        </h1>
         <div className="tradeCard">
           {trade && (
             <div className="trade1">
@@ -63,7 +70,7 @@ const ShowTradeDetails = () => {
               {dataReal1 && (
                 <img
                   className="img-trade"
-                  src={BASE_URL + dataReal1.photo.split(',')[0]}
+                  src={BASE_URL + dataReal1.photo.split(",")[0]}
                   alt={trade.name}
                 />
               )}
@@ -76,7 +83,7 @@ const ShowTradeDetails = () => {
             {dataReal2 && (
               <img
                 className="img-trade"
-                src={BASE_URL + dataReal2.photo.split(',')[0]}
+                src={BASE_URL + dataReal2.photo.split(",")[0]}
                 alt={dataReal2.name}
               />
             )}
@@ -85,7 +92,7 @@ const ShowTradeDetails = () => {
             <h1>Địa chỉ: {dataReal2 && dataReal2.location}</h1>
           </div>
         </div>
-        {trade && trade.status === '2' && member1 && member2 && (
+        {trade && trade.status === "2" && member1 && member2 && (
           <div className="tradeInfor">
             <h1 className="tradeInforTitle">Thông tin trao đổi</h1>
             <div className="tradeInforDetail">
@@ -105,11 +112,19 @@ const ShowTradeDetails = () => {
           </div>
         )}
         <div className="statusTrade">
-          <button className={`statusTradeDetail ${getStatus(trade && trade.status).className}`}>
+          <button
+            className={`statusTradeDetail ${
+              getStatus(trade && trade.status).className
+            }`}
+          >
             {trade && getStatus(trade.status).text}
           </button>
           <button>
-            <UpdateStatus idTrade={id} status={trade && trade.status} datamem2={member2} />
+            <UpdateStatus
+              idTrade={id}
+              status={trade && trade.status}
+              datamem2={member2}
+            />
           </button>
         </div>
       </div>

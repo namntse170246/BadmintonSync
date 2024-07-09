@@ -29,33 +29,6 @@
   display: flex;
   justify-content: center;
 }
-dxxx .hotelImages {
-  display: grid; /* Sử dụng grid layout */
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(250px, 1fr)
-  ); /* Cột tự động fit */
-  gap: 10px; /* Khoảng cách giữa các ảnh */
-}
-
-.hotelImgWrapper {
-  position: relative; /* Để các ảnh có thể chứa nội dung chồng lên */
-  overflow: hidden; /* Ảnh sẽ không bị tràn ra ngoài khung */
-  border-radius: 8px; /* Bo góc cho ảnh */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-}
-
-.hotelImg {
-  width: 100%; /* Chiều rộng ảnh là 100% của .hotelImgWrapper */
-  height: auto; /* Chiều cao tự điều chỉnh theo tỷ lệ */
-  display: block; /* Để loại bỏ khoảng trống dư thừa dưới dạng inline-block */
-  cursor: pointer; /* Con trỏ chuột thành pointer khi hover */
-  transition: transform 0.2s ease-in-out; /* Hiệu ứng transform smooth */
-}
-
-.hotelImg:hover {
-  transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
-}
 
 .hotelTitle {
   font-weight: 600;
@@ -191,4 +164,33 @@ dxxx .hotelImages {
   width: 100%;
   height: 40px;
   text-align: center;
+}
+.bookNow a {
+  text-decoration: none;
+  color: white;
+}
+.hotelImages {
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  gap: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 16%;
+  margin-right: 16%;
+}
+
+.hotelImgWrapper {
+  position: relative;
+}
+
+.hotelImg {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.hotelImg:hover {
+  transform: scale(1.05);
 }

@@ -1,7 +1,7 @@
-import instance, { customAxios } from '../setUp/axios';
+import instance, { customAxios } from "../setUp/axios";
 
-export const BASE_URL = 'https://localhost:7155/';
-
+export const BASE_URL = "https://localhost:7155/";
+//ACCOUNT
 const SignInAccount = (userData) => {
   return customAxios.post(`api/User/Login`, userData);
 };
@@ -36,17 +36,26 @@ export const UpdatePasswordByID = (userID, newPassword) => {
     password: newPassword,
   });
 };
+//COURT, BOOKING, VOUCHER, TIMESLOT
 const GetAllBookings = () => {
   return customAxios.get(`api/Bookings`);
 };
 const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);
 };
+const GetVoucherByCode = (voucher) => {
+  return customAxios.get(`api/Promotion/${voucher}`);
+};
 const GetAllFeedback = () => {
   return customAxios.get(`api/Evaluate`);
 };
-const GetAllRealestates = () => {
-  return customAxios.get(`api/Court`);
+const GetAllTimeSlot = () => {
+  return customAxios.get(`api/TimeSlot`);
+};
+const GetAllCourts = (searchValue) => {
+  return customAxios.get(`api/Court`, {
+    params: { search: searchValue },
+  });
 };
 const GetUserByID = (userID) => {
   return customAxios.get(`api/User/GetUserById(Admin)/${userID}`);
@@ -55,11 +64,11 @@ const GetUserByID = (userID) => {
 export const GetPaymentByUserID = (userID) => {
   return customAxios.get(`api/Payment/GetbyMemberID?id=${userID}`);
 };
-export const GetAllRealestatesByMemberID = (userID) => {
+export const GetAllCourtsByMemberID = (userID) => {
   return customAxios.get(`api/Realestates/GetbyMemberID?id=${userID}`);
 };
 export const GetAllBookingsByMemberID = (userID) => {
-  return customAxios.get(`api/Bookings/GetbyMemberID?id=${userID}`);
+  return customAxios.get(`api/Bookings/${userID}`);
 };
 const CreateVouchers = (voucherData) => {
   return instance.post(`api/Vouchers/Createvoucher`, voucherData);
@@ -69,7 +78,7 @@ export const UpdateStatusVoucherByID = (voucherID, newStatus) => {
     status: newStatus,
   });
 };
-export const GetbyRealestateID = (courtID) => {
+export const GetbyCourtID = (courtID) => {
   return customAxios.get(`api/Court/${courtID}`);
 };
 export const GetFeebackbyRealestate = (realetatesID) => {
@@ -95,9 +104,12 @@ export const GetTimeShareById = (timeshareID) => {
   return customAxios.get(`api/Timeshares/GetbyID?id=${timeshareID}`);
 };
 export const UpdateTimeShareStatus = (timeshareID, newStatus) => {
-  return customAxios.put(`api/Timeshares/UpdateTimeshareSta?id=${timeshareID}`, {
-    status: newStatus,
-  });
+  return customAxios.put(
+    `api/Timeshares/UpdateTimeshareSta?id=${timeshareID}`,
+    {
+      status: newStatus,
+    }
+  );
 };
 //Trade
 export const GetAllTrade = () => {
@@ -107,7 +119,9 @@ export const GetTradeByID = (tradeID) => {
   return customAxios.get(`api/Exchange/GetExchangebyID?id=${tradeID}`);
 };
 export const GetTradeByMemberID = (memberID) => {
-  return customAxios.get(`api/Exchange/GetExchangebymemberID?memberid=${memberID}`);
+  return customAxios.get(
+    `api/Exchange/GetExchangebymemberID?memberid=${memberID}`
+  );
 };
 export const GetPaymentbyBookingID = (BookingID) => {
   return customAxios.get(`api/Payment/GetbyBookingID?id=${BookingID}`);
@@ -153,9 +167,11 @@ export {
   UpdateStatus,
   GetAllBookings,
   GetAllVoucher,
+  GetVoucherByCode,
   GetAllFeedback,
+  GetAllTimeSlot,
   GetUserByID,
-  GetAllRealestates,
+  GetAllCourts,
   CreateVouchers,
   CreateBooking,
 };

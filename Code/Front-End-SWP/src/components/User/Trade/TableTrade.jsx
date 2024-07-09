@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BASE_URL, GetAllRealestatesByMemberID } from "../../API/APIConfigure";
+import { BASE_URL, GetAllCourtsByMemberID } from "../../API/APIConfigure";
 import "./tabletrade.css";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
@@ -11,7 +11,7 @@ const TableTrade = ({ idUser }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await GetAllRealestatesByMemberID(idUser);
+        const response = await GetAllCourtsByMemberID(idUser);
         setData(response);
       } catch (error) {
         console.error("Error fetching data:", error);

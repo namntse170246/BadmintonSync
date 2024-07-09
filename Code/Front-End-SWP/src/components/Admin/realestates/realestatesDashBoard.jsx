@@ -16,7 +16,7 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { GetAllRealestates, UpdateRealestateStatus } from "../../API/APIConfigure";
+import { GetAllCourts, UpdateRealestateStatus } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   const fetchRealestates = async () => {
     try {
-      const response = await GetAllRealestates();
+      const response = await GetAllCourts();
       setFeedback(response.data || []);
     } catch (err) {
       toast.error("Failed to fetch courts");
@@ -168,7 +168,9 @@ const Dashboard = () => {
                   <TableCell align="center">
                     <Select
                       value={item.status?.toString() || ""}
-                      onChange={(e) => handleStatusChange(e.target.value, item.courtId)}
+                      onChange={(e) =>
+                        handleStatusChange(e.target.value, item.courtId)
+                      }
                     >
                       {Object.keys(statusTexts).map((status) => (
                         <MenuItem key={status} value={status}>

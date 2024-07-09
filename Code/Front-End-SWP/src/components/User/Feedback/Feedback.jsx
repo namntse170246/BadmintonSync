@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { GetFeebackbyRealestate, GetUserByID, GetbyRealestateID } from "../../API/APIConfigure";
+import {
+  GetFeebackbyRealestate,
+  GetUserByID,
+  GetbyCourtID,
+} from "../../API/APIConfigure";
 import TableFeedback from "./TableFeedBack";
 
 const Feedback = ({ courtId }) => {
@@ -12,7 +16,7 @@ const Feedback = ({ courtId }) => {
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
-        const response = await GetbyRealestateID(courtId);
+        const response = await GetbyCourtID(courtId);
         console.log(response);
         if (Array.isArray(response.evaluates)) {
           setFeedback(response);
