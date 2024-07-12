@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "./VNPay.css";
 
 const VNPay = ({ amount, id }) => {
   const [loading, setLoading] = useState(false);
@@ -27,21 +28,32 @@ const VNPay = ({ amount, id }) => {
         // Redirect to VNPay payment URL upon successful response
         window.location.href = response.data;
       } else {
-        throw new Error("API không trả về URL thanh toán");
+        throw new Error("API did not return a payment URL");
       }
     } catch (error) {
-      toast.error("Có lỗi xảy ra khi xử lý thanh toán");
-      console.error("Lỗi thanh toán:", error);
+      toast.error("An error occurred during the payment process");
+      console.error("Payment error:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Tổng số tiền cần thanh toán: {amount} VNĐ</h2>
-      <button onClick={handlePayment} disabled={loading}>
-        {loading ? "Đang xử lý..." : "Thanh toán bằng VNPay"}
+    <div className="payment-container">
+      <h2 className="payment-title">
+        Total amount to be paid:{" "}
+        {new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(amount)}{" "}
+      </h2>
+
+      <button
+        className="payment-button"
+        onClick={handlePayment}
+        disabled={loading}
+      >
+        {loading ? "Processing..." : "Pay with VNPay"}
       </button>
     </div>
   );

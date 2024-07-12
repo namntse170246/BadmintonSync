@@ -15,7 +15,6 @@ import Booking from "./pages/admin/Booking";
 import Voucher from "./pages/admin/Voucher";
 import Realestates from "./pages/admin/Realestates";
 import ErrorPage from "./pages/ErrorPage";
-import Timeshare from "./pages/timeshare/Timeshare";
 import Posting from "./pages/posting/Posting";
 import CheckOut from "./pages/user/CheckOut";
 import PaymentResults from "./pages/user/PaymentResult";

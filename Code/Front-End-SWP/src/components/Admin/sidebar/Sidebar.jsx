@@ -116,38 +116,13 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </SpaceDashboardIcon>
-              <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => {
-              navigate("/admin/about");
-            }}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <CategoryIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <InboxIcon />
-              </CategoryIcon>
               <ListItemText
-                primary="TimeShare"
+                primary="Dashboard"
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
           </ListItem>
+
           <ListItem
             disablePadding
             sx={{ display: "block" }}
@@ -197,10 +172,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </MapIcon>
-              <ListItemText
-                primary="Courts"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
+              <ListItemText primary="Courts" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem
@@ -226,10 +198,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </ManageAccountsIcon>
-              <ListItemText
-                primary="Account"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
+              <ListItemText primary="Account" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           {/* <ListItem
@@ -284,10 +253,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </AccountBalanceWalletIcon>
-              <ListItemText
-                primary="Payment"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
+              <ListItemText primary="Payment" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem
