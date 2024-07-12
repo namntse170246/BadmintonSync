@@ -1,9 +1,29 @@
 import React, { useState, useEffect } from "react";
 import "./featureProperties.css";
 import { GetAllCourts } from "../../components/API/APIConfigure";
+import { GetbyCourtID } from "../API/APIConfigure";
+import { Link, useNavigate } from "react-router-dom";
 
 function FeatureProperties() {
   const [featureProperties, setFeatureProperties] = useState([]);
+  const navigate = useNavigate();
+  const handleViewCourt = async (courtId) => {
+    try {
+      const response = await GetbyCourtID(courtId);
+      const courtDetails = response.data;
+
+      localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
+      const photoUrls = courtDetails.image ? courtDetails.image.split(",") : [];
+      localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
+
+      // Điều hướng tới trang chi tiết sân và tải lại trang
+      navigate(`/court/${courtId}`);
+      window.location.reload();
+      window.scrollTo(0, 0); // Cuộn lên đầu trang
+    } catch (error) {
+      console.error("Error fetching court details", error);
+    }
+  };
 
   useEffect(() => {
     const fetchFeatureProperties = async () => {
@@ -34,18 +54,21 @@ function FeatureProperties() {
 
         return (
           <div className="fpItem" key={index}>
-            <img
-              src={fullImageUrl}
-              alt={property.courtName}
-              className="fpImg"
-            />
-            <span className="fpName">{property.courtName}</span>
-            <span className="fpName">{property.phone}</span>
-            <div className="fpRating">
-              <button>9.9</button>
-              <span>Good</span>
-            </div>
-            <span className="fpCity">{property.location}</span>
+            <button
+              className="fpBtn"
+              onClick={() => handleViewCourt(property.courtId)}
+            >
+              <img
+                src={fullImageUrl}
+                alt={property.courtName}
+                className="fpImg"
+              />
+              <span className="fpName">{property.courtName}</span>
+              <br />
+              <span className="fpPhone">{property.phone}</span>
+              <br />
+              <span className="fpCity">{property.location}</span>
+            </button>
           </div>
         );
       })}

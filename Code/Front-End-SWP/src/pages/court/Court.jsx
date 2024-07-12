@@ -21,6 +21,9 @@ import FeatureProperties from "../../components/featureProperties/FeaturePropert
 import { GetbyCourtID } from "../../components/API/APIConfigure";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 const Court = () => {
   const { id } = useParams();
@@ -28,6 +31,8 @@ const Court = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const navigate = useNavigate;
 
   const PolicyClick = () => {
@@ -72,17 +77,6 @@ const Court = () => {
     setSlideNumber(newSlideNumber);
   };
 
-  // const handleBookingCourt = async (courtId) => {
-  //   try {
-  //     const response = await GetbyCourtID(courtId);
-  //     const courtDetails = response.data;
-  //     localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
-  //     navigate(`/booking/${courtId}`);
-  //   } catch (error) {
-  //     console.error("Error fetching court details", error);
-  //   }
-  // };
-
   const HotelImages = ({ data }) => {
     // Handle photo URLs
     const photoUrls = data ? data.image.split(",") : [];
@@ -93,9 +87,11 @@ const Court = () => {
     }, [photoUrls]);
 
     // Handle image click
-    const handleOpen = (index) => {
-      console.log("Image clicked:", index);
-      // Your handle open logic here
+    const handleImageClick = (index) => {
+      setSelectedImage(
+        "https://localhost:7155/Uploads/" + photoUrls[index].trim()
+      );
+      setModalIsOpen(true);
     };
 
     return (
@@ -103,7 +99,7 @@ const Court = () => {
         {photoUrls.map((photoUrl, i) => (
           <div className="hotelImgWrapper" key={i}>
             <img
-              onClick={() => handleOpen(i)}
+              onClick={() => handleImageClick(i)}
               src={"https://localhost:7155/Uploads/" + photoUrl.trim()}
               alt={`Hotel ${i}`}
               className="hotelImg"
@@ -260,6 +256,18 @@ const Court = () => {
         <MailList />
         <Footer />
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Image Modal"
+        className="Modal"
+        overlayClassName="Overlay"
+      >
+        <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+        <button className="closeButton" onClick={() => setModalIsOpen(false)}>
+          Close
+        </button>
+      </Modal>
     </div>
   );
 };

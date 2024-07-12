@@ -14,16 +14,16 @@ const Featured = ({ homeTitleRef }) => {
                 <div className="img-wrapper_1">
                   <img
                     className="img1"
-                    src="./src/assets/img/image1.jpg"
+                    src="https://localhost:7155/Uploads/69f77767-7614-42c9-8cfc-a123af11a94b.png"
                     alt=""
                   />
                 </div>
                 <div className="info-wrapper">
                   <div className="exp-item-tit eb-garamond three_dots_1">
-                    New Adding Court 🎉
+                    New Added Court 🎉
                   </div>
                   <div className="exp-item-des three_dots_1">
-                  Bring the best experience!
+                    Bring the best experience!
                   </div>
                   <div className="exp-item-cta">
                     <Link to="/hotels" className="eb-garamond three_dots_1">
@@ -35,8 +35,8 @@ const Featured = ({ homeTitleRef }) => {
               <div className="exp-item exp-item-2 _409x500" ref={homeTitleRef}>
                 <div className="img-wrapper_2">
                   <img
-                    className="img2"
-                    src="./src/assets/img/image2.jpg"
+                    className="img1"
+                    src="https://localhost:7155/Uploads/3fe7dd03-d02c-4436-acca-780fe690238c.png"
                     alt=""
                   />
                 </div>
@@ -55,7 +55,7 @@ const Featured = ({ homeTitleRef }) => {
                     Promotion 😉
                   </div>
                   <div className="exp-item-des three_dots_1">
-                  Comfortable space with modern equipment!
+                    Comfortable space with modern equipment!
                   </div>
                   <div className="exp-item-cta">
                     <Link to="/hotels" className="eb-garamond three_dots_1">
@@ -67,7 +67,7 @@ const Featured = ({ homeTitleRef }) => {
               <div className="exp-item exp-item-4 _741x500">
                 <div className="img-wrapper_1">
                   <img
-                    className="img1"
+                    className="img2"
                     src="./src/assets/img/image4.png"
                     alt=""
                   />

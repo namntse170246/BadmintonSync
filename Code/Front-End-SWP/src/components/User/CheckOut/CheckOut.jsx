@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import VNPay from "./VNPay.jsx"; // Import VNPay component
 
-import PayPal from "./Paypal";
 import Navbar from "../../navbar/Navbar";
 import MailList from "../../mailList/MailList";
 import Footer from "../../footer/Footer";
 import {
-  BASE_URL,
   GetAllBookingsByID,
-  GetTimeShareById,
   GetbyCourtID,
+  GetbySubCourtID,
 } from "../../API/APIConfigure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./checkout.css";
@@ -18,24 +17,23 @@ import Cancel from "./Cancel";
 import ButtonCheckOut from "./ButtonCheckOut";
 import ButtonCheckin from "./ButtonCheckin";
 import ButtonFeedback from "./ButtonFeedback";
-import ButtonRentMore from "./ButtonRentMore";
 
 const Checkout = () => {
   const { id } = useParams();
-  const [booking, setBooking] = useState();
+  const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   useEffect(() => {
     const fetchBooking = async () => {
       try {
         const response = await GetAllBookingsByID(id);
-        if (response) {
-          const timeshare = await GetTimeShareById(response.timeshareId);
-          if (timeshare) {
-            const realestate = await GetbyCourtID(timeshare.realestateId);
-            if (realestate) {
-              setBooking({ ...response, realestate });
-            }
+        if (response.data) {
+          const subCourt = await GetbySubCourtID(response.data.subCourtId);
+          const court = await GetbyCourtID(subCourt.data.courtId);
+          if (court) {
+            setBooking({ ...response.data, court });
+            console.log(booking);
           }
         }
         setLoading(false);
@@ -47,73 +45,58 @@ const Checkout = () => {
 
     fetchBooking();
   }, [id]);
+
   if (loading) {
-    return (
-      <div>
-        <LoadingPage />
-      </div>
-    );
+    return <LoadingPage />;
   }
 
-  const total = Math.round(booking.amount / 24500);
-  const photoUrls = booking.realestate.photo
-    ? booking.realestate.photo.split(",")
-    : [];
+  const total = Math.round(booking.amount * 24500);
+  // console.log(total);
+  // const photoUrls = booking.court.image ? booking.court.image.split(",") : [];
 
   const getStatusString = (status) => {
     switch (status) {
-      case "1":
+      case 0:
         return "Chờ thanh toán";
-      case "2":
+      case 1:
         return "Đã thanh toán";
-      case "3":
+      case 2:
         return "Đã hủy";
-      case "4":
+      case 3:
         return "Đã check in";
-      case "5":
-        return "Đã check out";
-      case "6":
+      case 4:
+      case 5:
         return "Đã check out";
       default:
         return "";
     }
   };
+
   return (
     <>
       <Navbar />
-      <div className="checout_Wapper">
+      <div className="checkout_Wapper">
         <div className="checkoutContainer">
           <div className="checkoutCard">
-            <img
-              className="image-booking"
-              src={BASE_URL + (photoUrls.length > 0 ? photoUrls[0] : "")}
-              alt=""
-            />
             <div className="paymentConfirm">
               <h1>Xác nhận thông tin của bạn</h1>
               <h1>
-                Tên khách sạn:{" "}
-                {booking.realestate ? booking.realestate.name : ""}
+                Tên sân: {booking.court ? booking.court.data.courtName : ""}
               </h1>
               <h1>
-                Địa điểm:{" "}
-                {booking.realestate ? booking.realestate.location : ""}
+                Địa điểm: {booking.court ? booking.court.data.location : ""}
               </h1>
-              <h1>Họ và tên: {booking.fullName}</h1>
-              <h1>Số điện thoại: {booking.phone}</h1>
+              <h1>Họ và tên: {userInfo.name}</h1>
+              <h1>Số điện thoại: {userInfo.phone}</h1>
               <h1>
-                Ngày checkin: {new Date(booking.startDay).toLocaleDateString()}
-              </h1>
-              <h1>
-                Ngày checkout: {new Date(booking.endDay).toLocaleDateString()}
+                Ngày đặt sân:{" "}
+                {new Date(booking.bookingDate).toLocaleDateString()}
               </h1>
               <h1>Trạng thái: {getStatusString(booking.status)}</h1>
-              <h1>Người lớn: {booking.adult}</h1>
-              <h1>Trẻ em: {booking.children}</h1>
               <div className="_line"></div>
               <div className="totalCheckoutAndCancel">
                 <h2 className="total-summary">
-                  Tổng giá tiền: {booking.amount.toLocaleString()}VNĐ
+                  Tổng giá tiền: {booking.amount.toLocaleString()} $
                 </h2>
                 <div className="Cancel-booking">
                   <Cancel status={booking.status} />
@@ -121,8 +104,7 @@ const Checkout = () => {
                 <div style={{ marginTop: "10px" }}>
                   <ButtonCheckin
                     bookingStatus={booking.status}
-                    startDay={booking.startDay}
-                    endDay={booking.endDay}
+                    startDay={booking.bookingDate}
                   />
                 </div>
                 <div style={{ marginTop: "6px" }}>
@@ -133,35 +115,20 @@ const Checkout = () => {
                 <div className="feedback-booking">
                   <ButtonFeedback
                     status={booking.status}
-                    realID={booking.realestate.id}
-                    bookingID={booking.id}
-                  />
-                </div>
-                <div className="rentMore-booking">
-                  <ButtonRentMore
-                    status={booking.status}
-                    realID={booking.realestate.id}
-                    BookingInfo={booking}
+                    realID={booking.court.courtId}
+                    bookingID={booking.bookingId}
                   />
                 </div>
               </div>
             </div>
           </div>
-          {booking ? (
-            <>
-              {booking.status === "1" && (
-                <div className="payment-container">
-                  <div className="payment-booking">
-                    <PayPal
-                      amount={total}
-                      timeshareId={booking.timeshareId}
-                      idPay={id}
-                    />
-                  </div>
-                </div>
-              )}
-            </>
-          ) : null}
+          {booking && booking.status === 0 && (
+            <div className="payment-container">
+              <div className="payment-booking">
+                <VNPay amount={total} id={userInfo.id} />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="homeContainer">

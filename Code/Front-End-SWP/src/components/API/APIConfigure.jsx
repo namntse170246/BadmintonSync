@@ -44,7 +44,7 @@ const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);
 };
 const GetVoucherByCode = (voucher) => {
-  return customAxios.get(`api/Promotion/${voucher}`);
+  return customAxios.get(`api/Promotion/${voucher}/alpha`);
 };
 const GetAllFeedback = () => {
   return customAxios.get(`api/Evaluate`);
@@ -81,11 +81,16 @@ export const UpdateStatusVoucherByID = (voucherID, newStatus) => {
 export const GetbyCourtID = (courtID) => {
   return customAxios.get(`api/Court/${courtID}`);
 };
+
+export const GetbySubCourtID = (subCourtID) => {
+  return customAxios.get(`api/SubCourt/${subCourtID}`);
+};
+
 export const GetFeebackbyRealestate = (realetatesID) => {
   return instance.get(`api/Evaluate/${realetatesID}`);
 };
 const CreateBooking = (data) => {
-  return customAxios.post(`api/Bookings/Createbooking`, data);
+  return customAxios.post(`api/Booking`, data);
 };
 export const UpdateRealestateStatus = (realID, newStatus) => {
   return customAxios.put(`API/Realestates/UpdateRealestateSta?id=${realID}`, {
@@ -98,7 +103,7 @@ export const UpdateBookingStatus = (bookingID, newStatus) => {
   });
 };
 export const GetAllBookingsByID = (bookingID) => {
-  return customAxios.get(`api/Bookings/GetbyID?id=${bookingID}`);
+  return customAxios.get(`api/Booking/${bookingID}`);
 };
 export const GetTimeShareById = (timeshareID) => {
   return customAxios.get(`api/Timeshares/GetbyID?id=${timeshareID}`);

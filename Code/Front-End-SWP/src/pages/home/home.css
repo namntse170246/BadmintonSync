@@ -1,32 +1,32 @@
 .banner-voucher-container {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
 }
 
 .banner-voucher {
-    width: 542px;
+  width: 542px;
 }
 
 .banner_voucher-form {
-    position: relative;
+  position: relative;
 }
 
 .cancel-btn {
-    color: white;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
+  color: white;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 /* .search-form {
@@ -39,27 +39,34 @@
       max-width: 1170px;
     margin: 50px auto 0 auto;
 } */
-.path-frontpage.header-scroll:not(.fixed-bs) .navbar-wrapper.new-navbar-wrapper {
-    opacity: 0;
-    z-index: -1;
+.path-frontpage.header-scroll:not(.fixed-bs)
+  .navbar-wrapper.new-navbar-wrapper {
+  opacity: 0;
+  z-index: -1;
 }
 .path-frontpage.fixed-bs .navbar-wrapper.new-navbar-wrapper {
-    height: 90px;
-    /* background-color: #c2bfb3; */
-    background-color: #fff;
+  height: 90px;
+  /* background-color: #c2bfb3; */
+  background-color: #fff;
 }
-.path-frontpage.fixed-bs .navbar-wrapper.new-navbar-wrapper .nav-logo_signature {
-    color: #2a398c;
+.path-frontpage.fixed-bs
+  .navbar-wrapper.new-navbar-wrapper
+  .nav-logo_signature {
+  color: #2a398c;
 }
-.path-frontpage.fixed-bs .navbar-wrapper.new-navbar-wrapper .navbar-right .btn-icon button {
-    color: #cccccc !important;
+.path-frontpage.fixed-bs
+  .navbar-wrapper.new-navbar-wrapper
+  .navbar-right
+  .btn-icon
+  button {
+  color: #cccccc !important;
 }
 
 .path-frontpage.fixed-bs .navbar-wrapper .navbar-left,
 .path-frontpage.fixed-bs .navbar-wrapper .navbar-right,
 .path-frontpage.fixed-bs .navbar-wrapper .main-menu-wrapper {
-    height: 68px;
+  height: 68px;
 }
 .path-frontpage.fixed-bs .navbar-wrapper .navbar-center {
-    height: 90px;
+  height: 90px;
 }

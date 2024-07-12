@@ -10,6 +10,7 @@
   gap: 10px;
   display: flex;
   flex-direction: column;
+  margin-left: 20 px;
 }
 
 .fpImg {
@@ -43,4 +44,13 @@
 
 .fpRating > span {
   font-size: 14px;
+}
+.fpBtn {
+  border: none;
+  padding: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 5px;
+  color: #003580;
 }

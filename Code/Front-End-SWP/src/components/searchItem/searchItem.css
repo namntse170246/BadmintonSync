@@ -1,104 +1,103 @@
 .court-card {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  .court-card .sup-card:hover {
-    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-    transform: translateY(-2px);
-  }
-  .court-card .sup-card {
-    display: flex;
-    width: 950px;
-    height: 200px;
-    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-    overflow: hidden;
-  }
-  
-  .court-card .sup-card .infor-part {
-    display: flex;
-    text-decoration: none; /* Bỏ gạch chân */
-    color: black; /* Màu chữ đen */
-    font-weight: bold; /* In đậm */
-  }
-  
-  .court-card .sup-card .infor-part img {
-    width: 300px;
-    height: 200px;
-    padding-right: 10px;
-  }
-  
-  .court-card .sup-card .infor-part .infor-text-part {
-    width: 450px;
-    padding-right: 10px;
-  }
-  
-  .court-Name {
-    font-size: 25px;
-    font-weight: bold; /* In đậm */
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .court-Location {
-    margin-bottom: 20px;
-  }
-  
-  .court-card .Booking-Area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    margin: 5px;
-    background-color: #f1f8ea;
-    border-radius: 15px;
-  }
-  
-  /* .court-card .Booking-Area p {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.court-card .sup-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+.court-card .sup-card {
+  display: flex;
+  width: 950px;
+  height: 200px;
+  box-shadow: 0 6px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.court-card .sup-card .infor-part {
+  display: flex;
+  text-decoration: none; /* Bỏ gạch chân */
+  color: black; /* Màu chữ đen */
+  font-weight: bold; /* In đậm */
+}
+
+.court-card .sup-card .infor-part img {
+  width: 300px;
+  height: 200px;
+  padding-right: 10px;
+}
+
+.court-card .sup-card .infor-part .infor-text-part {
+  width: 450px;
+  padding-right: 10px;
+}
+
+.court-Name {
+  font-size: 25px;
+  font-weight: bold; /* In đậm */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.court-Location {
+  margin-bottom: 20px;
+}
+
+.court-card .Booking-Area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  margin: 5px;
+  background-color: #d5eeff;
+  border-radius: 15px;
+}
+
+/* .court-card .Booking-Area p {
     font-weight: bold;
     margin-bottom: 40px;
     margin-top: 10px;
     margin-left: 10px;
   } */
-  
-  .court-card .Booking-Area button {
-    margin-left: 10px;
-    width: 80px;
-    height: 40px;
-    appearance: none;
-    background-color: #028000;
-    border: none;
-    border-radius: 10px;
-    box-sizing: border-box;
-    color: #ffffff;
-    cursor: pointer;
-    display: inline-block;
-    font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-      Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-weight: 600;
-    line-height: normal;
-    outline: none;
-    text-align: center;
-    text-decoration: none;
-    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    will-change: transform;
-  }
-  
-  .court-card .Booking-Area button:disabled {
-    pointer-events: none;
-  }
-  
-  .court-card .Booking-Area button:hover {
-    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-    transform: translateY(-2px);
-  }
-  
-  .court-card .Booking-Area button:active {
-    box-shadow: none;
-    transform: translateY(0);
-  }
-  
+
+.court-card .Booking-Area button {
+  margin-left: 10px;
+  width: 80px;
+  height: 40px;
+  appearance: none;
+  background-color: #3379ab;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: 600;
+  line-height: normal;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.court-card .Booking-Area button:disabled {
+  pointer-events: none;
+}
+
+.court-card .Booking-Area button:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.court-card .Booking-Area button:active {
+  box-shadow: none;
+  transform: translateY(0);
+}

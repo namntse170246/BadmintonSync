@@ -9,8 +9,6 @@ import {
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
-import MailList from "../../components/mailList/MailList";
-import Footer from "../../components/footer/Footer";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +29,6 @@ const Posting = () => {
   const navigate = useNavigate();
   const DataCourt = localStorage.getItem("CourtDetails");
   const CourtInfo = JSON.parse(DataCourt);
-  // const imageCourt = localStorage.getItem("imageCourt");
 
   useEffect(() => {
     const fetchSubCourtsAndTimeSlots = async () => {
@@ -87,19 +84,21 @@ const Posting = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const createDate = new Date().toISOString();
     const updatedBookingData = {
       userId: userInfo.id,
       subCourtId: selectedCourt,
-      timeSlotId: selectedTimeSlot,
-      scheduleDate: selectedDate,
+      createDate: createDate,
+      bookingDate: selectedDate,
+      timeSlotId: parseInt(selectedTimeSlot, 10),
       amount: totalFinal,
-      paymentId: 0,
     };
 
     console.log(updatedBookingData);
 
     try {
       const response = await CreateBooking(updatedBookingData);
+      console.log(response);
       const paymentData = {
         memberId: userInfo.id,
         money: totalFinal,
@@ -108,12 +107,12 @@ const Posting = () => {
         title: "Court Booking Payment",
         type: "Payment",
       };
-      const responsePayment = await CreatePayment(paymentData);
+      // const responsePayment = await CreatePayment(paymentData);
       Swal.fire({
         icon: "success",
         title: "Booking successful",
       }).then(() => {
-        navigate(`/user/checkout/${response.id}`);
+        navigate(`/user/checkout/${response.data.bookingId}`);
       });
     } catch (err) {
       Swal.fire({
@@ -141,6 +140,8 @@ const Posting = () => {
     ? CourtInfo.image.split(",")[0].trim()
     : "";
 
+  const todayDate = new Date().toISOString().split("T")[0];
+
   return (
     <>
       <Navbar />
@@ -148,7 +149,7 @@ const Posting = () => {
         <div className="booking-form">
           <h1 className="booking-title">Booking Details</h1>
 
-          <form onSubmit={handleSubmit} className="booking-request-form">
+          <form className="booking-request-form">
             <div className="form-section">
               <label htmlFor="bookingDate">Select a date</label>
               <input
@@ -159,6 +160,7 @@ const Posting = () => {
                 onChange={handleDateChange}
                 required
                 className="form-control"
+                min={todayDate}
               />
             </div>
 
@@ -215,7 +217,7 @@ const Posting = () => {
           </form>
         </div>
 
-        <div className="booking-summary">
+        <form onSubmit={handleSubmit} className="booking-summary">
           <h2>Booking Summary</h2>
           <div className="court-image">
             <div className="court-info">
@@ -253,7 +255,6 @@ const Posting = () => {
               placeholder="Enter voucher"
               value={voucher}
               onChange={handleVoucherChange}
-              required
               className="form-control"
             />
             <button
@@ -267,7 +268,7 @@ const Posting = () => {
           <button type="submit" className="btn btn-primary" id="bookBtn">
             Book Court
           </button>
-        </div>
+        </form>
       </div>
     </>
   );

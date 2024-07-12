@@ -1,4 +1,4 @@
-import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 const Search = ({ onSearch, searchValue, setSearchValue }) => {
   useEffect(() => {
@@ -21,7 +21,7 @@ const Search = ({ onSearch, searchValue, setSearchValue }) => {
       <div className="bs-done">
         <div className="bs-wrapper desktop search-container">
           <div className="bs-item-desktop n_des">
-            <PlaceOutlinedIcon />
+            <SearchIcon />
             <div className="input-wrapper">
               <input
                 placeholder="Searching for a place you want to play now?"

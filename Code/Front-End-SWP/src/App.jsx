@@ -18,6 +18,7 @@ import ErrorPage from "./pages/ErrorPage";
 import Timeshare from "./pages/timeshare/Timeshare";
 import Posting from "./pages/posting/Posting";
 import CheckOut from "./pages/user/CheckOut";
+import PaymentResults from "./pages/user/PaymentResult";
 import TradeTimeShare from "./pages/trade/TradeTimeShare";
 import ConfirmTrade from "./pages/trade/ConfirmTrade";
 import DetailsTrade from "./pages/trade/DetailsTrade";
@@ -58,8 +59,9 @@ function App() {
       <Route path="/login-register" element={<Form />} />
       <Route path="/hotels" element={<List />} />
       <Route path="/court/:id" element={<Court />} />
-      <Route path="/timeshare/:id" element={<Timeshare />} />
+      {/* <Route path="/timeshare/:id" element={<Timeshare />} /> */}
       <Route path="/booking/:id" element={<Posting />} />
+      <Route path="/api/payment/vnpay-return" element={<PaymentResults />} />
       <Route
         path="/user/*"
         element={
