@@ -69,6 +69,11 @@ const GetAllCourts = (searchValue) => {
     params: { search: searchValue },
   });
 };
+const GetAllSubCourts = (searchValue) => {
+  return customAxios.get(`api/SubCourt`, {
+    params: { search: searchValue },
+  });
+};
 const GetUserByID = (userID) => {
   return customAxios.get(`api/User/GetUserById/${userID}`);
 };
@@ -198,6 +203,7 @@ export {
   GetAllTimeSlot,
   GetUserByID,
   GetAllCourts,
+  GetAllSubCourts,
   CreateVouchers,
   CreateBooking,
 };

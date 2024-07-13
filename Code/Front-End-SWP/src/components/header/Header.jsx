@@ -23,7 +23,7 @@ const Header = ({ isUnVisible }) => {
                     Why play less, when you can play more !
                   </div>
                   <div className="banner-cta">
-                    <Link to="/hotels">Discovery ! </Link>
+                    <Link to="/courts">Discovery ! </Link>
                   </div>
                 </div>
               </div>

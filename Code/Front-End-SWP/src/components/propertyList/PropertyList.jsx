@@ -26,7 +26,7 @@ function PropertyList() {
             <img src={property.image} alt="/" className="pListImg" />
             <div className="pListTitles">
               <h1>{property.type}</h1>
-              <h2>{property.count} Hotels</h2>
+              <h2>{property.count} courts</h2>
             </div>
           </div>
         ))}

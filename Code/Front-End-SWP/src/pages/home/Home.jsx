@@ -42,7 +42,7 @@ function Home() {
       location: searchValue,
     };
     localStorage.setItem("searchkey", JSON.stringify(searchTerm));
-    navigate("/hotels");
+    navigate("/courts");
   };
   const handleOnClose = () => {
     setIsBannerVisible(false);

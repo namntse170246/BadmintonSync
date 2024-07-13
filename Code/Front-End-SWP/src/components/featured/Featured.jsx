@@ -26,7 +26,7 @@ const Featured = ({ homeTitleRef }) => {
                     Bring the best experience!
                   </div>
                   <div className="exp-item-cta">
-                    <Link to="/hotels" className="eb-garamond three_dots_1">
+                    <Link to="/courts" className="eb-garamond three_dots_1">
                       Discovery!
                     </Link>
                   </div>
@@ -58,7 +58,7 @@ const Featured = ({ homeTitleRef }) => {
                     Comfortable space with modern equipment!
                   </div>
                   <div className="exp-item-cta">
-                    <Link to="/hotels" className="eb-garamond three_dots_1">
+                    <Link to="/courts" className="eb-garamond three_dots_1">
                       Discovery!
                     </Link>
                   </div>

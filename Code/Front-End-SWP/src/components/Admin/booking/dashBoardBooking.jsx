@@ -12,11 +12,14 @@ import {
   TablePagination,
   TextField,
   Skeleton,
+  Select,
+  MenuItem,
+  FormControl,
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { GetAllBookings, GetUserByID } from "../../API/APIConfigure";
+import { GetAllBookings, GetUserByID, UpdateBookingStatus } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -32,7 +35,6 @@ const Dashboard = () => {
       setIsLoading(true);
       try {
         const response = await GetAllBookings();
-        console.log(response);
         setBookings(Array.isArray(response.data) ? response.data : []);
         fetchUserDetails(response.data.map((booking) => booking.userId));
       } catch (err) {
@@ -52,7 +54,6 @@ const Dashboard = () => {
       if (!userDetailsMap[id]) {
         try {
           const response = await GetUserByID(id);
-          console.log(response);
           if (response.data && response.data.userName) {
             userDetailsMap[id] = response.data.userName;
           } else {
@@ -106,6 +107,27 @@ const Dashboard = () => {
     4: "purple",
   };
 
+  const handleStatusChange = async (bookingId, newStatus) => {
+    try {
+      const response = await UpdateBookingStatus(bookingId, newStatus);
+      if (response.success) {
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) =>
+            booking.bookingId === bookingId
+              ? { ...booking, status: newStatus }
+              : booking
+          )
+        );
+        toast.success("Status updated Successful");
+      } else {
+        toast.error("Failed to update status");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update status");
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
@@ -152,7 +174,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      Người dùng
+                      Username
                     </TableCell>
                     <TableCell
                       style={{
@@ -161,7 +183,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      Tiền cọc
+                      Amount
                     </TableCell>
                     <TableCell
                       style={{
@@ -170,7 +192,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      Mã sân
+                      SubCourtId
                     </TableCell>
                     <TableCell
                       style={{
@@ -179,7 +201,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      Ngày đặt
+                      BookingID
                     </TableCell>
                     <TableCell
                       style={{
@@ -188,7 +210,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      Trạng thái
+                      Status
                     </TableCell>
                     <TableCell
                       style={{
@@ -197,7 +219,7 @@ const Dashboard = () => {
                       }}
                       align="center"
                     >
-                      Hành Động
+                      Action
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -208,7 +230,7 @@ const Dashboard = () => {
                         {userDetails[booking.userId] || booking.userId}
                       </TableCell>
                       <TableCell style={{ fontSize: "13px" }} align="center">
-                        {booking.amount.toLocaleString()} VNĐ
+                        {booking.amount.toLocaleString()} VND
                       </TableCell>
                       <TableCell style={{ fontSize: "13px" }} align="center">
                         {booking.subCourtId}
@@ -236,7 +258,21 @@ const Dashboard = () => {
                           fontWeight: "bold",
                         }}
                       >
-                        {statusTexts[booking.status]}
+                        <FormControl variant="outlined">
+                          <Select
+                            value={booking.status}
+                            onChange={(e) =>
+                              handleStatusChange(booking.bookingId, e.target.value)
+                            }
+                            style={{ color: statusColors[booking.status] }}
+                          >
+                            {Object.keys(statusTexts).map((key) => (
+                              <MenuItem key={key} value={parseInt(key)}>
+                                {statusTexts[key]}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                       </TableCell>
                       <TableCell align="center">
                         <Button
