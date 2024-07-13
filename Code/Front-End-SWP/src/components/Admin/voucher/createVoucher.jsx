@@ -50,21 +50,21 @@ const CreateVoucher = ({ isOpen, onClose, fetchUser }) => {
     >
       <TextField
         name="promotionCode"
-        label="Mã code"
+        label="Code"
         value={voucher.promotionCode}
         onChange={handleChange}
         required
       />
       <TextField
         name="description"
-        label="Mô tả"
+        label="Description"
         value={voucher.description}
         onChange={handleChange}
         required
       />
       <TextField
         name="percentage"
-        label="Giảm %"
+        label="%"
         type="number"
         value={voucher.percentage}
         onChange={handleChange}
@@ -72,7 +72,7 @@ const CreateVoucher = ({ isOpen, onClose, fetchUser }) => {
       />
       <TextField
         name="startDate"
-        label="Ngày bắt đầu"
+        label="Start Date"
         type="date"
         value={voucher.startDate}
         onChange={handleChange}
@@ -83,7 +83,7 @@ const CreateVoucher = ({ isOpen, onClose, fetchUser }) => {
       />
       <TextField
         name="endDate"
-        label="Ngày kết thúc"
+        label="End Date"
         type="date"
         value={voucher.endDate}
         onChange={handleChange}
@@ -98,7 +98,7 @@ const CreateVoucher = ({ isOpen, onClose, fetchUser }) => {
         color="primary"
         style={{ alignSelf: "flex-end", marginTop: "16px" }}
       >
-        Tạo Voucher
+        Create Voucher
       </Button>
     </form>
   );

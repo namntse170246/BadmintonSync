@@ -10,6 +10,7 @@ import Wallet from "./pages/admin/Wallet";
 import Feedback from "./pages/admin/Feedback";
 import Trade from "./pages/admin/Trade";
 import Form from "./pages/form/Form";
+import OTPVerification from "./pages/form/OTPVerification";
 import UserPage from "./pages/user/userPage";
 import Booking from "./pages/admin/Booking";
 import Voucher from "./pages/admin/Voucher";
@@ -56,6 +57,7 @@ function App() {
       <Route path="/*" element={<ErrorPage />} />
       <Route path="/" element={<Home />} />
       <Route path="/login-register" element={<Form />} />
+      <Route path="/otp-verification/:email" component={<OTPVerification />} />
       <Route path="/hotels" element={<List />} />
       <Route path="/court/:id" element={<Court />} />
       {/* <Route path="/timeshare/:id" element={<Timeshare />} /> */}

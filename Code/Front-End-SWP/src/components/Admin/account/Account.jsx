@@ -97,7 +97,7 @@ const Account = () => {
         <p>Loading account details...</p>
       )}
       <Button variant="contained" size="large" onClick={handleClickOpen}>
-        Chỉnh sửa
+        Edit
       </Button>
       <EditAccount
         open={open}

@@ -18,12 +18,12 @@ const EditAccount = ({
 }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Chỉnh Sửa Tài Khoản</DialogTitle>
+      <DialogTitle>Edit Account</DialogTitle>
       <DialogContent>
         <TextField
           margin="dense"
           name="name"
-          label="Tên"
+          label="Name"
           type="text"
           fullWidth
           variant="standard"
@@ -43,7 +43,7 @@ const EditAccount = ({
         <TextField
           margin="dense"
           name="oldPassword"
-          label="Mật khẩu cũ"
+          label="Old Password"
           type="password"
           fullWidth
           variant="standard"
@@ -53,7 +53,7 @@ const EditAccount = ({
         <TextField
           margin="dense"
           name="password"
-          label="Mật khẩu mới"
+          label="New Password"
           type="password"
           fullWidth
           variant="standard"
@@ -68,7 +68,7 @@ const EditAccount = ({
           size="large"
           onClick={handleClose}
         >
-          Hủy
+          Cancel
         </Button>
         <Button
           variant="contained"
@@ -76,7 +76,7 @@ const EditAccount = ({
           size="large"
           onClick={handleSubmit}
         >
-          Lưu
+          Save
         </Button>
       </DialogActions>
     </Dialog>

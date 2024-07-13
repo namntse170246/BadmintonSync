@@ -38,7 +38,7 @@ const UserPage = () => {
                       to="/user/profile"
                       onClick={() => handleMenuClick('profile')}
                     >
-                      Thông Tin Cá Nhân
+                      My Profile
                     </MenuItem>
                   </div>
                   <div className={`${activeMenu === 'payment' ? 'user-active' : ''}`}>
@@ -48,7 +48,7 @@ const UserPage = () => {
                       to="/user/payment"
                       onClick={() => handleMenuClick('payment')}
                     >
-                      Thanh Toán Cá Nhân
+                      Payment
                     </MenuItem>
                   </div>
                   <div className={`${activeMenu === 'order' ? 'user-active' : ''}`}>
@@ -58,7 +58,7 @@ const UserPage = () => {
                       to="/user/order"
                       onClick={() => handleMenuClick('order')}
                     >
-                      Sân đã đặt
+                      Booked Court
                     </MenuItem>
                   </div>
                 </div>
