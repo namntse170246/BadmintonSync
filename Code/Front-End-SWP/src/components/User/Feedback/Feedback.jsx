@@ -42,7 +42,7 @@ const Feedback = ({ courtId }) => {
         const userData = await GetUserByID(id);
         setUserDetails((prevDetails) => ({
           ...prevDetails,
-          [id]: userData.username,
+          [id]: userData.data.username,
         }));
       } catch (error) {
         console.error("Failed to fetch user details", error);

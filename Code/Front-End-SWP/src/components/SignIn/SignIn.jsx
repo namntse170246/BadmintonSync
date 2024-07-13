@@ -75,7 +75,7 @@ const SignIn = ({ setShowLoading }) => {
           } else {
             Swal.fire({
               icon: "success",
-              title: "Login successfully!",
+              title: "Login Successful!",
             }).then((result) => {
               if (result.isConfirmed) {
                 localStorage.removeItem("userInfo");

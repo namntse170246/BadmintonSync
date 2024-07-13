@@ -133,7 +133,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         } else {
           Swal.fire({
             icon: "success",
-            title: "Sign up successfully!",
+            title: "Sign up Successful!",
           }).then((result) => {
             if (result.isConfirmed) {
               navigate(`/otp-verification/${formData.email}`);

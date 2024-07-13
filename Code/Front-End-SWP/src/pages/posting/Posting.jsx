@@ -74,7 +74,7 @@ const Posting = () => {
     if (voucherData) {
       const { percentage } = voucherData;
       if (!voucherApplied) {
-        toast.success("Voucher applied successfully");
+        toast.success("Voucher applied Successful");
         setDiscount(percentage);
         setVoucherApplied(true);
         setTotalFinal(total - (total * percentage) / 100);

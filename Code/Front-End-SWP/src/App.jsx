@@ -15,6 +15,7 @@ import UserPage from "./pages/user/userPage";
 import Booking from "./pages/admin/Booking";
 import Voucher from "./pages/admin/Voucher";
 import Realestates from "./pages/admin/Realestates";
+import SubCourts from "./pages/admin/SubCourts";
 import ErrorPage from "./pages/ErrorPage";
 import Posting from "./pages/posting/Posting";
 import CheckOut from "./pages/user/CheckOut";
@@ -58,7 +59,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login-register" element={<Form />} />
       <Route path="/otp-verification/:email" component={<OTPVerification />} />
-      <Route path="/hotels" element={<List />} />
+      <Route path="/courts" element={<List />} />
       <Route path="/court/:id" element={<Court />} />
       {/* <Route path="/timeshare/:id" element={<Timeshare />} /> */}
       <Route path="/booking/:id" element={<Posting />} />
@@ -213,6 +214,14 @@ function App() {
         element={
           <AdminWrapper>
             <Realestates />
+          </AdminWrapper>
+        }
+      />
+      <Route
+        path="/admin/subCourts"
+        element={
+          <AdminWrapper>
+            <SubCourts />
           </AdminWrapper>
         }
       />

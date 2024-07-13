@@ -99,7 +99,7 @@ function Profile() {
             } else {
                 Swal.fire({
                     icon: "success",
-                    title: "Account updated successfully!",
+                    title: "Account updated Successful!",
                 });
                 localStorage.setItem("userInfo", JSON.stringify(editedUser));
             }

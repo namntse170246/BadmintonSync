@@ -181,7 +181,7 @@ const Dashboard = () => {
                       variant="outlined"
                       color="success"
                       className="edit-btn"
-                      onClick={() => navigate(`/hotels/${item.id}`)}
+                      onClick={() => navigate(`/courts/${item.id}`)}
                     >
                       <VisibilityIcon sx={{ fontSize: 25 }} />
                     </Button>
