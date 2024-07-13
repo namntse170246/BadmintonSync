@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate to navigate back
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import VNPay from "./VNPay.jsx"; // Import VNPay component
-
+import VNPay from "./VNPay.jsx";
 import Navbar from "../../navbar/Navbar";
 import MailList from "../../mailList/MailList";
 import Footer from "../../footer/Footer";
@@ -70,7 +69,6 @@ const Checkout = () => {
     }
   };
 
-<<<<<<< HEAD
   const getTimeSlotString = (timeSlotId) => {
     switch (timeSlotId) {
       case 1:
@@ -92,8 +90,15 @@ const Checkout = () => {
     }
   };
 
-  const handleCancel = () => {
-    navigate(-2); // Navigate back to the previous page
+  const handleCancel = async () => {
+    try {
+      await DeleteBookingById(id);
+      toast.success("Booking cancelled successfully");
+      navigate(-2); // Navigate back to the previous page
+    } catch (error) {
+      toast.error("Failed to cancel booking");
+      console.error(error);
+    }
   };
 
   return (
@@ -119,7 +124,7 @@ const Checkout = () => {
         </div>
         <div className="bookingInfo">
           <h2 style={{ fontWeight: "bolder", fontSize: "20px" }}>
-            Customer Infor:{" "}
+            Customer Info:{" "}
           </h2>
           <h1>{userInfo.name}</h1>
           <h2>+84{userInfo.phone.replace(/^0+/, "")}</h2>
