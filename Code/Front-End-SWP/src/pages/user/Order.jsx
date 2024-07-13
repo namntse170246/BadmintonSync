@@ -4,7 +4,7 @@ import Dashboard from '../../components/User/Booking/Dashboard';
 function Order() {
   return (
     <div>
-      <h2 className="profile-title">Khách sạn của bạn đã đặt</h2>
+      <h2 className="profile-title">Booked Court</h2>
       <Dashboard />
     </div>
   );

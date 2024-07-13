@@ -33,6 +33,7 @@ const Dashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await GetAllFeedback();
+        console.log(response);
         setFeedback(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         toast.error("Failed to fetch feedback");
@@ -50,7 +51,9 @@ const Dashboard = () => {
     const fetchUserDetails = async () => {
       for (const id of uniqueUserIds) {
         try {
+          console.log(id);
           const userData = await GetUserByID(id);
+          console.log(userData);
           setUserDetails((prevDetails) => ({
             ...prevDetails,
             [id]: userData.data.userName,
@@ -120,10 +123,10 @@ const Dashboard = () => {
           onChange={(e) => setSelectedStatusFilter(e.target.value)}
           style={{ marginTop: "30px", marginBottom: "20px" }}
         >
-          <MenuItem value="all">Tất cả</MenuItem>
+          <MenuItem value="all">All</MenuItem>
           {[5, 4, 3, 2, 1].map((rating) => (
             <MenuItem key={rating} value={rating.toString()}>
-              {rating} sao
+              {rating} ☆
             </MenuItem>
           ))}
         </Select>
@@ -160,7 +163,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Sân
+                  Court
                 </TableCell>
                 <TableCell
                   style={{

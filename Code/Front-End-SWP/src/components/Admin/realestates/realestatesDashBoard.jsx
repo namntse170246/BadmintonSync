@@ -88,7 +88,7 @@ const Dashboard = () => {
           onChange={(e) => setSelectedStatusFilter(e.target.value)}
           style={{ marginTop: "30px", marginBottom: "20px" }}
         >
-          <MenuItem value="all">Tất cả</MenuItem>
+          <MenuItem value="all">All</MenuItem>
           {Object.keys(statusTexts).map((status) => (
             <MenuItem key={status} value={status}>
               {statusTexts[status]}
@@ -184,7 +184,7 @@ const Dashboard = () => {
                       variant="outlined"
                       color="success"
                       className="edit-btn"
-                      onClick={() => navigate(`/courts/${item.courtId}`)}
+                      onClick={() => navigate(`/court/${item.courtId}`)}
                     >
                       <VisibilityIcon sx={{ fontSize: 25 }} />
                     </Button>

@@ -98,8 +98,8 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleAccount}>Tài khoản của tôi</MenuItem>
-      <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+      <MenuItem onClick={handleAccount}>My Account</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 

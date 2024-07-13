@@ -5,8 +5,11 @@ import Swal from "sweetalert2";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "./SignUp.css"; // Đảm bảo import file CSS để tùy chỉnh biểu tượng con mắt
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = ({ handleToggleForm, setShowLoading }) => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     fullName: "",
@@ -14,6 +17,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
     password: "",
     confirmPassword: "",
     phone: "",
+    otp: ""
   });
   const [errors, setErrors] = useState({
     username: "",
@@ -22,6 +26,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
     password: "",
     confirmPassword: "",
     phone: "",
+    otp: ""
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -104,39 +109,45 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
           confirmPassword: formData.confirmPassword,
           email: formData.email,
           phone: formData.phone,
+          otp: formData.otp,
         };
 
         console.log(userData);
 
         const response = await SignUpAccount(userData);
 
-        setTimeout(() => {
-          setShowLoading(false);
+        console.log(response);
 
-          if (response === null) {
-            Swal.fire({
-              icon: "error",
-              title: "An error occurred while signing up.",
-            });
-          } else if (response.success === false) {
-            Swal.fire({
-              icon: "error",
-              title: response.message,
-            });
-          } else {
-            Swal.fire({
-              icon: "success",
-              title: "Sign up successfully!",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                handleToggleForm();
-              }
-            });
-          }
-        }, 5000);
+        setShowLoading(false);
+
+        if (response === null) {
+          Swal.fire({
+            icon: "error",
+            title: "An error occurred while signing up.",
+          });
+        } else if (response.success === false) {
+          Swal.fire({
+            icon: "error",
+            title: response.message,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Sign up successfully!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(`/otp-verification/${formData.email}`);
+            }
+          });
+        }
       } catch (err) {
+        setShowLoading(false);
         console.log(err);
         console.log(err.message);
+        Swal.fire({
+          icon: "error",
+          title: "An error occurred while signing up.",
+        });
       }
     }
   };

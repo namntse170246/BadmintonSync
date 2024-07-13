@@ -102,7 +102,7 @@ const Dashboard = () => {
             }}
             onClick={handleClickOpen}
           >
-            Tạo mới
+            Create
           </Button>
           <Dialog
             open={open}
@@ -118,7 +118,7 @@ const Dashboard = () => {
                 color: "#003580",
               }}
             >
-              Tạo mã giảm giá
+              Create Promotion
             </DialogTitle>
             <DialogContent>
               <CreateVoucher
@@ -140,7 +140,7 @@ const Dashboard = () => {
                 fontWeight: "bold",
               }}
             >
-              Mã giảm giá
+              Promotion
             </h2>
             <Table
               sx={{ minWidth: 650 }}
@@ -156,7 +156,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Tên mã
+                    Code
                   </TableCell>
                   <TableCell
                     style={{
@@ -165,7 +165,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Mô tả
+                    Description
                   </TableCell>
                   <TableCell
                     style={{
@@ -174,7 +174,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Giá trị giảm
+                    Percentage
                   </TableCell>
                   <TableCell
                     style={{
@@ -183,7 +183,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Ngày bắt đầu
+                    Start Date
                   </TableCell>
                   <TableCell
                     style={{
@@ -192,7 +192,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Ngày kết thúc
+                    End Date
                   </TableCell>
                   <TableCell
                     style={{
@@ -201,7 +201,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Hành động
+                    Action
                   </TableCell>
                 </TableRow>
               </TableHead>

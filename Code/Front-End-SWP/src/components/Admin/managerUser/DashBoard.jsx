@@ -47,8 +47,17 @@ const Dashboard = () => {
 
   const handleRoleChange = async (userName, newRole) => {
     try {
-      console.log(userName, newRole);
-      await UpdateRole(userName, newRole);
+      const roleMapping = {
+        Administrator: 0,
+        Manager: 1,
+        Staff: 2,
+        User: 3,
+      };
+
+      const roleId = roleMapping[newRole];
+
+      console.log(userName, roleId);
+      await UpdateRole(userName, roleId);
       fetchUsers();
       toast.success("Role updated successfully!");
     } catch (err) {

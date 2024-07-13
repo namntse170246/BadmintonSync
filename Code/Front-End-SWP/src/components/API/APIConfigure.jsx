@@ -7,8 +7,13 @@ const SignInAccount = (userData) => {
 };
 
 const SignUpAccount = (userData) => {
-  return customAxios.post(`api/User/Register`, userData);
+  return customAxios.post(`api/User/registerwithotp`, userData);
 };
+
+const VerifyEmailOTP = (data) => {
+  return customAxios.post(`api/User/verifyotp`, data);
+};
+
 const GetAllAccounts = () => {
   return customAxios.get(`api/User/GetAllUsers`);
 };
@@ -45,7 +50,7 @@ export const UpdatePasswordByID = (userID, newPassword) => {
 };
 //COURT, BOOKING, VOUCHER, TIMESLOT
 const GetAllBookings = () => {
-  return customAxios.get(`api/Bookings`);
+  return customAxios.get(`api/Booking`);
 };
 const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);
@@ -65,7 +70,7 @@ const GetAllCourts = (searchValue) => {
   });
 };
 const GetUserByID = (userID) => {
-  return customAxios.get(`api/User/GetUserById(Admin)/${userID}`);
+  return customAxios.get(`api/User/GetUserById/${userID}`);
 };
 //GET PAYMENT BY USER ID
 export const GetPaymentByUserID = (userID) => {
@@ -79,6 +84,9 @@ export const GetAllBookingsByMemberID = (userID) => {
 };
 const CreateVouchers = (voucherData) => {
   return instance.post(`api/Promotion`, voucherData);
+};
+export const DeleteUser = (userID) => {
+  return customAxios.delete(`api/User/DeleteUser/${userID}`);
 };
 export const DeleteVoucherByID = (voucherID) => {
   return customAxios.delete(`api/Promotion/${voucherID}`);
@@ -97,6 +105,12 @@ export const GetFeebackbyRealestate = (realetatesID) => {
 const CreateBooking = (data) => {
   return customAxios.post(`api/Booking`, data);
 };
+
+export const DeleteBookingById = (id) => {
+  return customAxios.delete(`api/Booking/${id}`);
+};
+
+
 export const UpdateRealestateStatus = (realID, newStatus) => {
   return customAxios.put(`API/Realestates/UpdateRealestateSta?id=${realID}`, {
     status: newStatus,
@@ -171,6 +185,7 @@ export const CreateFeedback = (data) => {
 export {
   SignInAccount,
   SignUpAccount,
+  VerifyEmailOTP,
   GetAllAccounts,
   GetCurrentUser,
   DeleteAccount,

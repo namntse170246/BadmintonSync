@@ -17,9 +17,9 @@ const Feedback = ({ courtId }) => {
     const fetchFeedback = async () => {
       try {
         const response = await GetbyCourtID(courtId);
-        console.log(response);
-        if (Array.isArray(response.evaluates)) {
-          setFeedback(response);
+        console.log("FB: ", response);
+        if (Array.isArray(response.data.evaluates)) {
+          setFeedback(response.data.evaluates);
         } else {
           setFeedback([]);
           toast.error("Invalid response format");
@@ -38,6 +38,7 @@ const Feedback = ({ courtId }) => {
 
     uniqueUserIds.forEach(async (id) => {
       try {
+        console.log("FB: ", id);
         const userData = await GetUserByID(id);
         setUserDetails((prevDetails) => ({
           ...prevDetails,

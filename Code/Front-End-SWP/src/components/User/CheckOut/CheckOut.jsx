@@ -10,6 +10,7 @@ import {
   GetAllBookingsByID,
   GetbyCourtID,
   GetbySubCourtID,
+  DeleteBookingById, // Import delete booking API function
 } from "../../API/APIConfigure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./checkout.css";
@@ -33,7 +34,6 @@ const Checkout = () => {
           const court = await GetbyCourtID(subCourt.data.courtId);
           if (court) {
             setBooking({ ...response.data, court });
-            console.log(booking);
           }
         }
         setLoading(false);
@@ -51,8 +51,6 @@ const Checkout = () => {
   }
 
   const total = Math.round(booking.amount * 24500);
-  // console.log(total);
-  // const photoUrls = booking.court.image ? booking.court.image.split(",") : [];
 
   const getStatusString = (status) => {
     switch (status) {
@@ -72,8 +70,15 @@ const Checkout = () => {
     }
   };
 
-  const handleCancel = () => {
-    navigate(-2); // Navigate back to the previous page
+  const handleCancel = async () => {
+    try {
+      await DeleteBookingById(id);
+      toast.success("Booking cancelled successfully");
+      navigate(-2); // Navigate back to the previous page
+    } catch (error) {
+      toast.error("Failed to cancel booking");
+      console.error(error);
+    }
   };
 
   return (

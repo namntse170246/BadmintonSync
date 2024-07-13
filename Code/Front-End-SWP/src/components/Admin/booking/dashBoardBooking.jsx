@@ -32,6 +32,7 @@ const Dashboard = () => {
       setIsLoading(true);
       try {
         const response = await GetAllBookings();
+        console.log(response);
         setBookings(Array.isArray(response.data) ? response.data : []);
         fetchUserDetails(response.data.map((booking) => booking.userId));
       } catch (err) {
@@ -51,8 +52,9 @@ const Dashboard = () => {
       if (!userDetailsMap[id]) {
         try {
           const response = await GetUserByID(id);
-          if (response && response.username) {
-            userDetailsMap[id] = response.username;
+          console.log(response);
+          if (response.data && response.data.userName) {
+            userDetailsMap[id] = response.data.userName;
           } else {
             console.error(`User with id ${id} does not have a username`);
           }
@@ -89,21 +91,19 @@ const Dashboard = () => {
   );
 
   const statusTexts = {
-    1: "Chờ thanh toán",
-    2: "Đã xác nhận",
-    3: "Đã hủy",
-    4: "Đã check in",
-    5: "Đã check out",
-    6: "Đã check out",
+    0: "Pending",
+    1: "Confirmed",
+    2: "Cancelled",
+    3: "Checked In",
+    4: "Checked Out",
   };
 
   const statusColors = {
-    1: "orange",
-    2: "green",
-    3: "red",
-    4: "green",
-    5: "green",
-    6: "green",
+    0: "orange",
+    1: "green",
+    2: "red",
+    3: "blue",
+    4: "purple",
   };
 
   return (
@@ -154,7 +154,6 @@ const Dashboard = () => {
                     >
                       Người dùng
                     </TableCell>
-
                     <TableCell
                       style={{
                         fontSize: "20px",
@@ -208,9 +207,8 @@ const Dashboard = () => {
                       <TableCell style={{ fontSize: "13px" }} align="center">
                         {userDetails[booking.userId] || booking.userId}
                       </TableCell>
-
                       <TableCell style={{ fontSize: "13px" }} align="center">
-                        {booking.totalPrice.toLocaleString()} VNĐ
+                        {booking.amount.toLocaleString()} VNĐ
                       </TableCell>
                       <TableCell style={{ fontSize: "13px" }} align="center">
                         {booking.subCourtId}
@@ -246,7 +244,9 @@ const Dashboard = () => {
                           color="success"
                           className="edit-btn"
                           onClick={() =>
-                            navigate(`/admin/booking/details/${booking.bookingId}`)
+                            navigate(
+                              `/admin/booking/details/${booking.bookingId}`
+                            )
                           }
                         >
                           <VisibilityIcon sx={{ fontSize: 25 }} />
