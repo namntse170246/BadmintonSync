@@ -14,5 +14,6 @@ export default defineConfig({
       }
     },
     chunkSizeWarningLimit: 1000, // Adjust the limit as needed
+    outDir: 'dist', // Specify the output directory
   },
 });
