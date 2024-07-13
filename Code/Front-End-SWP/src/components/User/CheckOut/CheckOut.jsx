@@ -94,17 +94,6 @@ const Checkout = () => {
 
   const handleCancel = () => {
     navigate(-2); // Navigate back to the previous page
-=======
-  const handleCancel = async () => {
-    try {
-      await DeleteBookingById(id);
-      toast.success("Booking cancelled successfully");
-      navigate(-2); // Navigate back to the previous page
-    } catch (error) {
-      toast.error("Failed to cancel booking");
-      console.error(error);
-    }
->>>>>>> 70a157a67f839207828066038eda4492c5659db7
   };
 
   return (
