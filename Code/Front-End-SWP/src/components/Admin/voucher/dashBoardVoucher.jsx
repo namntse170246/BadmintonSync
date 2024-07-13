@@ -17,9 +17,9 @@ import {
   DialogContent,
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
-import CreateVoucher from "./CreateVoucher";
+import CreateVoucher from "./createVoucher";
 import { GetAllVoucher } from "../../API/APIConfigure";
-import DeleteVoucher from "./DeleteVoucher";
+import DeleteVoucher from "./deleteVoucher";
 
 const Dashboard = () => {
   const [voucher, setVoucher] = useState([]);
