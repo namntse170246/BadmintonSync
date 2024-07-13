@@ -1,23 +1,22 @@
 import { useState } from "react";
 import { TextField, Button, Select, MenuItem } from "@mui/material";
-
 import { CreateVouchers } from "../../API/APIConfigure";
 import { toast } from "react-toastify";
+
 const CreateVoucher = ({ isOpen, onClose, fetchUser }) => {
   const [voucher, setVoucher] = useState({
-    name: "",
-    amount: 0,
-    type: "",
-    startDay: "",
-    endDay: "",
-    status: true,
+    promotionCode: "",
+    description: "",
+    percentage: 0,
+    startDate: "",
+    endDate: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setVoucher((prevVoucher) => ({
       ...prevVoucher,
-      [name]: name === "status" ? value === "true" : value,
+      [name]: value,
     }));
   };
 
@@ -50,32 +49,32 @@ const CreateVoucher = ({ isOpen, onClose, fetchUser }) => {
       onSubmit={handleSubmit}
     >
       <TextField
-        name="name"
+        name="promotionCode"
         label="Mã code"
-        value={voucher.name}
+        value={voucher.promotionCode}
         onChange={handleChange}
         required
       />
       <TextField
-        name="amount"
+        name="description"
+        label="Mô tả"
+        value={voucher.description}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        name="percentage"
         label="Giảm %"
         type="number"
-        value={voucher.amount}
+        value={voucher.percentage}
         onChange={handleChange}
         required
       />
       <TextField
-        name="type"
-        label="Loại"
-        value={voucher.type}
-        onChange={handleChange}
-        required
-      />
-      <TextField
-        name="startDay"
+        name="startDate"
         label="Ngày bắt đầu"
         type="date"
-        value={voucher.startDay}
+        value={voucher.startDate}
         onChange={handleChange}
         required
         InputLabelProps={{
@@ -83,26 +82,16 @@ const CreateVoucher = ({ isOpen, onClose, fetchUser }) => {
         }}
       />
       <TextField
-        name="endDay"
+        name="endDate"
         label="Ngày kết thúc"
         type="date"
-        value={voucher.endDay}
+        value={voucher.endDate}
         onChange={handleChange}
         required
         InputLabelProps={{
           shrink: true,
         }}
       />
-      <Select
-        label="Trạng thái"
-        name="status"
-        value={voucher.status.toString()}
-        onChange={handleChange}
-        required
-      >
-        <MenuItem value="true">Hoạt động</MenuItem>
-        <MenuItem value="false">Không hoạt động</MenuItem>
-      </Select>
       <Button
         type="submit"
         variant="contained"

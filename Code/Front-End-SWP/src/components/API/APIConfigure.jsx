@@ -21,6 +21,13 @@ const DeleteAccount = (userID) => {
   return customAxios.delete(`api/Accounts/DeleteAccount?id=${userID}`);
 };
 
+const UpdateRole = (userName, newRole) => {
+  return customAxios.put(`api/User/EditRole`, {
+    userName: userName,
+    roleType: newRole
+  });
+};
+
 const UpdateStatus = (userID, newStatus) => {
   return customAxios.put(`api/Accounts/UpdateAccountStatus?id=${userID}`, {
     status: newStatus,
@@ -71,12 +78,10 @@ export const GetAllBookingsByMemberID = (userID) => {
   return customAxios.get(`api/Bookings/${userID}`);
 };
 const CreateVouchers = (voucherData) => {
-  return instance.post(`api/Vouchers/Createvoucher`, voucherData);
+  return instance.post(`api/Promotion`, voucherData);
 };
-export const UpdateStatusVoucherByID = (voucherID, newStatus) => {
-  return customAxios.put(`api/Vouchers/Updatevoucherstatus?id=${voucherID}`, {
-    status: newStatus,
-  });
+export const DeleteVoucherByID = (voucherID) => {
+  return customAxios.delete(`api/Promotion/${voucherID}`);
 };
 export const GetbyCourtID = (courtID) => {
   return customAxios.get(`api/Court/${courtID}`);
@@ -169,6 +174,7 @@ export {
   GetAllAccounts,
   GetCurrentUser,
   DeleteAccount,
+  UpdateRole,
   UpdateStatus,
   GetAllBookings,
   GetAllVoucher,

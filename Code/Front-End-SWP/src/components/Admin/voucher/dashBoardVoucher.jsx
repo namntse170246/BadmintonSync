@@ -19,11 +19,10 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import CreateVoucher from "./CreateVoucher";
 import { GetAllVoucher } from "../../API/APIConfigure";
-import UpdateStatusVoucher from "./updateStatusVoucher";
+import DeleteVoucher from "./DeleteVoucher";
 
 const Dashboard = () => {
   const [voucher, setVoucher] = useState([]);
-  const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,7 +54,8 @@ const Dashboard = () => {
   const fetchVouchers = async () => {
     try {
       const response = await GetAllVoucher();
-      setVoucher(Array.isArray(response.data) ? response.data : []);
+      console.log('Fetched vouchers:', response); // Debug log
+      setVoucher(Array.isArray(response) ? response : []);
     } catch (err) {
       setVoucher([]);
       console.error(err);
@@ -64,39 +64,28 @@ const Dashboard = () => {
 
   const filteredVouchers = voucher.filter((v) => {
     if (
-      selectedStatusFilter !== "all" &&
-      v.status !== selectedStatusFilter
-    ) {
-      return false;
-    }
-    if (
       searchTerm &&
-      v.promotionName &&
-      !v.promotionName.toLowerCase().includes(searchTerm.toLowerCase())
+      v.promotionCode &&
+      !v.promotionCode.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
       return false;
     }
     return true;
   });
 
+  console.log('Filtered vouchers:', filteredVouchers); // Debug log
+
   const slicedVouchers = filteredVouchers.slice(
     page * rowsPerPage,
     (page + 1) * rowsPerPage
   );
 
+  console.log('Sliced vouchers:', slicedVouchers); // Debug log
+
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
         <div className="main">
-          <Select
-            value={selectedStatusFilter}
-            onChange={(e) => setSelectedStatusFilter(e.target.value)}
-            style={{ marginTop: "30px" }}
-          >
-            <MenuItem value="all">Tất cả</MenuItem>
-            <MenuItem value={true}>Hoạt động</MenuItem>
-            <MenuItem value={false}>Vô Hiệu Hóa</MenuItem>
-          </Select>
           <TextField
             label="Tìm kiếm"
             value={searchTerm}
@@ -167,7 +156,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Tên khuyến mãi
+                    Tên mã
                   </TableCell>
                   <TableCell
                     style={{
@@ -220,13 +209,13 @@ const Dashboard = () => {
                 {slicedVouchers.map((v) => (
                   <TableRow key={v.promotionId}>
                     <TableCell style={{ fontSize: "13px" }} align="center">
-                      {v.promotionName}
+                      {v.promotionCode}
                     </TableCell>
                     <TableCell style={{ fontSize: "13px" }} align="center">
                       {v.description}
                     </TableCell>
                     <TableCell style={{ fontSize: "13px" }} align="center">
-                      {v.discountPercentage}%
+                      {v.percentage}%
                     </TableCell>
                     <TableCell
                       style={{
@@ -253,9 +242,9 @@ const Dashboard = () => {
                       })}
                     </TableCell>
                     <TableCell align="center">
-                      <UpdateStatusVoucher
+                      <DeleteVoucher
                         voucherId={v.promotionId}
-                        currentStatus={v.status}
+                        fetchVouchers={fetchVouchers}
                       />
                     </TableCell>
                   </TableRow>

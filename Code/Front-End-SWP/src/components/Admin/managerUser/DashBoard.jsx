@@ -7,23 +7,34 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
-import EditIcon from "@mui/icons-material/Edit";
 import { MenuItem, Select, TextField } from "@mui/material";
 
-import PopupStatus from "./PopupStatus";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-import { GetAllAccounts, UpdateStatus } from "../../API/APIConfigure";
+import { GetAllAccounts, UpdateRole } from "../../API/APIConfigure";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [page, setPage] = React.useState(0);
-  const [searchTerm, setSearchTerm] = React.useState("");
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await GetAllAccounts();
+      console.log(response.data);
+      setUsers(response.data);
+    } catch (err) {
+      setUsers([]);
+      console.error(err);
+    }
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -34,54 +45,26 @@ const Dashboard = () => {
     setPage(0);
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  const handleRoleChange = async (userName, newRole) => {
     try {
-      const response = await GetAllAccounts();
-      setUsers(response.data);
-    } catch (err) {
-      setUsers([]);
-      console.error(err);
-    }
-  };
-
-  const handleClickOpen = (user) => {
-    setOpen(true);
-    setCurrentUserId(user);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleUpdateStatus = async (newStatus) => {
-    try {
-      await UpdateStatus(currentUserId.userId, newStatus);
+      console.log(userName, newRole);
+      await UpdateRole(userName, newRole);
       fetchUsers();
-      toast.success("Cập nhật thành công!");
+      toast.success("Role updated successfully!");
     } catch (err) {
-      toast.error("Cập nhật thất bại!");
+      toast.error("Failed to update role!");
       console.error(err);
     }
-    handleClose();
   };
 
   const filteredStatus = users.filter((user) => {
     // Filter by roleType
-    if (
-      selectedStatusFilter !== "all" &&
-      user.roleType !== selectedStatusFilter
-    ) {
+    if (selectedStatusFilter !== "all" && user.roleType !== selectedStatusFilter) {
       return false;
     }
 
     // Filter by username
-    if (
-      searchTerm &&
-      !user.userName.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
+    if (searchTerm && !user.userName.toLowerCase().includes(searchTerm.toLowerCase())) {
       return false;
     }
 
@@ -166,14 +149,6 @@ const Dashboard = () => {
                   >
                     Role
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
-                    Action
-                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -189,24 +164,17 @@ const Dashboard = () => {
                     <TableCell style={{ fontSize: "13px" }} align="center">
                       {user.phone}
                     </TableCell>
-                    <TableCell
-                      style={{
-                        fontSize: "15px",
-                        fontWeight: "bold",
-                      }}
-                      align="center"
-                    >
-                      {user.roleType}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Button
-                        variant="outlined"
-                        color="success"
-                        className="edit-btn"
-                        onClick={() => handleClickOpen(user)}
+                    <TableCell style={{ fontSize: "13px" }} align="center">
+                      <Select
+                        value={user.roleType}
+                        onChange={(e) => handleRoleChange(user.userName, e.target.value)}
+                        style={{ minWidth: 120 }}
                       >
-                        <EditIcon sx={{ fontSize: 25 }} />
-                      </Button>
+                        <MenuItem value="Administrator">Administrator</MenuItem>
+                        <MenuItem value="User">User</MenuItem>
+                        <MenuItem value="Manager">Manager</MenuItem>
+                        <MenuItem value="Staff">Staff</MenuItem>
+                      </Select>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -222,12 +190,6 @@ const Dashboard = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </TableContainer>
-          <PopupStatus
-            open={open}
-            handleClose={handleClose}
-            handleUpdateStatus={handleUpdateStatus}
-            currentUserId={currentUserId}
-          />
         </div>
       </Box>
     </Box>
