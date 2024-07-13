@@ -1,36 +1,48 @@
+.bookingSummary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  background-color: #b4e4fe;
+  border-radius: 20px;
+}
+.bookingSummary h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.bookingSummary h2 {
+  font-size: 17px;
+  margin-bottom: 10px;
+  color: #707d84;
+}
+.bookingInfo {
+  display: flex;
+  flex-direction: column;
+}
+.bookingInfo h2 {
+  color: #707d84;
+  font-size: 17px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+.bookingInfo h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .checkout_Wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  width: 800px;
-  margin: 0 auto;
-}
-.checkoutCard {
-  border-radius: 30px;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
-    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
-  padding: 40px;
-  width: 100%;
-}
-.paymentConfirm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  width: 800px;
-  margin: 0 auto;
+  margin-left: 400px;
+  margin-right: 400px;
+  margin-top: 20px;
 }
 .Cancel-booking button {
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  border: none;
-  background-color: #0071c2;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: rgb(242, 65, 65);
   color: white;
-  font-size: 20px;
-  font-weight: 500;
-  cursor: pointer;
 }

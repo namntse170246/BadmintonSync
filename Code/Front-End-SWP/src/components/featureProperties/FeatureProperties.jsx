@@ -40,7 +40,7 @@ function FeatureProperties() {
   }, []);
 
   // Chỉ hiển thị 4 card đầu tiên nếu có nhiều hơn
-  const displayedProperties = featureProperties.slice(0, 5);
+  const displayedProperties = featureProperties.slice(-5);
 
   return (
     <div className="fp">
@@ -54,10 +54,7 @@ function FeatureProperties() {
 
         return (
           <div className="fpItem" key={index}>
-            <button
-              className="fpBtn"
-              onClick={() => handleViewCourt(property.courtId)}
-            >
+            <button className="fpBtn">
               <img
                 src={fullImageUrl}
                 alt={property.courtName}
