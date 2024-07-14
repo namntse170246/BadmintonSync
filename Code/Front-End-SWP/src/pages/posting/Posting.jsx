@@ -5,6 +5,7 @@ import {
   CreatePayment,
   GetAllTimeSlot,
   GetVoucherByCode,
+  GetBookedCourts, // Import the function to fetch booked courts
 } from "../../components/API/APIConfigure";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
@@ -17,6 +18,7 @@ const Posting = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [subCourts, setSubCourts] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
+  const [bookedCourts, setBookedCourts] = useState([]); // State to store booked courts
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [selectedCourt, setSelectedCourt] = useState("");
@@ -37,7 +39,6 @@ const Posting = () => {
         setSubCourts(subCourtResponse);
         const timeSlotResponse = await GetAllTimeSlot();
         setTimeSlots(timeSlotResponse.data);
-        console.log(timeSlots);
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -45,6 +46,24 @@ const Posting = () => {
 
     fetchSubCourtsAndTimeSlots();
   }, [id]);
+
+  useEffect(() => {
+    const fetchBookedCourts = async () => {
+      if (selectedDate && selectedTimeSlot) {
+        try {
+          const response = await GetBookedCourts(
+            selectedDate,
+            selectedTimeSlot
+          );
+          setBookedCourts(response.data);
+        } catch (error) {
+          console.error("Error fetching booked courts", error);
+        }
+      }
+    };
+
+    fetchBookedCourts();
+  }, [selectedDate, selectedTimeSlot]);
 
   const handleVoucherChange = (event) => {
     setVoucherData(null);
@@ -56,12 +75,9 @@ const Posting = () => {
 
   const handleAddVoucher = async () => {
     try {
-      console.log(voucher);
       const response = await GetVoucherByCode(voucher);
-      console.log(response);
       if (response.success && response.statusCode === 0) {
         setVoucherData(response.data);
-        console.log("Voucher: ", voucherData);
       } else {
         toast.error("Invalid voucher code");
       }
@@ -74,7 +90,7 @@ const Posting = () => {
     if (voucherData) {
       const { percentage } = voucherData;
       if (!voucherApplied) {
-        toast.success("Voucher applied Successful");
+        toast.success("Voucher applied Successfully");
         setDiscount(percentage);
         setVoucherApplied(true);
         setTotalFinal(total - (total * percentage) / 100);
@@ -94,11 +110,8 @@ const Posting = () => {
       amount: totalFinal,
     };
 
-    console.log(updatedBookingData);
-
     try {
       const response = await CreateBooking(updatedBookingData);
-      console.log(response);
       const paymentData = {
         memberId: userInfo.id,
         money: totalFinal,
@@ -128,7 +141,6 @@ const Posting = () => {
 
   const handleTimeSlotChange = (event) => {
     setSelectedTimeSlot(event.target.value);
-    console.log(selectedTimeSlot);
   };
 
   const handleCourtSelection = (courtId, price) => {
@@ -136,6 +148,28 @@ const Posting = () => {
     setTotal(price);
     setTotalFinal(price - (price / 100) * discount);
   };
+
+  const getTimeSlotString = (timeSlotId) => {
+    switch (parseInt(timeSlotId)) {
+      case 1:
+        return "5:00 to 7:00";
+      case 2:
+        return "7:00 to 9:00";
+      case 3:
+        return "9:00 to 11:00";
+      case 4:
+        return "13:00 to 15:00";
+      case 5:
+        return "15:00 to 17:00";
+      case 6:
+        return "17:00 to 19:00";
+      case 7:
+        return "19:00 to 21:00";
+      default:
+        return "";
+    }
+  };
+
   const firstImageUrl = CourtInfo.image
     ? CourtInfo.image.split(",")[0].trim()
     : "";
@@ -189,6 +223,13 @@ const Posting = () => {
                 .filter(
                   (court) => court.timeSlotId.toString() === selectedTimeSlot
                 )
+                .filter(
+                  (court) =>
+                    !bookedCourts.some(
+                      (bookedCourt) =>
+                        bookedCourt.subCourtId === court.subCourtId
+                    )
+                )
                 .map((court) => (
                   <div key={court.subCourtId} className="court-option">
                     <p>{court.name}</p>
@@ -226,12 +267,12 @@ const Posting = () => {
             </div>
             <img
               className="img-fluid"
-              src={`https://localhost:7155/Uploads/${firstImageUrl}`}
+              src={`https://duynhon2106-001-site1.dtempurl.com/Uploads/${firstImageUrl}`}
               alt={CourtInfo.courtName}
             />
           </div>
           <p>Date: {selectedDate}</p>
-          <p>Time: {selectedTimeSlot}</p>
+          <p>Time: {getTimeSlotString(selectedTimeSlot)}</p>
           <p>
             Court:{" "}
             {
