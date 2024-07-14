@@ -29,7 +29,7 @@ const DeleteAccount = (userID) => {
 const UpdateRole = (userName, newRole) => {
   return customAxios.put(`api/User/EditRole`, {
     userName: userName,
-    roleType: newRole
+    roleType: newRole,
   });
 };
 
@@ -52,6 +52,13 @@ export const UpdatePasswordByID = (userID, newPassword) => {
 const GetAllBookings = () => {
   return customAxios.get(`api/Booking`);
 };
+
+const GetBookedSubCourts = (date, timeslotId) => {
+  return customAxios.get(
+    `api/Booking/byDateAndTimeSlot?date=${date}&timeSlotId=${timeslotId}`
+  );
+};
+
 const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);
 };
@@ -114,7 +121,6 @@ const CreateBooking = (data) => {
 export const DeleteBookingById = (id) => {
   return customAxios.delete(`api/Booking/${id}`);
 };
-
 
 export const UpdateRealestateStatus = (realID, newStatus) => {
   return customAxios.put(`API/Realestates/UpdateRealestateSta?id=${realID}`, {
@@ -197,6 +203,7 @@ export {
   UpdateRole,
   UpdateStatus,
   GetAllBookings,
+  GetBookedSubCourts,
   GetAllVoucher,
   GetVoucherByCode,
   GetAllFeedback,

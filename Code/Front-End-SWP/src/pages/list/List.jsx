@@ -49,7 +49,7 @@ const List = () => {
     const storedSearchTerm = localStorage.getItem("searchkey");
     if (storedSearchTerm) {
       const searchTerm = JSON.parse(storedSearchTerm);
-      setSearchValue(searchTerm.location);
+      setSearchValue(searchTerm.searchValue);
       setIsSearchValueLoaded(true);
     }
     getData();
@@ -77,13 +77,17 @@ const List = () => {
         throw new Error("Network response was not ok");
       }
 
-      const normalizedDestination = keepDiacritics(searchValue.toLowerCase());
+      const normalizedSearchValue = keepDiacritics(searchValue.toLowerCase());
       const filteredResults = response.data.filter((item) => {
         return (
-          item.location &&
-          keepDiacritics(item.location.toLowerCase()).includes(
-            normalizedDestination
-          )
+          (item.courtName &&
+            keepDiacritics(item.courtName.toLowerCase()).includes(
+              normalizedSearchValue
+            )) ||
+          (item.location &&
+            keepDiacritics(item.location.toLowerCase()).includes(
+              normalizedSearchValue
+            ))
         );
       });
 
@@ -101,7 +105,7 @@ const List = () => {
   const handleSearch = (searchValue) => {
     setShowLoadingPage(true);
     const searchTerm = {
-      location: searchValue,
+      searchValue: searchValue,
     };
     localStorage.setItem("searchkey", JSON.stringify(searchTerm));
     setSearchValue(searchValue);

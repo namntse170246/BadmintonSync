@@ -22,7 +22,8 @@ import { GetbyCourtID } from "../../components/API/APIConfigure";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FeedBack from "../../components/User/Feedback/Feedback";
 import Modal from "react-modal";
-
+import { useAuth } from "../../hook/AuthContext";
+import Swal from "sweetalert2";
 Modal.setAppElement("#root");
 
 const Court = () => {
@@ -33,7 +34,33 @@ const Court = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  const navigate = useNavigate;
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  const [userLoggedIn, setUserLoggedIn] = useState(isLoggedIn);
+
+  useEffect(() => {
+    setUserLoggedIn(isLoggedIn);
+  }, [isLoggedIn]);
+
+  const handleBookingClick = (e) => {
+    console.log("Check Login");
+    if (!userLoggedIn) {
+      e.preventDefault();
+      Swal.fire({
+        icon: "error",
+        title: "You need login to book court!",
+        showConfirmButton: true,
+        confirmButtonText: "Login",
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login-register");
+        }
+      });
+      console.log("Bạn cần Login để xem Hotels.");
+    }
+  };
 
   const PolicyClick = () => {
     setShowPopup(true);
@@ -247,12 +274,17 @@ const Court = () => {
             </div>
 
             <button className="bookNow">
-              <Link to={`/booking/${data.courtId}`}>Booking</Link>
+              <Link
+                to={`/booking/${data.courtId}`}
+                onClick={handleBookingClick}
+              >
+                Booking
+              </Link>
             </button>
-            <FeedBack courtId={id} />
+            <FeedBack courtId={data.courtId} />
           </div>
         )}
-        <FeatureProperties />
+        <FeatureProperties excludeId={id} />
         <MailList />
         <Footer />
       </div>

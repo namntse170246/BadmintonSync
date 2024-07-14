@@ -5,7 +5,7 @@ import {
   CreatePayment,
   GetAllTimeSlot,
   GetVoucherByCode,
-  GetBookedCourts, // Import the function to fetch booked courts
+  GetBookedSubCourts, // Import the function to fetch booked courts
 } from "../../components/API/APIConfigure";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
@@ -18,7 +18,7 @@ const Posting = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [subCourts, setSubCourts] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [bookedCourts, setBookedCourts] = useState([]); // State to store booked courts
+  const [BookedSubCourts, setBookedSubCourts] = useState([]); // State to store booked courts
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [selectedCourt, setSelectedCourt] = useState("");
@@ -48,21 +48,27 @@ const Posting = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchBookedCourts = async () => {
+    const fetchBookedSubCourts = async () => {
       if (selectedDate && selectedTimeSlot) {
         try {
-          const response = await GetBookedCourts(
+          console.log(selectedDate, selectedTimeSlot);
+          const response = await GetBookedSubCourts(
             selectedDate,
             selectedTimeSlot
           );
-          setBookedCourts(response.data);
+          console.log(response);
+          if (response.success && response.data) {
+            setBookedSubCourts(response.data);
+          } else {
+            setBookedSubCourts([]); // Reset booked courts to empty array if no data found
+          }
         } catch (error) {
           console.error("Error fetching booked courts", error);
         }
       }
     };
 
-    fetchBookedCourts();
+    fetchBookedSubCourts();
   }, [selectedDate, selectedTimeSlot]);
 
   const handleVoucherChange = (event) => {
@@ -219,41 +225,43 @@ const Posting = () => {
 
             <div className="form-section court-list">
               <label htmlFor="court">Select your preferred court(s)</label>
-              {subCourts
-                .filter(
-                  (court) => court.timeSlotId.toString() === selectedTimeSlot
-                )
-                .filter(
-                  (court) =>
-                    !bookedCourts.some(
-                      (bookedCourt) =>
-                        bookedCourt.subCourtId === court.subCourtId
-                    )
-                )
-                .map((court) => (
-                  <div key={court.subCourtId} className="court-option">
-                    <p>{court.name}</p>
-                    <p>{court.pricePerHour}$</p>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleCourtSelection(
-                          court.subCourtId,
-                          court.pricePerHour
-                        )
-                      }
-                      className={`btn ${
-                        selectedCourt === court.subCourtId
-                          ? "btn-primary"
-                          : "btn-secondary"
-                      }`}
-                    >
-                      {selectedCourt === court.subCourtId
-                        ? "Added to Cart"
-                        : "Add to Cart"}
-                    </button>
-                  </div>
-                ))}
+              {selectedTimeSlot &&
+                selectedDate &&
+                subCourts
+                  .filter(
+                    (court) => court.timeSlotId.toString() === selectedTimeSlot
+                  )
+                  .filter(
+                    (court) =>
+                      !BookedSubCourts.some(
+                        (bookedCourt) =>
+                          bookedCourt.subCourtId === court.subCourtId
+                      )
+                  )
+                  .map((court) => (
+                    <div key={court.subCourtId} className="court-option">
+                      <p>{court.name}</p>
+                      <p>{court.pricePerHour}$</p>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleCourtSelection(
+                            court.subCourtId,
+                            court.pricePerHour
+                          )
+                        }
+                        className={`btn ${
+                          selectedCourt === court.subCourtId
+                            ? "btn-primary"
+                            : "btn-secondary"
+                        }`}
+                      >
+                        {selectedCourt === court.subCourtId
+                          ? "Added to Cart"
+                          : "Add to Cart"}
+                      </button>
+                    </div>
+                  ))}
             </div>
           </form>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import Swal from "sweetalert2";
@@ -29,14 +29,29 @@ const SearchItem = ({ searchResult }) => {
     }
   };
 
-  const handleBookingCourt = async (courtId) => {
-    try {
-      const response = await GetbyCourtID(courtId);
-      const courtDetails = response.data;
-      localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
-      navigate(`/booking/${courtId}`);
-    } catch (error) {
-      console.error("Error fetching court details", error);
+  const handleBookingClick = async (courtId) => {
+    if (userLoggedIn) {
+      try {
+        const response = await GetbyCourtID(courtId);
+        const courtDetails = response.data;
+        localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
+        navigate(`/booking/${courtId}`);
+      } catch (error) {
+        console.error("Error fetching court details", error);
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Please login to book court!",
+        showConfirmButton: true,
+        confirmButtonText: "Login",
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login-register");
+        }
+      });
     }
   };
 
@@ -64,7 +79,6 @@ const SearchItem = ({ searchResult }) => {
             </div>
           </div>
           <div className="Booking-Area">
-            {/* <p>Booking</p> */}
             <div className="button">
               <button
                 onClick={() => handleViewCourt(court.courtId)}
@@ -73,7 +87,7 @@ const SearchItem = ({ searchResult }) => {
                 View
               </button>
               <button
-                onClick={() => handleBookingCourt(court.courtId)}
+                onClick={() => handleBookingClick(court.courtId)}
                 className="btn-view-details"
               >
                 Booking
