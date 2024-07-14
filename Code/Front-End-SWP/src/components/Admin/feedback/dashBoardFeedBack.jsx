@@ -20,6 +20,7 @@ import {
   GetUserByID,
   GetbyCourtID,
 } from "../../API/APIConfigure";
+import "./dashboard.css"; // Import the CSS file
 
 const Dashboard = () => {
   const [feedback, setFeedback] = useState([]);
@@ -60,7 +61,6 @@ const Dashboard = () => {
           }));
         } catch (error) {
           console.error("Failed to fetch user details", error);
-          toast.error(`Failed to fetch user details for ID: ${id}`);
         }
       }
     };
@@ -84,7 +84,6 @@ const Dashboard = () => {
           }));
         } catch (error) {
           console.error("Failed to fetch real details", error);
-          toast.error(`Failed to fetch real details for ID: ${id}`);
         }
       }
     };
@@ -152,7 +151,7 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
+                  align="left"
                 >
                   Username
                 </TableCell>
@@ -161,7 +160,7 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
+                  align="left"
                 >
                   Court
                 </TableCell>
@@ -170,7 +169,7 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
+                  align="left"
                 >
                   Feedback
                 </TableCell>
@@ -179,7 +178,7 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
+                  align="left"
                 >
                   Rating
                 </TableCell>
@@ -188,14 +187,16 @@ const Dashboard = () => {
             <TableBody>
               {slicedFeedback.map((item) => (
                 <TableRow key={item.evaluateId}>
-                  <TableCell align="center">
+                  <TableCell align="left" className="align-left">
                     {userDetails[item.userId] || item.userId}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left" className="align-left">
                     {realEstateDetails[item.courtId] || item.courtId}
                   </TableCell>
-                  <TableCell align="center">{item.comment}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left" className="align-left">
+                    {item.comment}
+                  </TableCell>
+                  <TableCell align="left" className="align-left">
                     <StarRatings
                       rating={item.rating}
                       starDimension="20px"

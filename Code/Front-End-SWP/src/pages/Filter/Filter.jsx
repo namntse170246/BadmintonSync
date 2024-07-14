@@ -1,106 +1,111 @@
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import React, { useState, useEffect, useRef } from "react";
+import { GetAllCourts } from "../../components/API/APIConfigure";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import "./Filter.css";
-import { useRef } from "react";
 
-const Filter = ({
-  dropdownRef,
-  dateDropdownRef,
-  toggleDropdown,
-  dateDropdown,
-  startDate,
-  endDate,
-  setStartDate,
-  setEndDate,
-}) => {
-  const datePickerRef = useRef(null);
-  const handleChange = (dates) => {
-    const [start, end] = dates;
-    if (start && end && start.getTime() === end.getTime()) {
-      const newEndDate = new Date(start);
-      newEndDate.setDate(newEndDate.getDate() + 1);
-      setEndDate(newEndDate);
-    } else {
-      setStartDate(start);
-      setEndDate(end);
+// List of districts in Ho Chi Minh City
+const districts = [
+  "Quận 1",
+  "Quận 2",
+  "Quận 3",
+  "Quận 4",
+  "Quận 5",
+  "Quận 6",
+  "Quận 7",
+  "Quận 8",
+  "Quận 9",
+  "Quận 10",
+  "Quận 11",
+  "Quận 12",
+  "Bình Tân",
+  "Bình Thạnh",
+  "Gò Vấp",
+  "Phú Nhuận",
+  "Tân Bình",
+  "Tân Phú",
+  "Thủ Đức",
+];
+
+const Filter = ({ setSearchResult, setShowLoadingPage }) => {
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [items, setItems] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  const getData = async () => {
+    try {
+      setShowLoadingPage(true);
+      const response = await GetAllCourts();
+      if (!response || !response.data) {
+        throw new Error("Network response was not ok");
+      }
+
+      setItems(response.data); // Save all data from API to items state
+      setSearchResult(response.data); // Pass all data to List
+      setShowLoadingPage(false);
+    } catch (error) {
+      console.log(error);
+      setShowLoadingPage(false);
     }
   };
-  const handleButtonClick = () => {
-    datePickerRef.current.setOpen(true);
-    toggleDropdown("date");
+
+  const handleFilterChange = (district) => {
+    setSelectedDistrict(district);
+
+    if (district) {
+      const filtered = items.filter((item) =>
+        item.location.split(", ").includes(district)
+      );
+      setSearchResult(filtered); // Pass filtered results to List
+    } else {
+      setSearchResult(items);
+    }
+
+    setDropdownOpen(false);
   };
+
   return (
-    <div className="top-0 sticky z-20 transition-transform durian-400 transform  search-form_condition px-5 ">
-      <div>
-        <div className="fresnel-container">
-          <div className="mx-auto wrapper-default rep-diverse">
-            <div className="RefinementRow_placeholder ">
-              <div className="RowItems_itemList">
-                <div className="RowItems_dateFilter">
-                  <div className="RefinementRowElement" ref={dateDropdownRef}>
-                    <button
-                      className="RefinementRowElement_RowBtn"
-                      onClick={handleButtonClick}
-                    >
-                      <strong className="RefinementRowElement_titleItem block">
-                        Date
-                      </strong>
-                      <span
-                        className={`RefinementRowElement_optionItem ${
-                          dateDropdown ? "border-blue-700" : "border-grey-300"
-                        }`}
-                      >
-                        <span className="truncate w-full lsItem flex items-center">
-                          <span></span>
-                          <FontAwesomeIcon
-                            icon={faCalendarDays}
-                            className="headerIcon"
-                          />
-                          <DatePicker
-                            ref={datePickerRef}
-                            selectsRange
-                            startDate={startDate}
-                            endDate={endDate}
-                            onChange={handleChange}
-                            placeholderText="MM/DD/YYYY - MM/DD/YYYY"
-                            dateFormat="MM/dd/yyyy"
-                            isClearable
-                            className="date-input-range"
-                          />
-                        </span>
-                        <span className="optionItem_plus rotate-90 transform">
-                          <KeyboardArrowDownIcon />
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                {/* Remove additional filters if not needed */}
-                {/* <div className="RowItems_rowItem">
-                  <div className="RefinementRowElement">
-                    <button className="RefinementRowElement_RowBtn">
-                      <strong className="RefinementRowElement_titleItem block">
-                        Filter
-                      </strong>
-                      <span className="RefinementRowElement_optionItem border-grey-300">
-                        <span className="truncate w-full">
-                          <span></span>
-                          <span>Select</span>
-                        </span>
-                        <span className="optionItem_plus rotate-90 transform">
-                          <KeyboardArrowDownIcon />
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                </div> */}
-              </div>
+    <div className="filter-container" ref={dropdownRef}>
+      <label className="filter-label">Select District:</label>
+      <div className="dropdown" onClick={() => setDropdownOpen(!dropdownOpen)}>
+        <div className="dropdown-selected">{selectedDistrict || "All"}</div>
+        {dropdownOpen && (
+          <div className="dropdown-menu">
+            <div
+              className="dropdown-item"
+              onClick={() => handleFilterChange("")}
+            >
+              All
             </div>
+            {districts.map((district) => (
+              <div
+                key={district}
+                className="dropdown-item"
+                onClick={() => handleFilterChange(district)}
+              >
+                <FontAwesomeIcon icon={faLocationDot} /> {district}
+              </div>
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

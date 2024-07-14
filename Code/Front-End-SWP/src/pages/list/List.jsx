@@ -122,16 +122,10 @@ const List = () => {
         searchValue={searchValue}
         setSearchValue={setSearchValue}
       />
-      {/* <Filter
-        dropdownRef={dropdownRef}
-        dateDropdownRef={dateDropdownRef}
-        dateDropdown={dateDropdown}
-        toggleDropdown={toggleDropdown}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-      /> */}
+      <Filter
+        setSearchResult={setSearchResult}
+        setShowLoadingPage={setShowLoadingPage}
+      />
       {showLoadingPage ? (
         <LoadingPage />
       ) : (

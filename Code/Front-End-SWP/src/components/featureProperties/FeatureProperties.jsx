@@ -54,17 +54,22 @@ function FeatureProperties() {
 
         return (
           <div className="fpItem" key={index}>
-            <button className="fpBtn">
+            <button
+              className="fpBtn"
+              onClick={() => handleViewCourt(property.courtId)}
+            >
               <img
                 src={fullImageUrl}
                 alt={property.courtName}
                 className="fpImg"
               />
-              <span className="fpName">{property.courtName}</span>
-              <br />
-              <span className="fpPhone">{property.phone}</span>
-              <br />
-              <span className="fpCity">{property.location}</span>
+              <div className="fpDesc">
+                <span className="fpName">{property.courtName}</span>
+                <br />
+                <span className="fpPhone">{property.phone}</span>
+                <br />
+                <span className="fpCity">{property.location}</span>
+              </div>
             </button>
           </div>
         );

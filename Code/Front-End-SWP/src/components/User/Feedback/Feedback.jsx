@@ -46,7 +46,6 @@ const Feedback = ({ courtId }) => {
         }));
       } catch (error) {
         console.error("Failed to fetch user details", error);
-        toast.error(`Failed to fetch user details for ID: ${id}`);
       }
     });
   };

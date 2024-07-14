@@ -1,6 +1,7 @@
 .fp {
   width: 100%;
   display: flex;
+
   justify-content: space-between;
   gap: 20px;
 }
@@ -18,6 +19,11 @@
   height: 240px;
   object-fit: cover;
   border-radius: 10px;
+}
+.fpDesc span {
+  display: flex;
+  justify-content: left;
+  text-align: left;
 }
 
 .fpName {

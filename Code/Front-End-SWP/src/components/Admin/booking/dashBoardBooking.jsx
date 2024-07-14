@@ -19,7 +19,11 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { GetAllBookings, GetUserByID, UpdateBookingStatus } from "../../API/APIConfigure";
+import {
+  GetAllBookings,
+  GetUserByID,
+  UpdateBookingStatus,
+} from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -61,7 +65,6 @@ const Dashboard = () => {
           }
         } catch (err) {
           console.error(err);
-          toast.error(`Failed to fetch user details for userId: ${id}`);
         }
       }
     }
@@ -262,7 +265,10 @@ const Dashboard = () => {
                           <Select
                             value={booking.status}
                             onChange={(e) =>
-                              handleStatusChange(booking.bookingId, e.target.value)
+                              handleStatusChange(
+                                booking.bookingId,
+                                e.target.value
+                              )
                             }
                             style={{ color: statusColors[booking.status] }}
                           >

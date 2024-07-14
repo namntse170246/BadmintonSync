@@ -24,7 +24,7 @@ const Search = ({ onSearch, searchValue, setSearchValue }) => {
             <SearchIcon />
             <div className="input-wrapper">
               <input
-                placeholder="Searching for a place you want to play now?"
+                placeholder="Searching for a place or court you want to play now?"
                 type="text"
                 value={searchValue}
                 className="bs-tit-desktop bs-info-desktop"
