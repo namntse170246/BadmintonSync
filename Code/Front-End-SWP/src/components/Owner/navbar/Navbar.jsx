@@ -53,7 +53,7 @@ export default function Navbar() {
   };
 
   const handleAccount = () => {
-    navigate("/admin/account");
+    navigate("/owner/account");
   };
 
   const handleLogout = async () => {
@@ -175,7 +175,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Admin
+            Owner
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />

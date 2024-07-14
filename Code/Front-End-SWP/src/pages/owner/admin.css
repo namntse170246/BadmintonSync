@@ -1,0 +1,25 @@
+.adminContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.adminTableBooking {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+.adminBooking {
+  width: 500px;
+}
+.adminChart {
+  width: 400px;
+}

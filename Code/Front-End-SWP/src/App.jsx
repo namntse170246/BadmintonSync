@@ -2,20 +2,33 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
 import Court from "./pages/court/Court";
+import Form from "./pages/form/Form";
+import OTPVerification from "./pages/form/OTPVerification";
+import UserPage from "./pages/user/userPage";
+import Trade from "./pages/admin/Trade";
 import Admin from "./pages/admin/Admin";
 import About from "./pages/admin/About";
 import User from "./pages/admin/User";
 import Account from "./pages/admin/Account";
 import Wallet from "./pages/admin/Wallet";
 import Feedback from "./pages/admin/Feedback";
-import Trade from "./pages/admin/Trade";
-import Form from "./pages/form/Form";
-import OTPVerification from "./pages/form/OTPVerification";
-import UserPage from "./pages/user/userPage";
 import Booking from "./pages/admin/Booking";
 import Voucher from "./pages/admin/Voucher";
+import DetailsBooking from "./pages/admin/DetailsBooking";
 import Realestates from "./pages/admin/Realestates";
 import SubCourts from "./pages/admin/SubCourts";
+import OwnerTrade from "./pages/owner/Trade";
+import OwnerAdmin from "./pages/owner/Admin";
+import OwnerAbout from "./pages/owner/About";
+// import OwnerUser from "./pages/owner/User";
+import OwnerAccount from "./pages/owner/Account";
+import OwnerWallet from "./pages/owner/Wallet";
+import OwnerFeedback from "./pages/owner/Feedback";
+import OwnerBooking from "./pages/owner/Booking";
+import OwnerVoucher from "./pages/owner/Voucher";
+import OwnerDetailsBooking from "./pages/owner/DetailsBooking";
+import OwnerCourts from "./pages/owner/Realestates";
+import OwnerSubCourts from "./pages/owner/SubCourts";
 import ErrorPage from "./pages/ErrorPage";
 import Posting from "./pages/posting/Posting";
 import CheckOut from "./pages/user/CheckOut";
@@ -23,7 +36,6 @@ import PaymentResults from "./pages/user/PaymentResult";
 import TradeTimeShare from "./pages/trade/TradeTimeShare";
 import ConfirmTrade from "./pages/trade/ConfirmTrade";
 import DetailsTrade from "./pages/trade/DetailsTrade";
-import DetailsBooking from "./pages/admin/DetailsBooking";
 import Premium from "./pages/user/Premium";
 import LoadingPage from "./components/LoadingPage/LoadingPage";
 import { useEffect } from "react";
@@ -32,6 +44,12 @@ const AdminWrapper = ({ children }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const isAdmin = userInfo?.role === "Administrator";
   return isAdmin ? children : <ErrorPage />;
+};
+
+const OwnerWrapper = ({ children }) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const isOwner = userInfo?.role === "Manager";
+  return isOwner ? children : <ErrorPage />;
 };
 
 const UserWrapper = ({ children }) => {
@@ -64,6 +82,7 @@ function App() {
       {/* <Route path="/timeshare/:id" element={<Timeshare />} /> */}
       <Route path="/booking/:id" element={<Posting />} />
       <Route path="/api/payment/vnpay-return" element={<PaymentResults />} />
+      {/* User */}
       <Route
         path="/user/*"
         element={
@@ -96,6 +115,7 @@ function App() {
           </UserWrapper>
         }
       />
+    {/* Trade */}
       <Route
         path="/trade/:id"
         element={
@@ -223,6 +243,103 @@ function App() {
           <AdminWrapper>
             <SubCourts />
           </AdminWrapper>
+        }
+      />
+      {/* Owner */}
+      <Route
+        path="/owner/trade"
+        element={
+          <OwnerWrapper>
+            <OwnerTrade />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner"
+        element={
+          <OwnerWrapper>
+            <OwnerAdmin />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/about"
+        element={
+          <OwnerWrapper>
+            <OwnerAbout />
+          </OwnerWrapper>
+        }
+      />
+      {/* <Route
+        path="/owner/user"
+        element={
+          <OwnerWrapper>
+            <OwnerUser />
+          </OwnerWrapper>
+        }
+      /> */}
+      <Route
+        path="/owner/account"
+        element={
+          <OwnerWrapper>
+            <OwnerAccount />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/wallet"
+        element={
+          <OwnerWrapper>
+            <OwnerWallet />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/feedback"
+        element={
+          <OwnerWrapper>
+            <OwnerFeedback />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/booking"
+        element={
+          <OwnerWrapper>
+            <OwnerBooking />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/booking/details/:id"
+        element={
+          <OwnerWrapper>
+            <OwnerDetailsBooking />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/voucher"
+        element={
+          <OwnerWrapper>
+            <OwnerVoucher />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/courts"
+        element={
+          <OwnerWrapper>
+            <OwnerCourts />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/subCourts"
+        element={
+          <OwnerWrapper>
+            <OwnerSubCourts />
+          </OwnerWrapper>
         }
       />
     </Routes>
