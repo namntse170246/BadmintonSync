@@ -18,6 +18,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CategoryIcon from "@mui/icons-material/Category";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import ChecklistIcon from "@mui/icons-material/Checklist";
 // import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import AddCardIcon from "@mui/icons-material/AddCard";
@@ -198,7 +199,10 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </MapIcon>
-              <ListItemText primary="SubCourts" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText
+                primary="SubCourts"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem
@@ -335,6 +339,32 @@ export default function Sidebar() {
                 <InboxIcon />
               </FeedbackIcon>
               <ListItemText primary="Feedback" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => {
+              navigate("/owner/checkin");
+            }}
+          >
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ChecklistIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <InboxIcon />
+              </ChecklistIcon>
+              <ListItemText primary="Checkin" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         </List>

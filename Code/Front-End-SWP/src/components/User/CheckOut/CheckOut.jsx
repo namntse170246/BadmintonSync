@@ -9,7 +9,7 @@ import {
   GetAllBookingsByID,
   GetbyCourtID,
   GetbySubCourtID,
-  DeleteBookingById, // Import delete booking API function
+  UpdateBookingStatus, // Import delete booking API function
 } from "../../API/APIConfigure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./checkout.css";
@@ -23,6 +23,7 @@ const Checkout = () => {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const cancelReason = "";
 
   useEffect(() => {
     const fetchBooking = async () => {
@@ -92,12 +93,12 @@ const Checkout = () => {
 
   const handleCancel = async () => {
     try {
-      await DeleteBookingById(id);
+      const response = await UpdateBookingStatus(id);
+      console.log("Cancel response:", response);
       toast.success("Booking cancelled successfully");
       navigate(-2); // Navigate back to the previous page
     } catch (error) {
       toast.error("Failed to cancel booking");
-      console.error(error);
     }
   };
 

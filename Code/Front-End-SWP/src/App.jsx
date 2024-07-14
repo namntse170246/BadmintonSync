@@ -29,6 +29,7 @@ import OwnerVoucher from "./pages/owner/Voucher";
 import OwnerDetailsBooking from "./pages/owner/DetailsBooking";
 import OwnerCourts from "./pages/owner/Realestates";
 import OwnerSubCourts from "./pages/owner/SubCourts";
+import OwnerCheckIn from "./pages/owner/CheckIn";
 import ErrorPage from "./pages/ErrorPage";
 import Posting from "./pages/posting/Posting";
 import CheckOut from "./pages/user/CheckOut";
@@ -48,7 +49,7 @@ const AdminWrapper = ({ children }) => {
 
 const OwnerWrapper = ({ children }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const isOwner = userInfo?.role === "Manager";
+  const isOwner = userInfo?.role === "Owner";
   return isOwner ? children : <ErrorPage />;
 };
 
@@ -115,7 +116,7 @@ function App() {
           </UserWrapper>
         }
       />
-    {/* Trade */}
+      {/* Trade */}
       <Route
         path="/trade/:id"
         element={
@@ -339,6 +340,14 @@ function App() {
         element={
           <OwnerWrapper>
             <OwnerSubCourts />
+          </OwnerWrapper>
+        }
+      />
+      <Route
+        path="/owner/checkin"
+        element={
+          <OwnerWrapper>
+            <OwnerCheckIn />
           </OwnerWrapper>
         }
       />

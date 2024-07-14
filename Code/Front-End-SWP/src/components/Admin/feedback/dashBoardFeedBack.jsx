@@ -20,7 +20,6 @@ import {
   GetUserByID,
   GetbyCourtID,
 } from "../../API/APIConfigure";
-import "./dashboard.css"; // Import the CSS file
 
 const Dashboard = () => {
   const [feedback, setFeedback] = useState([]);

@@ -127,11 +127,10 @@ export const UpdateRealestateStatus = (realID, newStatus) => {
     status: newStatus,
   });
 };
-export const UpdateBookingStatus = (bookingID, newStatus) => {
-  return customAxios.put(`api/Bookings/UpdateStatus?id=${bookingID}`, {
-    status: newStatus,
-  });
+export const UpdateBookingStatus = async (bookingID) => {
+  return customAxios.put(`/api/Booking/${bookingID}/cancel`);
 };
+
 export const GetAllBookingsByID = (bookingID) => {
   return customAxios.get(`api/Booking/${bookingID}`);
 };
@@ -145,6 +144,12 @@ export const UpdateTimeShareStatus = (timeshareID, newStatus) => {
       status: newStatus,
     }
   );
+};
+export const CheckIn = () => {
+  return customAxios.get(`api/CheckIn`);
+};
+export const UpdateCheckIn = (checkinId) => {
+  return customAxios.put(`api/CheckIn/${checkinId}`);
 };
 //Trade
 export const GetAllTrade = () => {
