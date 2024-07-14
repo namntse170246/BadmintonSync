@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Paper, Button } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,14 +12,14 @@ import { MenuItem, Select, TextField } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-import { GetAllAccounts, UpdateRole } from "../../API/APIConfigure";
+import { GetAllAccounts, UpdateRole, UpdateStatus } from "../../API/APIConfigure";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
+  const [selectedRoleFilter, setSelectedRoleFilter] = useState("all");
 
   useEffect(() => {
     fetchUsers();
@@ -28,7 +28,6 @@ const Dashboard = () => {
   const fetchUsers = async () => {
     try {
       const response = await GetAllAccounts();
-      console.log(response.data);
       setUsers(response.data);
     } catch (err) {
       setUsers([]);
@@ -48,15 +47,13 @@ const Dashboard = () => {
   const handleRoleChange = async (userName, newRole) => {
     try {
       const roleMapping = {
-        Administrator: 0,
-        Manager: 1,
-        Staff: 2,
+        Owner: 1,
         User: 3,
+        Staff: 2,
       };
 
       const roleId = roleMapping[newRole];
-
-      console.log(userName, roleId);
+      console.log(roleId);
       await UpdateRole(userName, roleId);
       fetchUsers();
       toast.success("Role updated Successfully!");
@@ -66,21 +63,41 @@ const Dashboard = () => {
     }
   };
 
-  const filteredStatus = users.filter((user) => {
-    // Filter by roleType
-    if (selectedStatusFilter !== "all" && user.roleType !== selectedStatusFilter) {
+  const handleStatusChange = async (userName, newStatus) => {
+    try {
+      const statusMapping = {
+        Active: 0,
+        Disable: 1,
+      };
+
+      const statusId = statusMapping[newStatus];
+      console.log(userName, statusId);
+      await UpdateStatus(userName, statusId); // Giả sử có API để cập nhật trạng thái
+      fetchUsers();
+      toast.success("Status updated Successfully!");
+    } catch (err) {
+      toast.error("Failed to update status!");
+      console.error(err);
+    }
+  };
+
+  const filteredUsers = users.filter((user) => {
+    if (selectedRoleFilter !== "all" && user.roleType !== selectedRoleFilter) {
       return false;
     }
 
-    // Filter by username
-    if (searchTerm && !user.userName.toLowerCase().includes(searchTerm.toLowerCase())) {
+    if (searchTerm && !user.fullName.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
+
+    if (user.roleType === "Administrator") {
       return false;
     }
 
     return true;
   });
 
-  const slicedUser = filteredStatus.slice(
+  const slicedUser = filteredUsers.slice(
     page * rowsPerPage,
     (page + 1) * rowsPerPage
   );
@@ -90,18 +107,17 @@ const Dashboard = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
         <div className="main">
           <Select
-            value={selectedStatusFilter}
-            onChange={(e) => setSelectedStatusFilter(e.target.value)}
+            value={selectedRoleFilter}
+            onChange={(e) => setSelectedRoleFilter(e.target.value)}
             style={{ marginTop: "30px" }}
           >
             <MenuItem value="all">All Role</MenuItem>
-            <MenuItem value="Administrator">Administrator</MenuItem>
+            <MenuItem value="Owner">Owner</MenuItem>
             <MenuItem value="User">User</MenuItem>
-            <MenuItem value="Manager">Manager</MenuItem>
             <MenuItem value="Staff">Staff</MenuItem>
           </Select>
           <TextField
-            label="Username"
+            label="Full Name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ marginTop: "30px", marginLeft: "20px" }}
@@ -158,6 +174,14 @@ const Dashboard = () => {
                   >
                     Role
                   </TableCell>
+                  <TableCell
+                    style={{
+                      fontSize: "20px",
+                    }}
+                    align="center"
+                  >
+                    Status
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -179,10 +203,19 @@ const Dashboard = () => {
                         onChange={(e) => handleRoleChange(user.userName, e.target.value)}
                         style={{ minWidth: 120 }}
                       >
-                        <MenuItem value="Administrator">Administrator</MenuItem>
+                        <MenuItem value="Owner">Owner</MenuItem>
                         <MenuItem value="User">User</MenuItem>
-                        <MenuItem value="Manager">Manager</MenuItem>
                         <MenuItem value="Staff">Staff</MenuItem>
+                      </Select>
+                    </TableCell>
+                    <TableCell style={{ fontSize: "13px" }} align="center">
+                      <Select
+                        value={user.userStatus === "0" ? "Active" : "Disable"}
+                        onChange={(e) => handleStatusChange(user.userName, e.target.value)}
+                        style={{ minWidth: 120 }}
+                      >
+                        <MenuItem value="Active">Active</MenuItem>
+                        <MenuItem value="Disable">Disable</MenuItem>
                       </Select>
                     </TableCell>
                   </TableRow>
@@ -192,7 +225,7 @@ const Dashboard = () => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={users.length}
+              count={filteredUsers.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

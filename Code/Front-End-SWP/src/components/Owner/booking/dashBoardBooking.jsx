@@ -12,7 +12,6 @@ import {
   TablePagination,
   Select,
   MenuItem,
-  FormControl,
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -156,16 +155,19 @@ const Dashboard = () => {
             <TableHead>
               <TableRow>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  BookingID
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
                   Name
                 </TableCell>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  SubCourtID
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Booking Date
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
                   Amount
-                </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
-                  SubCourtId
-                </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
-                  BookingID
                 </TableCell>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
                   Status
@@ -179,10 +181,10 @@ const Dashboard = () => {
               {slicedBookings.map((booking) => (
                 <TableRow key={booking.bookingId}>
                   <TableCell style={{ fontSize: "13px" }} align="center">
-                    {userDetails[booking.userId] || booking.userId}
+                    {booking.bookingId}
                   </TableCell>
                   <TableCell style={{ fontSize: "13px" }} align="center">
-                    {booking.amount.toLocaleString()} VND
+                    {userDetails[booking.userId] || booking.userId}
                   </TableCell>
                   <TableCell style={{ fontSize: "13px" }} align="center">
                     {booking.subCourtId}
@@ -193,6 +195,9 @@ const Dashboard = () => {
                       month: "2-digit",
                       year: "numeric",
                     })}
+                  </TableCell>
+                  <TableCell style={{ fontSize: "13px" }} align="center">
+                    {booking.amount.toLocaleString()} VND
                   </TableCell>
                   <TableCell style={{ fontSize: "15px", color: statusColors[booking.status], fontWeight: "bold" }} align="center">
                     {statusTexts[booking.status]}

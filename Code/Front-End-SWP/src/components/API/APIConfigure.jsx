@@ -33,9 +33,10 @@ const UpdateRole = (userName, newRole) => {
   });
 };
 
-const UpdateStatus = (userID, newStatus) => {
-  return customAxios.put(`api/Accounts/UpdateAccountStatus?id=${userID}`, {
-    status: newStatus,
+const UpdateStatus = (userName, newStatus) => {
+  return customAxios.put(`api/User/EditUserStatus`, {
+    userName: userName,
+    userStatus: newStatus,
   });
 };
 export const UpdateAccount = (newUserData) => {
@@ -71,6 +72,9 @@ const GetAllFeedback = () => {
 const GetAllTimeSlot = () => {
   return customAxios.get(`api/TimeSlot`);
 };
+const GetTimeSlotByID = (id) => {
+  return customAxios.get(`api/TimeSlot/${id}`);
+};
 const GetAllCourts = (searchValue) => {
   return customAxios.get(`api/Court`, {
     params: { search: searchValue },
@@ -81,6 +85,10 @@ const GetAllSubCourts = (searchValue) => {
     params: { search: searchValue },
   });
 };
+export const DeleteSubCourt = (userID) => {
+  return customAxios.delete(`api/SubCourt/CheckBookingExistAndDelete${userID}`);
+};
+
 const GetUserByID = (userID) => {
   return customAxios.get(`api/User/GetUserById/${userID}`);
 };
@@ -93,6 +101,13 @@ export const GetAllCourtsByMemberID = (userID) => {
 };
 export const GetAllBookingsByMemberID = (userID) => {
   return customAxios.get(`api/Bookings/${userID}`);
+};
+
+const CreateSubCourts = (data) => {
+  return instance.post(`api/SubCourt/${data.courtId}`, {
+    name: data.name,
+    pricePerHour: data.pricePerHour
+  });
 };
 const CreateVouchers = (voucherData) => {
   return instance.post(`api/Promotion`, voucherData);
@@ -213,9 +228,11 @@ export {
   GetVoucherByCode,
   GetAllFeedback,
   GetAllTimeSlot,
+  GetTimeSlotByID,
   GetUserByID,
   GetAllCourts,
   GetAllSubCourts,
+  CreateSubCourts,
   CreateVouchers,
   CreateBooking,
 };

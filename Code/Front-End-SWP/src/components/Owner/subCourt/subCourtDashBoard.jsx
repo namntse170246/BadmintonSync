@@ -9,39 +9,103 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  Select,
-  MenuItem,
   Button,
+  TextField,
+  Dialog, DialogTitle, DialogContent
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { GetAllSubCourts, UpdateRealestateStatus } from "../../API/APIConfigure";
-import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CreateSubCourtComponent from "./createSubCourt.jsx";
+import { GetAllCourts, GetAllSubCourts, DeleteSubCourt, GetTimeSlotByID, CreateSubCourts } from "../../API/APIConfigure";
 
 const Dashboard = () => {
   const [courts, setCourts] = useState([]);
-  const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
+  const [subCourts, setSubCourts] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [timeSlots, setTimeSlots] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+  const [fullWidth, setFullWidth] = useState(true);
+  const [maxWidth, setMaxWidth] = useState("md");
+
+  const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
 
   const fetchCourts = async () => {
     try {
-      const response = await GetAllSubCourts();
-      setCourts(response.data || []);
+      const response = await GetAllCourts();
+      const ownedCourts = response.data.filter(court => court.ownerId === ownerId);
+      setCourts(ownedCourts || []);
     } catch (err) {
       toast.error("Failed to fetch courts");
       console.error(err);
     }
   };
 
+  const fetchSubCourts = async () => {
+    try {
+      const response = await GetAllSubCourts();
+      setSubCourts(response.data || []);
+    } catch (err) {
+      toast.error("Failed to fetch sub-courts");
+      console.error(err);
+    }
+  };
+
+  const fetchTimeSlot = async (id) => {
+    try {
+      const response = await GetTimeSlotByID(id);
+      setTimeSlots((prevTimeSlots) => ({
+        ...prevTimeSlots,
+        [id]: response.data,
+      }));
+    } catch (err) {
+      toast.error("Failed to fetch time slots");
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchCourts();
+    fetchSubCourts();
   }, []);
+
+  useEffect(() => {
+    subCourts.forEach((subCourt) => {
+      if (!timeSlots[subCourt.timeSlotId]) {
+        fetchTimeSlot(subCourt.timeSlotId);
+      }
+    });
+  }, [subCourts]);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await DeleteSubCourt(id);
+      console.log(response);
+      if (response.success) {
+        toast.success(response.message);
+        fetchSubCourts();
+      } else {
+        toast.error(response.message);
+      }
+    } catch (err) {
+      toast.error("Deletion failed");
+      console.error(err);
+    }
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -49,52 +113,66 @@ const Dashboard = () => {
     setPage(0);
   };
 
-  const filteredCourts = courts.filter((item) => {
+  const filteredSubCourts = subCourts.filter((subCourt) => {
+    const court = courts.find((court) => court.courtId === subCourt.courtId);
     return (
-      selectedStatusFilter === "all" ||
-      item.status?.toString() === selectedStatusFilter
+      court &&
+      court.ownerId === ownerId &&
+      subCourt.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
-  const slicedCourts = filteredCourts.slice(
+  const slicedSubCourts = filteredSubCourts.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
-  const statusTexts = {
-    1: "Chờ xác nhận",
-    2: "Đã xác nhận",
-    3: "Tạm dừng",
-    4: "Vô hiệu hóa",
-    5: "Từ chối",
-  };
-
-  const handleStatusChange = async (status, id) => {
-    try {
-      await UpdateRealestateStatus(id, status);
-      toast.success("Cập nhật thành công");
-      fetchCourts();
-    } catch (err) {
-      toast.error("Cập nhật thất bại");
-      console.error(err);
-    }
-  };
-
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
-        <Select
-          value={selectedStatusFilter}
-          onChange={(e) => setSelectedStatusFilter(e.target.value)}
-          style={{ marginTop: "30px", marginBottom: "20px" }}
+        <TextField
+          label="Search Sub Court Name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          variant="outlined"
+          style={{ marginBottom: "20px" }}
+        />
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#003580",
+            fontSize: "21px",
+            float: "right",
+            marginTop: "30px",
+          }}
+          onClick={handleClickOpen}
         >
-          <MenuItem value="all">All</MenuItem>
-          {Object.keys(statusTexts).map((status) => (
-            <MenuItem key={status} value={status}>
-              {statusTexts[status]}
-            </MenuItem>
-          ))}
-        </Select>
+          Create
+        </Button>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          fullWidth={fullWidth}
+          maxWidth={maxWidth}
+        >
+          <DialogTitle
+            style={{
+              textAlign: "center",
+              fontSize: "30px",
+              fontWeight: "bold",
+              color: "#003580",
+            }}
+          >
+            Create SubCourt
+          </DialogTitle>
+          <DialogContent>
+            <CreateSubCourtComponent
+              isOpen={open}
+              onClose={handleClose}
+              fetchVouchers={fetchCourts}
+            />
+          </DialogContent>
+        </Dialog>
         <TableContainer component={Paper}>
           <h2
             style={{
@@ -119,7 +197,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Court Name
+                  Sub Court Name
                 </TableCell>
                 <TableCell
                   style={{
@@ -128,7 +206,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Sub Court Name
+                  Court Name
                 </TableCell>
                 <TableCell
                   style={{
@@ -146,16 +224,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Time Slot ID
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: "20px",
-                    fontFamily: "Arial, sans-serif",
-                  }}
-                  align="center"
-                >
-                  Status
+                  Time Slot
                 </TableCell>
                 <TableCell
                   style={{
@@ -169,34 +238,32 @@ const Dashboard = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {slicedCourts.map((item) => (
+              {slicedSubCourts.map((item) => (
                 <TableRow key={item.subCourtId}>
-                  <TableCell align="center">{item.courtId}</TableCell>
                   <TableCell align="center">{item.name}</TableCell>
+                  <TableCell align="center">{courts.find((court) => court.courtId === item.courtId)?.courtName}</TableCell>
                   <TableCell align="center">{item.pricePerHour}</TableCell>
-                  <TableCell align="center">{item.timeSlotId}</TableCell>
                   <TableCell align="center">
-                    <Select
-                      value={item.status?.toString() || ""}
-                      onChange={(e) =>
-                        handleStatusChange(e.target.value, item.subCourtId)
-                      }
-                    >
-                      {Object.keys(statusTexts).map((status) => (
-                        <MenuItem key={status} value={status}>
-                          {statusTexts[status]}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    {timeSlots[item.timeSlotId]
+                      ? `${timeSlots[item.timeSlotId].startTime} - ${timeSlots[item.timeSlotId].endTime}`
+                      : "Loading..."}
                   </TableCell>
                   <TableCell align="center">
-                    <Button
+                    {/* <Button
                       variant="outlined"
                       color="success"
                       className="edit-btn"
                       onClick={() => navigate(`/court/${item.subCourtId}`)}
                     >
                       <VisibilityIcon sx={{ fontSize: 25 }} />
+                    </Button> */}
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      className="delete-btn"
+                      onClick={() => handleDelete(item.subCourtId)}
+                    >
+                      <DeleteIcon sx={{ fontSize: 25 }} />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -206,7 +273,7 @@ const Dashboard = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={filteredCourts.length}
+            count={filteredSubCourts.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

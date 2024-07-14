@@ -19,6 +19,7 @@ import {
   GetAllFeedback,
   GetUserByID,
   GetbyCourtID,
+  GetAllCourts,
 } from "../../API/APIConfigure";
 
 const Dashboard = () => {
@@ -28,12 +29,15 @@ const Dashboard = () => {
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
+  const [ownedCourts, setOwnedCourts] = useState([]);
+  
+  // Get ownerId from localStorage
+  const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
 
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
         const response = await GetAllFeedback();
-        console.log(response);
         setFeedback(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         toast.error("Failed to fetch feedback");
@@ -45,18 +49,31 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    const fetchCourts = async () => {
+      try {
+        const response = await GetAllCourts();
+        const courtsOwnedByOwner = response.data.filter(court => court.ownerId === ownerId);
+        setOwnedCourts(courtsOwnedByOwner);
+      } catch (err) {
+        toast.error("Failed to fetch courts owned by owner");
+        console.error(err);
+      }
+    };
+
+    fetchCourts();
+  }, [ownerId]);
+
+  useEffect(() => {
     const userIds = feedback.map((item) => item.userId);
     const uniqueUserIds = Array.from(new Set(userIds));
 
     const fetchUserDetails = async () => {
       for (const id of uniqueUserIds) {
         try {
-          console.log(id);
           const userData = await GetUserByID(id);
-          console.log(userData);
           setUserDetails((prevDetails) => ({
             ...prevDetails,
-            [id]: userData.data.userName,
+            [id]: userData.data.fullName, // Change to fullName
           }));
         } catch (error) {
           console.error("Failed to fetch user details", error);
@@ -104,10 +121,11 @@ const Dashboard = () => {
   };
 
   const filteredFeedback = feedback.filter((item) => {
+    const isOwnerCourt = ownedCourts.find(court => court.courtId === item.courtId);
     return (
       selectedStatusFilter === "all" ||
       item.rating.toString() === selectedStatusFilter
-    );
+    ) && isOwnerCourt;
   });
 
   const slicedFeedback = filteredFeedback.slice(

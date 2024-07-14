@@ -12,16 +12,11 @@ import {
   TablePagination,
   Select,
   MenuItem,
-  FormControl,
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  GetAllBookings,
-  GetUserByID,
-  UpdateBookingStatus,
-} from "../../API/APIConfigure";
+import { GetAllBookings, GetUserByID, UpdateBookingStatus } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -156,47 +151,28 @@ const Dashboard = () => {
           ))}
         </Select>
         <TableContainer component={Paper} className="dashboard-container">
-          <Table
-            sx={{ minWidth: 650 }}
-            aria-label="simple table"
-            className="staff-table"
-          >
+          <Table sx={{ minWidth: 650 }} aria-label="simple table" className="staff-table">
             <TableHead>
               <TableRow>
-                <TableCell
-                  style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}
-                  align="center"
-                >
-                  Name
-                </TableCell>
-                <TableCell
-                  style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}
-                  align="center"
-                >
-                  Amount
-                </TableCell>
-                <TableCell
-                  style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}
-                  align="center"
-                >
-                  SubCourtId
-                </TableCell>
-                <TableCell
-                  style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}
-                  align="center"
-                >
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
                   BookingID
                 </TableCell>
-                <TableCell
-                  style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}
-                  align="center"
-                >
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Name
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  SubCourtID
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Booking Date
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Amount
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
                   Status
                 </TableCell>
-                <TableCell
-                  style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}
-                  align="center"
-                >
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
                   Action
                 </TableCell>
               </TableRow>
@@ -205,10 +181,10 @@ const Dashboard = () => {
               {slicedBookings.map((booking) => (
                 <TableRow key={booking.bookingId}>
                   <TableCell style={{ fontSize: "13px" }} align="center">
-                    {userDetails[booking.userId] || booking.userId}
+                    {booking.bookingId}
                   </TableCell>
                   <TableCell style={{ fontSize: "13px" }} align="center">
-                    {booking.amount.toLocaleString()} VND
+                    {userDetails[booking.userId] || booking.userId}
                   </TableCell>
                   <TableCell style={{ fontSize: "13px" }} align="center">
                     {booking.subCourtId}
@@ -220,25 +196,14 @@ const Dashboard = () => {
                       year: "numeric",
                     })}
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "15px",
-                      color: statusColors[booking.status],
-                      fontWeight: "bold",
-                    }}
-                    align="center"
-                  >
+                  <TableCell style={{ fontSize: "13px" }} align="center">
+                    {booking.amount.toLocaleString()} VND
+                  </TableCell>
+                  <TableCell style={{ fontSize: "15px", color: statusColors[booking.status], fontWeight: "bold" }} align="center">
                     {statusTexts[booking.status]}
                   </TableCell>
                   <TableCell align="center">
-                    <Button
-                      variant="outlined"
-                      color="success"
-                      className="edit-btn"
-                      onClick={() =>
-                        navigate(`/admin/booking/details/${booking.bookingId}`)
-                      }
-                    >
+                    <Button variant="outlined" color="success" className="edit-btn" onClick={() => navigate(`/admin/booking/details/${booking.bookingId}`)}>
                       <VisibilityIcon sx={{ fontSize: 25 }} />
                     </Button>
                   </TableCell>

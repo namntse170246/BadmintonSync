@@ -13,11 +13,17 @@ const VNPay = ({ amount, id }) => {
       const paymentData = {
         userId: id,
         totalPrice: amount,
-        paymentMethod: "VNPAY",
-        paymentStatus: 0,
-        paymentDate: new Date().toISOString(),
         requiredAmount: amount,
-        paymentContent: "success",
+        paymentRefId: "some-reference-id", // You can generate or fetch this as needed
+        paymentMethod: "MoMo",
+        paymentStatus: "Pending",
+        paymentDate: new Date().toISOString(),
+        expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Setting expire date to 24 hours later
+        paymentLanguage: "VN",
+        merchantId: "your-merchant-id", // Replace with actual merchant ID
+        paymentContent: "Payment for services",
+        paymentDestinationId: "destination-id", // Replace with actual destination ID
+        paidAmount: 0, 
         paymentCurrency: "VND",
       };
 

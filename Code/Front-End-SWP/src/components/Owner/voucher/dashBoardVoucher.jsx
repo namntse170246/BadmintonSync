@@ -7,28 +7,48 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
-import {
-  MenuItem,
-  Select,
-  TextField,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-} from "@mui/material";
+import { TextField, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import CreateVoucher from "./createVoucher";
-import { GetAllVoucher } from "../../API/APIConfigure";
+import { GetAllVoucher, GetAllCourts } from "../../API/APIConfigure";
 import DeleteVoucher from "./deleteVoucher";
 
 const Dashboard = () => {
   const [voucher, setVoucher] = useState([]);
+  const [courts, setCourts] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = useState(true);
   const [maxWidth, setMaxWidth] = useState("md");
+
+  const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
+
+  const fetchCourts = async () => {
+    try {
+      const response = await GetAllCourts();
+      const ownedCourts = response.data.filter(court => court.ownerId === ownerId);
+      setCourts(ownedCourts || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchVouchers = async () => {
+    try {
+      const response = await GetAllVoucher();
+      setVoucher(Array.isArray(response) ? response : []);
+    } catch (err) {
+      setVoucher([]);
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourts();
+    fetchVouchers();
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -47,40 +67,18 @@ const Dashboard = () => {
     setPage(0);
   };
 
-  useEffect(() => {
-    fetchVouchers();
-  }, []);
-
-  const fetchVouchers = async () => {
-    try {
-      const response = await GetAllVoucher();
-      console.log('Fetched vouchers:', response); // Debug log
-      setVoucher(Array.isArray(response) ? response : []);
-    } catch (err) {
-      setVoucher([]);
-      console.error(err);
-    }
-  };
-
   const filteredVouchers = voucher.filter((v) => {
-    if (
-      searchTerm &&
-      v.promotionCode &&
-      !v.promotionCode.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
-      return false;
-    }
-    return true;
+    const court = courts.find((court) => court.courtId === v.courtId);
+    return (
+      court &&
+      v.promotionCode.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
-
-  console.log('Filtered vouchers:', filteredVouchers); // Debug log
 
   const slicedVouchers = filteredVouchers.slice(
     page * rowsPerPage,
-    (page + 1) * rowsPerPage
+    page * rowsPerPage + rowsPerPage
   );
-
-  console.log('Sliced vouchers:', slicedVouchers); // Debug log
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -124,7 +122,7 @@ const Dashboard = () => {
               <CreateVoucher
                 isOpen={open}
                 onClose={handleClose}
-                fetchUser={fetchVouchers}
+                fetchVouchers={fetchVouchers}
               />
             </DialogContent>
           </Dialog>
@@ -157,6 +155,15 @@ const Dashboard = () => {
                     align="center"
                   >
                     Code
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontSize: "20px",
+                      fontFamily: "Arial, sans-serif",
+                    }}
+                    align="center"
+                  >
+                    Court Name
                   </TableCell>
                   <TableCell
                     style={{
@@ -206,55 +213,61 @@ const Dashboard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {slicedVouchers.map((v) => (
-                  <TableRow key={v.promotionId}>
-                    <TableCell style={{ fontSize: "13px" }} align="center">
-                      {v.promotionCode}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "13px" }} align="center">
-                      {v.description}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "13px" }} align="center">
-                      {v.percentage}%
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        fontSize: "13px",
-                      }}
-                      align="center"
-                    >
-                      {new Date(v.startDate).toLocaleDateString("vi-VN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        fontSize: "13px",
-                      }}
-                      align="center"
-                    >
-                      {new Date(v.endDate).toLocaleDateString("vi-VN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </TableCell>
-                    <TableCell align="center">
-                      <DeleteVoucher
-                        voucherId={v.promotionId}
-                        fetchVouchers={fetchVouchers}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {slicedVouchers.map((v) => {
+                  const court = courts.find((court) => court.courtId === v.courtId);
+                  return (
+                    <TableRow key={v.promotionId}>
+                      <TableCell style={{ fontSize: "13px" }} align="center">
+                        {v.promotionCode}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "13px" }} align="center">
+                        {court ? court.courtName : "Unknown Court"}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "13px" }} align="center">
+                        {v.description}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "13px" }} align="center">
+                        {v.percentage}%
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "13px",
+                        }}
+                        align="center"
+                      >
+                        {new Date(v.startDate).toLocaleDateString("vi-VN", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "13px",
+                        }}
+                        align="center"
+                      >
+                        {new Date(v.endDate).toLocaleDateString("vi-VN", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </TableCell>
+                      <TableCell align="center">
+                        <DeleteVoucher
+                          voucherId={v.promotionId}
+                          fetchVouchers={fetchVouchers}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={voucher.length}
+              count={filteredVouchers.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

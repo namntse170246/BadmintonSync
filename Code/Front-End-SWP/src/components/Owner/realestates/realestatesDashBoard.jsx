@@ -25,6 +25,8 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
+  const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
+
   const fetchCourts = async () => {
     try {
       const response = await GetAllCourts();
@@ -48,8 +50,10 @@ const Dashboard = () => {
     setPage(0);
   };
 
-  const filteredCourts = courts.filter((court) =>
-    court.courtName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCourts = courts.filter(
+    (court) =>
+      court.ownerId === ownerId &&
+      court.courtName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
