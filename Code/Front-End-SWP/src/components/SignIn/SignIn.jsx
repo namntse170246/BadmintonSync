@@ -93,7 +93,7 @@ const SignIn = ({ setShowLoading }) => {
 
                 if (userInfo.role === "Administrator") {
                   navigate("/admin/user");
-                } else if (userInfo.role === "Manager") {
+                } else if (userInfo.role === "Owner") {
                   navigate("/owner/courts");
                 } else {
                   navigate("/");

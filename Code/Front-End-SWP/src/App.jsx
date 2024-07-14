@@ -48,7 +48,7 @@ const AdminWrapper = ({ children }) => {
 
 const OwnerWrapper = ({ children }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const isOwner = userInfo?.role === "Manager";
+  const isOwner = userInfo?.role === "Owner";
   return isOwner ? children : <ErrorPage />;
 };
 
@@ -81,7 +81,7 @@ function App() {
       <Route path="/court/:id" element={<Court />} />
       {/* <Route path="/timeshare/:id" element={<Timeshare />} /> */}
       <Route path="/booking/:id" element={<Posting />} />
-      <Route path="/api/payment/vnpay-return" element={<PaymentResults />} />
+      <Route path="/payment/momo-return/" element={<PaymentResults />} />
       {/* User */}
       <Route
         path="/user/*"
