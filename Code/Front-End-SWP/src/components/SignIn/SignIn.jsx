@@ -75,7 +75,7 @@ const SignIn = ({ setShowLoading }) => {
           } else {
             Swal.fire({
               icon: "success",
-              title: "Login Successful!",
+              title: "Login Successfully!",
             }).then((result) => {
               if (result.isConfirmed) {
                 localStorage.removeItem("userInfo");
@@ -93,6 +93,8 @@ const SignIn = ({ setShowLoading }) => {
 
                 if (userInfo.role === "Administrator") {
                   navigate("/admin/user");
+                } else if (userInfo.role === "Manager") {
+                  navigate("/owner/courts");
                 } else {
                   navigate("/");
                 }

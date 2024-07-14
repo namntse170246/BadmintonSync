@@ -25,7 +25,7 @@ const VNPay = ({ amount, id }) => {
       const response = await axios.post("/api/Payment", paymentData);
 
       if (response.data) {
-        // Redirect to VNPay payment URL upon successful response
+        // Redirect to VNPay payment URL upon Successfully response
         window.location.href = response.data;
       } else {
         throw new Error("API did not return a payment URL");

@@ -59,7 +59,7 @@ const Dashboard = () => {
       console.log(userName, roleId);
       await UpdateRole(userName, roleId);
       fetchUsers();
-      toast.success("Role updated Successful!");
+      toast.success("Role updated Successfully!");
     } catch (err) {
       toast.error("Failed to update role!");
       console.error(err);
