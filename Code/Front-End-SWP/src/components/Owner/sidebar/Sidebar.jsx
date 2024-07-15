@@ -205,7 +205,7 @@ export default function Sidebar() {
               />
             </ListItemButton>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" }}
             onClick={() => {
@@ -230,7 +230,7 @@ export default function Sidebar() {
               </ManageAccountsIcon>
               <ListItemText primary="Account" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           {/* <ListItem
             disablePadding
             sx={{ display: "block" }}

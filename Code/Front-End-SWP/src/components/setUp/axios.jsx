@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://localhost:7155/";
+const BASE_URL = "https://duynhon2106-001-site1.dtempurl.com/";
 
 const instance = axios.create({
   baseURL: BASE_URL,

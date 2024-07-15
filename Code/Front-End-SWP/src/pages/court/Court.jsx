@@ -116,7 +116,7 @@ const Court = () => {
     // Handle image click
     const handleImageClick = (index) => {
       setSelectedImage(
-        "https://localhost:7155/Uploads/" + photoUrls[index].trim()
+        "https://duynhon2106-001-site1.dtempurl.com/Uploads/" + photoUrls[index].trim()
       );
       setModalIsOpen(true);
     };
@@ -127,7 +127,7 @@ const Court = () => {
           <div className="hotelImgWrapper" key={i}>
             <img
               onClick={() => handleImageClick(i)}
-              src={"https://localhost:7155/Uploads/" + photoUrl.trim()}
+              src={"https://duynhon2106-001-site1.dtempurl.com/Uploads/" + photoUrl.trim()}
               alt={`Hotel ${i}`}
               className="hotelImg"
             />

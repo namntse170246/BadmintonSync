@@ -63,7 +63,7 @@ const SearchItem = ({ searchResult }) => {
         <div className="sup-card">
           <div className="infor-part">
             <img
-              src={`https://localhost:7155/Uploads/${firstImageUrl}`}
+              src={`https://duynhon2106-001-site1.dtempurl.com/Uploads/${firstImageUrl}`}
               alt={court.courtName}
             />
             <div className="infor-text-part">

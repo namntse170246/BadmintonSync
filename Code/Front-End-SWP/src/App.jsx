@@ -82,7 +82,7 @@ function App() {
       <Route path="/court/:id" element={<Court />} />
       {/* <Route path="/timeshare/:id" element={<Timeshare />} /> */}
       <Route path="/booking/:id" element={<Posting />} />
-      <Route path="/payment/momo-return/" element={<PaymentResults />} />
+      <Route path="/success" element={<PaymentResults />} />
       {/* User */}
       <Route
         path="/user/*"

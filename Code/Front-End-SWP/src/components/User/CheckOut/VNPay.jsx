@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./VNPay.css";
 
 const VNPay = ({ amount, id }) => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const checkPaymentResult = async () => {
+      const query = new URLSearchParams(location.search);
+      const paymentStatus = query.get('paymentStatus');
+
+      if (paymentStatus === 'success') {
+        navigate('/payment/momo-return');
+      } else if (paymentStatus === 'fail') {
+        toast.error("Payment failed");
+      }
+    };
+
+    checkPaymentResult();
+  }, [location, navigate]);
 
   const handlePayment = async () => {
     try {
@@ -14,24 +32,22 @@ const VNPay = ({ amount, id }) => {
         userId: id,
         totalPrice: amount,
         requiredAmount: amount,
-        paymentRefId: "some-reference-id", // You can generate or fetch this as needed
+        paymentRefId: "some-reference-id",
         paymentMethod: "MoMo",
         paymentStatus: "Pending",
         paymentDate: new Date().toISOString(),
-        expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Setting expire date to 24 hours later
+        expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
         paymentLanguage: "VN",
-        merchantId: "your-merchant-id", // Replace with actual merchant ID
+        merchantId: "your-merchant-id",
         paymentContent: "Payment for services",
-        paymentDestinationId: "destination-id", // Replace with actual destination ID
-        paidAmount: 0, 
+        paymentDestinationId: "destination-id",
+        paidAmount: 0,
         paymentCurrency: "VND",
       };
 
-      // Call the backend API to initiate the payment
       const response = await axios.post("/api/Payment", paymentData);
 
       if (response.data) {
-        // Redirect to VNPay payment URL upon Successfully response
         window.location.href = response.data;
       } else {
         throw new Error("API did not return a payment URL");
@@ -59,7 +75,7 @@ const VNPay = ({ amount, id }) => {
         onClick={handlePayment}
         disabled={loading}
       >
-        {loading ? "Processing..." : "Pay with VNPay"}
+        {loading ? "Processing..." : "Pay with Momo"}
       </button>
     </div>
   );

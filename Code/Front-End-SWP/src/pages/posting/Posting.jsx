@@ -275,7 +275,7 @@ const Posting = () => {
             </div>
             <img
               className="img-fluid"
-              src={`https://localhost:7155/Uploads/${firstImageUrl}`}
+              src={`https://duynhon2106-001-site1.dtempurl.com/Uploads/${firstImageUrl}`}
               alt={CourtInfo.courtName}
             />
           </div>

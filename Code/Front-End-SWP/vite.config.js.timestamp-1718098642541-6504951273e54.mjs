@@ -6,7 +6,7 @@ var vite_config_default = defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://localhost:7155",
+        target: "https://duynhon2106-001-site1.dtempurl.com",
         changeOrigin: true,
         secure: false
       }

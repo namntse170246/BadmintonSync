@@ -175,7 +175,7 @@ export default function Sidebar() {
               <ListItemText primary="Courts" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" }}
             onClick={() => {
@@ -200,7 +200,7 @@ export default function Sidebar() {
               </MapIcon>
               <ListItemText primary="SubCourts" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           <ListItem
             disablePadding
             sx={{ display: "block" }}
@@ -256,7 +256,7 @@ export default function Sidebar() {
               />
             </ListItemButton>
           </ListItem> */}
-          <ListItem
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" }}
             onClick={() => {
@@ -281,8 +281,8 @@ export default function Sidebar() {
               </AccountBalanceWalletIcon>
               <ListItemText primary="Payment" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" }}
             onClick={() => {
@@ -336,7 +336,7 @@ export default function Sidebar() {
               </FeedbackIcon>
               <ListItemText primary="Feedback" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
       </Drawer>
     </Box>

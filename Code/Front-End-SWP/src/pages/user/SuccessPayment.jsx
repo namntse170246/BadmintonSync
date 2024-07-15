@@ -1,6 +1,14 @@
 import React from 'react';
-import './paymentresult.css'
+import { useNavigate } from 'react-router-dom';
+import './paymentresult.css';
+
 const SuccessPayment = ({ amount }) => {
+  const navigate = useNavigate();
+  const id = JSON.parse(localStorage.getItem("BookingId")); 
+  const handleReturnToCheckout = () => {
+    navigate(`/user/checkout/${id}`); // Chuyển hướng về trang Checkout
+  };
+
   return (
     <div className="payment-result">
       <div className="alert alert-success" role="alert">
@@ -9,6 +17,7 @@ const SuccessPayment = ({ amount }) => {
         <hr />
         <p className="mb-0">MoMo Payment</p>
         <h4>{amount}VND</h4>
+        <button className="back-home" onClick={handleReturnToCheckout}>Quay lại trang Checkout</button>
       </div>
     </div>
   );

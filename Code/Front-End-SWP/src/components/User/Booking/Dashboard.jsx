@@ -14,7 +14,6 @@ import {
   Button,
   Skeleton,
 } from "@mui/material";
-import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
@@ -25,7 +24,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  const [booking, setBooking] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
@@ -33,27 +32,27 @@ const Dashboard = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchBooking = async () => {
+  const fetchBookings = async () => {
     setIsLoading(true);
     try {
       const response = await GetAllBookingsByMemberID(userInfo.id);
       const bookingsWithRealestate = await Promise.all(
-        response.map(async (booking) => {
-          const timeshare = await GetTimeShareById(booking.timeshareId);
-          const realestate = await GetbyCourtID(timeshare.realestateId);
+        response.data.map(async (booking) => {
+          const timeshare = await GetTimeShareById(booking.timeSlotId);
+          const realestate = await GetbyCourtID(booking.subCourtId);
           return { ...booking, realestate, timeshare };
         })
       );
-      setBooking(bookingsWithRealestate || []);
+      setBookings(bookingsWithRealestate || []);
     } catch (err) {
-      toast.error("Lỗi lấy thông tin Booking");
+      toast.error("Failed to fetch booking information");
       console.error(err);
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchBooking();
+    fetchBookings();
   }, []);
 
   const handleChangePage = (event, newPage) => {
@@ -65,40 +64,40 @@ const Dashboard = () => {
     setPage(0);
   };
 
-  const filtered = booking.filter((item) => {
+  const filteredBookings = bookings.filter((booking) => {
     return (
       selectedStatusFilter === "all" ||
-      item.status.toString() === selectedStatusFilter
+      booking.status.toString() === selectedStatusFilter
     );
   });
 
-  const sliced = filtered.slice(
+  const slicedBookings = filteredBookings.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
   const statusTexts = {
-    1: "Chờ thanh toán",
-    2: "Đã xác nhận",
-    3: "Đã hủy",
-    4: "Đã check in",
+    0: "Chờ thanh toán",
+    1: "Đã xác nhận",
+    2: "Đã hủy",
+    3: "Đã check in",
+    4: "Đã check out",
     5: "Đã check out",
-    6: "Đã check out",
   };
 
   const statusColors = {
-    1: "orange",
-    2: "green",
-    3: "red",
+    0: "orange",
+    1: "green",
+    2: "red",
+    3: "green",
     4: "green",
     5: "green",
-    6: "green",
   };
 
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
-        <Select
+        {/* <Select
           value={selectedStatusFilter}
           onChange={(e) => setSelectedStatusFilter(e.target.value)}
           style={{ marginTop: "30px", marginBottom: "20px" }}
@@ -109,7 +108,7 @@ const Dashboard = () => {
               {statusTexts[status]}
             </MenuItem>
           ))}
-        </Select>
+        </Select> */}
 
         <TableContainer component={Paper}>
           {isLoading ? (
@@ -129,7 +128,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Realestes
+                    BookingID
                   </TableCell>
                   <TableCell
                     style={{
@@ -137,7 +136,7 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Số Ngày
+                    Court
                   </TableCell>
                   <TableCell
                     style={{
@@ -145,7 +144,15 @@ const Dashboard = () => {
                     }}
                     align="center"
                   >
-                    Giá
+                    Sub Court
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontSize: "20px",
+                    }}
+                    align="center"
+                  >
+                    TimeSlot 
                   </TableCell>
                   <TableCell
                     style={{
@@ -155,34 +162,20 @@ const Dashboard = () => {
                   >
                     Status
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
-                    Xem chi tiết
-                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sliced.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell align="center">{item.realestate.name}</TableCell>
+                {slicedBookings.map((item) => (
+                  <TableRow key={item.bookingId}>
+                    <TableCell align="center">{item.bookingId}</TableCell>
                     <TableCell align="center">
-                      {item.endDay && item.startDay
-                        ? Math.max(
-                            0,
-                            Math.ceil(
-                              (new Date(item.endDay) -
-                                new Date(item.startDay)) /
-                                (1000 * 60 * 60 * 24)
-                            )
-                          )
-                        : "Invalid date"}
+                      {item.realestate ? item.realestate.data.courtName : ""}
                     </TableCell>
                     <TableCell align="center">
-                      {item.amount.toLocaleString()}VNĐ
+                      {item.realestate ? item.realestate.data.subCourtName : ""}
+                    </TableCell>
+                    <TableCell align="center">
+                      {item.timeshare ? `${item.timeshare.startTime} - ${item.timeshare.endTime}` : ""}
                     </TableCell>
                     <TableCell
                       align="center"
@@ -198,7 +191,7 @@ const Dashboard = () => {
                         variant="outlined"
                         color="success"
                         className="edit-btn"
-                        onClick={() => navigate(`/user/checkout/${item.id}`)}
+                        onClick={() => navigate(`/user/checkout/${item.bookingId}`)}
                       >
                         <VisibilityIcon sx={{ fontSize: 25 }} />
                       </Button>
@@ -211,7 +204,7 @@ const Dashboard = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={filtered.length}
+            count={filteredBookings.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

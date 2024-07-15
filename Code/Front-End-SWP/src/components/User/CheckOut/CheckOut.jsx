@@ -24,6 +24,7 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const cancelReason = "";
+  localStorage.setItem("BookingId", JSON.stringify(id));
 
   useEffect(() => {
     const fetchBooking = async () => {
