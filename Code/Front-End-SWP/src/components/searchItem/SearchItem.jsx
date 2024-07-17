@@ -55,30 +55,30 @@ const SearchItem = ({ searchResult }) => {
     }
   };
 
-  return searchResult.map((court) => {
-    const firstImageUrl = court.image ? court.image.split(",")[0].trim() : "";
+  return (
+    <div className="search-item-container">
+      {searchResult.map((court) => {
+        const firstImageUrl = court.image
+          ? court.image.split(",")[0].trim()
+          : "";
 
-    return (
-      <div key={court.courtId} className="court-card">
-        <div className="sup-card">
-          <div className="infor-part">
+        return (
+          <div key={court.courtId} className="court-card">
             <img
               src={`https://duynhon2106-001-site1.dtempurl.com/Uploads/${firstImageUrl}`}
               alt={court.courtName}
             />
-            <div className="infor-text-part">
+            <div className="infor-part">
               <div className="court-Name">{court.courtName}</div>
               <div className="court-Location">{court.location}</div>
               <Rating
-                name="court-rating"
+                className="court-rating"
                 value={
                   court.evaluates.length > 0 ? court.evaluates[0].rating : 0
                 }
                 readOnly
               />
             </div>
-          </div>
-          <div className="Booking-Area">
             <div className="button">
               <button
                 onClick={() => handleViewCourt(court.courtId)}
@@ -88,16 +88,16 @@ const SearchItem = ({ searchResult }) => {
               </button>
               <button
                 onClick={() => handleBookingClick(court.courtId)}
-                className="btn-view-details"
+                className="btn-book-now"
               >
-                Booking
+                Book Now
               </button>
             </div>
           </div>
-        </div>
-      </div>
-    );
-  });
+        );
+      })}
+    </div>
+  );
 };
 
 export default SearchItem;

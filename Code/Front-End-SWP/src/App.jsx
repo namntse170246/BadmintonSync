@@ -39,6 +39,7 @@ import ConfirmTrade from "./pages/trade/ConfirmTrade";
 import DetailsTrade from "./pages/trade/DetailsTrade";
 import Premium from "./pages/user/Premium";
 import LoadingPage from "./components/LoadingPage/LoadingPage";
+import HorizontalNonLinearStepper from "./components/step/HorizontalNonLinearStepper";
 import { useEffect } from "react";
 
 const AdminWrapper = ({ children }) => {
@@ -83,6 +84,7 @@ function App() {
       {/* <Route path="/timeshare/:id" element={<Timeshare />} /> */}
       <Route path="/booking/:id" element={<Posting />} />
       <Route path="/success" element={<PaymentResults />} />
+      <Route path="/step" element={<HorizontalNonLinearStepper />} />
       {/* User */}
       <Route
         path="/user/*"
