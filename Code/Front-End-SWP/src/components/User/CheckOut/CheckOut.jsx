@@ -5,6 +5,13 @@ import VNPay from "./VNPay.jsx";
 import Navbar from "../../navbar/Navbar";
 import MailList from "../../mailList/MailList";
 import Footer from "../../footer/Footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+
 import {
   GetAllBookingsByID,
   GetbyCourtID,
@@ -106,30 +113,30 @@ const Checkout = () => {
   return (
     <>
       <Navbar />
+      <div className="background">
       <div className="checkout_Wrapper">
         <div className="bookingSummary">
           <h1>Booking Summary:</h1>
           <h2>Booking ID {booking.bookingId}</h2>
         </div>
         <div className="bookingInfo">
+        
           <h2 style={{ fontWeight: "bold", fontSize: "20px" }}>
-            Booking Details
+           <FontAwesomeIcon style={{marginRight: "10px", fontSize: "20px"}} icon={faClipboard} /> Booking Details 
           </h2>
           <h1>{booking.court ? booking.court.data.courtName : ""}</h1>
-          <h2>Location: {booking.court ? booking.court.data.location : ""}</h2>
+          <h2><FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px",}} icon={faLocationDot} /> {booking.court ? booking.court.data.location : ""}</h2>
           <h2>
-            Date placed the order:{" "}
+          <FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px"}} icon={faCalendarDays} />{" "}
             {new Date(booking.bookingDate).toLocaleDateString()}
           </h2>
-          <h2>Slot: {getTimeSlotString(booking.timeSlotId)}</h2>
-          <h2>Status: {getStatusString(booking.status)}</h2>
-        </div>
-        <div className="bookingInfo">
+          <h2>Slot:  {getTimeSlotString(booking.timeSlotId)}</h2>
+          <h2>Status:  {getStatusString(booking.status)}</h2>
           <h2 style={{ fontWeight: "bolder", fontSize: "20px" }}>
-            Customer Info:{" "}
+          <FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px"}} icon={faUserTie} />  Customer Info:{" "}
           </h2>
           <h1>{userInfo.name}</h1>
-          <h2>+84{userInfo.phone.replace(/^0+/, "")}</h2>
+          <h2><FontAwesomeIcon icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
         </div>
         <div className="_line"></div>
         <div className="totalCheckoutAndCancel">
@@ -162,6 +169,7 @@ const Checkout = () => {
             </div>
           </div>
         )}
+      </div>
       </div>
     </>
   );

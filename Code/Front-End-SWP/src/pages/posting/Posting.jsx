@@ -185,6 +185,7 @@ const Posting = () => {
   return (
     <>
       <Navbar />
+      <div className="background">
       <div className="posting_container">
         <div className="booking-form">
           <h1 className="booking-title">Booking Details</h1>
@@ -318,6 +319,7 @@ const Posting = () => {
             Book Court
           </button>
         </form>
+      </div>
       </div>
     </>
   );
