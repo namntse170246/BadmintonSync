@@ -1,8 +1,10 @@
 .posting_container {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
   gap: 20px;
+  position: absolute;
+  top: 10%;
+  left: 20%;
 }
 
 .booking-title {

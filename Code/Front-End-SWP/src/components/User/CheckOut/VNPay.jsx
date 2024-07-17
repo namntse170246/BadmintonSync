@@ -75,7 +75,7 @@ const VNPay = ({ amount, id }) => {
         onClick={handlePayment}
         disabled={loading}
       >
-        {loading ? "Processing..." : "Pay with Momo"}
+        {loading ? "Processing..." : "Pay with MoMo"}
       </button>
     </div>
   );
