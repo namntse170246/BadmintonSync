@@ -119,21 +119,21 @@ const Checkout = () => {
         <div className="bookingInfo">
         
           <h2 style={{ fontWeight: "bold", fontSize: "20px" }}>
-           <FontAwesomeIcon style={{marginRight: "10px", fontSize: "20px"}} icon={faClipboard} /> Booking Details 
+           <FontAwesomeIcon style={{marginRight: "10px", fontSize: "20px", color: "#707d84"}} icon={faClipboard} /> Booking Details 
           </h2>
           <h1>{booking.court ? booking.court.data.courtName : ""}</h1>
-          <h2><FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px",}} icon={faLocationDot} /> {booking.court ? booking.court.data.location : ""}</h2>
+          <h2>Location: {booking.court ? booking.court.data.location : ""}</h2>
           <h2>
-          <FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px"}} icon={faCalendarDays} />{" "}
+          Date placed the order: {" "}
             {new Date(booking.bookingDate).toLocaleDateString()}
           </h2>
           <h2>Slot:  {getTimeSlotString(booking.timeSlotId)}</h2>
           <h2>Status:  {getStatusString(booking.status)}</h2>
           <h2 style={{ fontWeight: "bolder", fontSize: "20px" }}>
-          <FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px"}} icon={faUserTie} />  Customer Info:{" "}
+          <FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px", color: "#707d84"}} icon={faUserTie} />  Customer Info:{" "}
           </h2>
           <h1>{userInfo.name}</h1>
-          <h2><FontAwesomeIcon icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
+          <h2><FontAwesomeIcon style={{ color: "#707d84"}} icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
         </div>
         <div className="_line"></div>
         <div className="totalCheckoutAndCancel">
