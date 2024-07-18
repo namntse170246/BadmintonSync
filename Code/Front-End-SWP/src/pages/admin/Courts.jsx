@@ -1,10 +1,10 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Sidebar from "../../components/Owner/sidebar/Sidebar";
-import Navbar from "../../components/Owner/navbar/Navbar";
-import Dashboard from "../../components/Owner/realestates/realestatesDashBoard";
+import Sidebar from "../../components/Admin/sidebar/Sidebar";
+import Navbar from "../../components/Admin/navbar/Navbar";
+import Dashboard from "../../components/Admin/courts/courtsDashBoard";
 
-export default function OwnerCourts() {
+export default function Courts() {
   return (
     <div>
       <Navbar />

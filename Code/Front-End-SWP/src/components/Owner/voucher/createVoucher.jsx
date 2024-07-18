@@ -3,7 +3,7 @@ import { TextField, Button, MenuItem } from "@mui/material";
 import { CreateVouchers, GetAllCourts } from "../../API/APIConfigure";
 import { toast } from "react-toastify";
 
-const CreateVoucher = ({ fetchVouchers, onClose, fetchUser, ownerId }) => {
+const CreateVoucher = ({ fetchVouchers, onClose, ownerId }) => {
   const [voucher, setVoucher] = useState({
     promotionCode: "",
     description: "",
@@ -50,7 +50,6 @@ const CreateVoucher = ({ fetchVouchers, onClose, fetchUser, ownerId }) => {
         toast.success("Created successfully!");
         onClose();
         fetchVouchers();
-        fetchUser();
       }
     } catch (error) {
       console.error("Error occurred:", error);

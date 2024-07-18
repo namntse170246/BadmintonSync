@@ -38,6 +38,7 @@ const Dashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await GetAllFeedback();
+        console.log(response);
         setFeedback(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         toast.error("Failed to fetch feedback");
@@ -71,6 +72,7 @@ const Dashboard = () => {
       for (const id of uniqueUserIds) {
         try {
           const userData = await GetUserByID(id);
+          console.log(userData);
           setUserDetails((prevDetails) => ({
             ...prevDetails,
             [id]: userData.data.fullName, // Change to fullName

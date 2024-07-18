@@ -58,7 +58,6 @@ const Court = () => {
           navigate("/login-register");
         }
       });
-      console.log("Bạn cần Login để xem Hotels.");
     }
   };
 

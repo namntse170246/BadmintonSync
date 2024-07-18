@@ -11,7 +11,10 @@ const SignUpAccount = (userData) => {
 };
 
 const VerifyEmailOTP = (data) => {
-  return customAxios.post(`api/User/verifyotp`, data);
+  return customAxios.post(`api/User/verifyotp`, {
+    email: data.email,
+    otp: data.otp,
+  });
 };
 
 const GetAllAccounts = () => {
@@ -100,13 +103,13 @@ export const GetAllCourtsByMemberID = (userID) => {
   return customAxios.get(`api/Realestates/GetbyMemberID?id=${userID}`);
 };
 export const GetAllBookingsByMemberID = (userID) => {
-  return customAxios.get(`api/Bookings/${userID}`);
+  return customAxios.get(`api/Booking/userId/${userID}`);
 };
 
-const CreateSubCourts = (data) => {
-  return instance.post(`api/SubCourt/${data.courtId}`, {
-    name: data.name,
-    pricePerHour: data.pricePerHour
+const CreateSubCourts = (subCourtData) => {
+  return customAxios.post(`api/SubCourt/${subCourtData.courtId}`, {
+    name: subCourtData.name,
+    pricePerHour: subCourtData.pricePerHour,
   });
 };
 const CreateVouchers = (voucherData) => {

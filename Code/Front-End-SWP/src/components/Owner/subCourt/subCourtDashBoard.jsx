@@ -169,7 +169,7 @@ const Dashboard = () => {
             <CreateSubCourtComponent
               isOpen={open}
               onClose={handleClose}
-              fetchVouchers={fetchCourts}
+              fetchSubCourts={fetchCourts}
             />
           </DialogContent>
         </Dialog>

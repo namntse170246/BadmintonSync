@@ -74,7 +74,7 @@ function Home() {
       <div className="main-home-container">
         <Featured homeTitleRef={homeTitleRef} />
 
-        {/* <TrendPlace /> */}
+        <TrendPlace />
 
         <MailList />
         <div className="homeContainer" style={{ marginTop: "50px" }}>

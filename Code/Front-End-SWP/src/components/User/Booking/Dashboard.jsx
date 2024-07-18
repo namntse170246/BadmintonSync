@@ -36,6 +36,7 @@ const Dashboard = () => {
     setIsLoading(true);
     try {
       const response = await GetAllBookingsByMemberID(userInfo.id);
+      console.log(response);
       const bookingsWithRealestate = await Promise.all(
         response.data.map(async (booking) => {
           const timeshare = await GetTimeShareById(booking.timeSlotId);
@@ -77,12 +78,10 @@ const Dashboard = () => {
   );
 
   const statusTexts = {
-    0: "Chờ thanh toán",
-    1: "Đã xác nhận",
-    2: "Đã hủy",
-    3: "Đã check in",
-    4: "Đã check out",
-    5: "Đã check out",
+    0: "Pending",
+    1: "Confirmed",
+    2: "Cancelled",
+    3: "Checked-in",
   };
 
   const statusColors = {
@@ -90,8 +89,6 @@ const Dashboard = () => {
     1: "green",
     2: "red",
     3: "green",
-    4: "green",
-    5: "green",
   };
 
   return (

@@ -3,7 +3,7 @@ import { TextField, Button, MenuItem } from "@mui/material";
 import { CreateSubCourts, GetAllCourts } from "../../API/APIConfigure";
 import { toast } from "react-toastify";
 
-const CreateSubCourtComponent = ({ fetchSubCourts, handleClose }) => {
+const CreateSubCourtComponent = ({ fetchSubCourts, onClose }) => {
   const [subCourtData, setSubCourtData] = useState({
     courtId: "",
     name: "",
@@ -43,13 +43,14 @@ const CreateSubCourtComponent = ({ fetchSubCourts, handleClose }) => {
         ...subCourtData,
         pricePerHour: parseInt(subCourtData.pricePerHour, 10),
       };
-      // console.log(dataToSubmit);
+      console.log(dataToSubmit);
       const response = await CreateSubCourts(dataToSubmit);
-      // console.log(response);
+      console.log(response); // Logs individual fields
+      
       if (response.success) {
         toast.success("Sub-court created successfully!");
         fetchSubCourts();
-        handleClose();
+        onClose();
       } else {
         toast.error("Failed to create sub-court!");
       }
@@ -104,7 +105,7 @@ const CreateSubCourtComponent = ({ fetchSubCourts, handleClose }) => {
         color="primary"
         style={{ alignSelf: "flex-end", marginTop: "16px" }}
       >
-        Create Sub-Court
+        Create
       </Button>
     </form>
   );

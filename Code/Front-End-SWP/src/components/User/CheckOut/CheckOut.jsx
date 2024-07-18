@@ -58,21 +58,18 @@ const Checkout = () => {
     return <LoadingPage />;
   }
 
-  const total = Math.round(booking.amount * 24500);
+  const total = Math.round(booking.amount * 1000);
 
   const getStatusString = (status) => {
     switch (status) {
       case 0:
         return "Awaiting payment";
       case 1:
-        return "Paid";
+        return "Confirmed";
       case 2:
         return "Cancelled";
       case 3:
         return "Checked in";
-      case 4:
-      case 5:
-        return "Checked out";
       default:
         return "";
     }
@@ -103,7 +100,7 @@ const Checkout = () => {
     try {
       const response = await UpdateBookingStatus(id);
       console.log("Cancel response:", response);
-      toast.success("Booking cancelled successfully");
+      toast.success(response.message);
       navigate(-2); // Navigate back to the previous page
     } catch (error) {
       toast.error("Failed to cancel booking");
@@ -145,9 +142,6 @@ const Checkout = () => {
               bookingStatus={booking.status}
               startDay={booking.bookingDate}
             />
-          </div>
-          <div style={{ marginTop: "6px" }}>
-            <ButtonCheckOut bookingStatus={booking.status} />
           </div>
         </div>
         <div className="btn-in-button">
