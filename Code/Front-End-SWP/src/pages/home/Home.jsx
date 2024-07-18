@@ -8,6 +8,7 @@ import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import Banner from "../../assets/img/discount_banner.jpg";
+import mapImage from "../../../src/assets/img/map1.jpg";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 
@@ -75,8 +76,8 @@ function Home() {
         <Featured homeTitleRef={homeTitleRef} />
 
         <TrendPlace />
-
         <MailList />
+        <img src={mapImage} alt="Map" />
         <div className="homeContainer" style={{ marginTop: "50px" }}>
           <Footer />
         </div>

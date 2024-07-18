@@ -7,6 +7,7 @@ import SearchItem from "../../components/searchItem/SearchItem";
 import Filter from "../Filter/Filter";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
 import MailList from "../../components/mailList/MailList";
+import mapImage from "../../../src/assets/img/map1.jpg";
 import Footer from "../../components/footer/Footer";
 
 const List = () => {
@@ -164,6 +165,7 @@ const List = () => {
 
       <div className="main-home-container">
         <MailList />
+        <img src={mapImage} alt="Map" />
         <div className="homeContainer" style={{ marginTop: "50px" }}>
           <Footer />
         </div>

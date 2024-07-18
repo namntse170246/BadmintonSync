@@ -24,6 +24,7 @@ import FeedBack from "../../components/User/Feedback/Feedback";
 import Modal from "react-modal";
 import { useAuth } from "../../hook/AuthContext";
 import Swal from "sweetalert2";
+import mapImage from "../../../src/assets/img/map1.jpg";
 Modal.setAppElement("#root");
 
 const Court = () => {
@@ -285,6 +286,7 @@ const Court = () => {
         )}
         <FeatureProperties excludeId={id} />
         <MailList />
+        <img src={mapImage} alt="Map" />
         <Footer />
       </div>
       <Modal

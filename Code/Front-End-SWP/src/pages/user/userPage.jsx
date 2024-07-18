@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
-import { AccountCircle } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 import Profile from './Profile';
@@ -8,11 +7,10 @@ import { MenuItem } from '@mui/material';
 import Order from './Order';
 import Footer from '../../components/footer/Footer';
 import './userPage.css';
-import { GetUserByID } from '../../components/API/APIConfigure';
 import PaymentUser from './PaymentUser';
 
 import MailList from '../../components/mailList/MailList';
-import FeatureProperties from '../../components/featureProperties/FeatureProperties';
+import mapImage from "../../../src/assets/img/map1.jpg";
 
 const UserPage = () => {
   const [activeMenu, setActiveMenu] = useState('profile');
@@ -75,6 +73,7 @@ const UserPage = () => {
 
       <div className="homeContainer">
         <MailList />
+        <img src={mapImage} alt="Map" />
         <Footer />
       </div>
     </div>
