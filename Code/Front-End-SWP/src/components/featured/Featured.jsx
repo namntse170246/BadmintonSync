@@ -14,7 +14,7 @@ const Featured = ({ homeTitleRef }) => {
                 <div className="img-wrapper_1">
                   <img
                     className="img1"
-                    src="https://duynhon2106-001-site1.dtempurl.com/Uploads/c1217359-7b4d-4cff-b009-e0d11e016bd6.png"
+                    src="https://localhost:7155/Uploads/c1217359-7b4d-4cff-b009-e0d11e016bd6.png"
                     alt=""
                   />
                 </div>
@@ -36,7 +36,7 @@ const Featured = ({ homeTitleRef }) => {
                 <div className="img-wrapper_2">
                   <img
                     className="img1"
-                    src="https://duynhon2106-001-site1.dtempurl.com/Uploads/7cda1327-8c78-4ab1-985a-c59763f07463.png"
+                    src="https://localhost:7155/Uploads/7cda1327-8c78-4ab1-985a-c59763f07463.png"
                     alt=""
                   />
                 </div>

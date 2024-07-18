@@ -49,7 +49,7 @@ function FeatureProperties() {
         const photoUrls = property.image ? property.image.split(",") : [];
         const firstImageUrl = photoUrls.length > 0 ? photoUrls[0].trim() : "";
         const fullImageUrl = firstImageUrl
-          ? `https://duynhon2106-001-site1.dtempurl.com/Uploads/${firstImageUrl}`
+          ? `https://localhost:7155/Uploads/${firstImageUrl}`
           : "";
 
         return (

@@ -13,6 +13,9 @@ import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 import {
+  CancelBooking,
+  CheckinBooking,
+  ConfirmBooking,
   GetAllBookingsByID,
   GetbyCourtID,
   GetbySubCourtID,
@@ -20,9 +23,9 @@ import {
 } from "../../API/APIConfigure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./checkout.css";
-import ButtonCheckOut from "./ButtonCheckOut";
 import ButtonCheckin from "./ButtonCheckin";
 import ButtonFeedback from "./ButtonFeedback";
+import Momo from "./Momo.jsx";
 
 const Checkout = () => {
   const { id } = useParams();
@@ -37,6 +40,7 @@ const Checkout = () => {
     const fetchBooking = async () => {
       try {
         const response = await GetAllBookingsByID(id);
+        console.log(response);
         if (response.data) {
           const subCourt = await GetbySubCourtID(response.data.subCourtId);
           const court = await GetbyCourtID(subCourt.data.courtId);
@@ -98,10 +102,20 @@ const Checkout = () => {
 
   const handleCancel = async () => {
     try {
-      const response = await UpdateBookingStatus(id);
+      const response = await CancelBooking(id);
       console.log("Cancel response:", response);
       toast.success(response.message);
       navigate(-2); // Navigate back to the previous page
+    } catch (error) {
+      toast.error("Failed to cancel booking");
+    }
+  };
+  const handleCheckin = async () => {
+    try {
+      const response = await CheckinBooking(id);
+      console.log("Checkin response:", response);
+      toast.success(response.message);
+      navigate("/user/order", { state: { activeTab: 'order' } }); // Navigate to the order page
     } catch (error) {
       toast.error("Failed to cancel booking");
     }
@@ -111,40 +125,33 @@ const Checkout = () => {
     <>
       <Navbar />
       <div className="background">
-      <div className="checkout_Wrapper">
-        <div className="bookingSummary">
-          <h1>Booking Summary:</h1>
-          <h2>Booking ID {booking.bookingId}</h2>
-        </div>
-        <div className="bookingInfo">
-        
-          <h2 style={{ fontWeight: "bold", fontSize: "20px" }}>
-           <FontAwesomeIcon style={{marginRight: "10px", fontSize: "20px", color: "#707d84"}} icon={faClipboard} /> Booking Details 
-          </h2>
-          <h1>{booking.court ? booking.court.data.courtName : ""}</h1>
-          <h2>Location: {booking.court ? booking.court.data.location : ""}</h2>
-          <h2>
-          Date placed the order: {" "}
-            {new Date(booking.bookingDate).toLocaleDateString()}
-          </h2>
-          <h2>Slot:  {getTimeSlotString(booking.timeSlotId)}</h2>
-          <h2>Status:  {getStatusString(booking.status)}</h2>
-          <h2 style={{ fontWeight: "bolder", fontSize: "20px" }}>
-          <FontAwesomeIcon style={{fontSize: "20px", marginRight: "10px", color: "#707d84"}} icon={faUserTie} />  Customer Info:{" "}
-          </h2>
-          <h1>{userInfo.name}</h1>
-          <h2><FontAwesomeIcon style={{ color: "#707d84"}} icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
-        </div>
-        <div className="_line"></div>
-        <div className="totalCheckoutAndCancel">
-          <div style={{ marginTop: "10px" }}>
-            <ButtonCheckin
-              bookingStatus={booking.status}
-              startDay={booking.bookingDate}
-            />
+        <div className="checkout_Wrapper">
+          <div className="bookingSummary">
+            <h1>Booking Summary:</h1>
+            <h2>Booking ID {booking.bookingId}</h2>
           </div>
-        </div>
-        <div className="btn-in-button">
+          <div className="bookingInfo">
+
+            <h2 style={{ fontWeight: "bold", fontSize: "20px" }}>
+              <FontAwesomeIcon style={{ marginRight: "10px", fontSize: "20px", color: "#707d84" }} icon={faClipboard} /> Booking Details
+            </h2>
+            <h1>{booking.court ? booking.court.data.courtName : ""}</h1>
+            <h2>Location: {booking.court ? booking.court.data.location : ""}</h2>
+            <h2>
+              Date placed the order: {" "}
+              {new Date(booking.bookingDate).toLocaleDateString()}
+            </h2>
+            <h2>Slot:  {getTimeSlotString(booking.timeSlotId)}</h2>
+            <h2>Status:  {getStatusString(booking.status)}</h2>
+            <h2 style={{ fontWeight: "bolder", fontSize: "20px" }}>
+              <FontAwesomeIcon style={{ fontSize: "20px", marginRight: "10px", color: "#707d84" }} icon={faUserTie} /> Customer Info:{" "}
+            </h2>
+            <h1>{userInfo.name}</h1>
+            <h2><FontAwesomeIcon style={{ color: "#707d84"}} icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
+          </div>
+          <div className="_line"></div>
+
+          {/* <div className="btn-in-button">
           <div className="feedback-booking">
             <ButtonFeedback
               status={booking.status}
@@ -152,18 +159,30 @@ const Checkout = () => {
               bookingID={booking.bookingId}
             />
           </div>
+        </div> */}
+          {booking && booking.status === 1 && (
+            <div className="totalCheckoutAndCancel">
+              <div style={{ marginTop: "10px" }}>
+                <div className="Cancel-booking">
+                  <button onClick={handleCheckin}>Check In</button>
+                </div>
+              </div>
+            </div>
+          )}
+          {booking && booking.status === 0 && (
+            <div className="payment-container">
+              <div className="payment-booking">
+                <VNPay amount={total} id={userInfo.id} bookingId={id} />
+              </div>
+              <div className="payment-booking">
+                <Momo amount={total} id={userInfo.id} bookingId={id} />
+              </div>
+              <div className="Cancel-booking">
+                <button onClick={handleCancel}>Cancel and go back</button>
+              </div>
+            </div>
+          )}
         </div>
-        {booking && booking.status === 0 && (
-          <div className="payment-container">
-            <div className="payment-booking">
-              <VNPay amount={total} id={userInfo.id} />
-            </div>
-            <div className="Cancel-booking">
-              <button onClick={handleCancel}>Cancel and go back</button>
-            </div>
-          </div>
-        )}
-      </div>
       </div>
     </>
   );

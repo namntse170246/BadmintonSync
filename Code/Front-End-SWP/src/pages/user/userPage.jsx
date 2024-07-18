@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../../components/navbar/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; // Import useLocation
 
 import Profile from './Profile';
 import { MenuItem } from '@mui/material';
@@ -13,8 +13,14 @@ import MailList from '../../components/mailList/MailList';
 import mapImage from "../../../src/assets/img/map1.jpg";
 
 const UserPage = () => {
+  const location = useLocation(); // Use useLocation to get state
   const [activeMenu, setActiveMenu] = useState('profile');
-  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    if (location.state && location.state.activeTab) {
+      setActiveMenu(location.state.activeTab);
+    }
+  }, [location.state]);
 
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);

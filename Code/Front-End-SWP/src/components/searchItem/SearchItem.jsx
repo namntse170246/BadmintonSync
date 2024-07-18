@@ -65,7 +65,7 @@ const SearchItem = ({ searchResult }) => {
         return (
           <div key={court.courtId} className="court-card">
             <img
-              src={`https://duynhon2106-001-site1.dtempurl.com/Uploads/${firstImageUrl}`}
+              src={`https://localhost:7155/Uploads/${firstImageUrl}`}
               alt={court.courtName}
             />
             <div className="infor-part">

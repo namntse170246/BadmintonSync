@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./VNPay.css";
+import "./Momo.css";
 import { ConfirmBooking } from "../../API/APIConfigure";
 
-const VNPay = ({ amount, id, bookingId }) => {
+const Momo = ({ amount, id, bookingId }) => {
   const [loading, setLoading] = useState(false);
 
   const handlePayment = async () => {
@@ -28,10 +28,10 @@ const VNPay = ({ amount, id, bookingId }) => {
         paymentCurrency: "VND",
       };
 
-      const response = await axios.post("/api/PaymentVNPay", paymentData);
+      const response = await axios.post("/api/PaymentMomo", paymentData);
       if (response.data) {
-        window.location.href = response.data;
         ConfirmBooking(bookingId, 1);
+        window.location.href = response.data;
       } else {
         throw new Error("API did not return a payment URL");
       }
@@ -64,4 +64,4 @@ const VNPay = ({ amount, id, bookingId }) => {
   );
 };
 
-export default VNPay;
+export default Momo;

@@ -1,6 +1,6 @@
 import instance, { customAxios } from "../setUp/axios";
 
-export const BASE_URL = "https://duynhon2106-001-site1.dtempurl.com/";
+export const BASE_URL = "https://localhost:7155/";
 //ACCOUNT
 const SignInAccount = (userData) => {
   return customAxios.post(`api/User/Login`, userData);
@@ -145,8 +145,21 @@ export const UpdateRealestateStatus = (realID, newStatus) => {
     status: newStatus,
   });
 };
-export const UpdateBookingStatus = async (bookingID) => {
+export const UpdateBookingStatus = async (bookingID, status) => {
+  console.log(bookingID, status);
+  return customAxios.put(`/api/Booking/${bookingID}/status`, {
+    status: status,
+  });
+};
+
+export const CancelBooking = async (bookingID) => {
   return customAxios.put(`/api/Booking/${bookingID}/cancel`);
+};
+export const ConfirmBooking = async (bookingID) => {
+  return customAxios.put(`/api/Booking/${bookingID}/confirm`);
+};
+export const CheckinBooking = async (bookingID) => {
+  return customAxios.put(`/api/Booking/${bookingID}/checkin`);
 };
 
 export const GetAllBookingsByID = (bookingID) => {

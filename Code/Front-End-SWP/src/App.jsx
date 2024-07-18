@@ -30,6 +30,7 @@ import PaymentResults from "./pages/user/PaymentResult";
 import LoadingPage from "./components/LoadingPage/LoadingPage";
 import HorizontalNonLinearStepper from "./components/step/HorizontalNonLinearStepper";
 import { useEffect } from "react";
+import Order from "./pages/user/Order";
 
 const AdminWrapper = ({ children }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -106,6 +107,14 @@ function App() {
           </UserWrapper>
         }
       />
+      {/* <Route
+        path="/user/order"
+        element={
+          <UserWrapper>
+            <Order />
+          </UserWrapper>
+        }
+      /> */}
       {/* Admin */}
       <Route
         path="/admin"

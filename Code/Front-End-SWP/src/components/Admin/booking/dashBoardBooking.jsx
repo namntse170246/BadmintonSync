@@ -26,6 +26,8 @@ const Dashboard = () => {
   const [page, setPage] = useState(0);
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -93,12 +95,14 @@ const Dashboard = () => {
     0: "Pending",
     1: "Confirmed",
     2: "Cancelled",
+    3: "Checked-in"
   };
 
   const statusColors = {
     0: "orange",
     1: "green",
     2: "red",
+    3: "green",
   };
 
   const handleStatusChange = async (bookingId, newStatus) => {

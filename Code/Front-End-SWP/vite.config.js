@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://duynhon2106-001-site1.dtempurl.com",
+        target: "https://localhost:7155",
         changeOrigin: true,
         secure: false,
       },

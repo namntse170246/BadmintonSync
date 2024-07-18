@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -11,54 +12,73 @@ import {
   TablePagination,
   Select,
   MenuItem,
-  Button,
-  Skeleton,
 } from "@mui/material";
+import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  GetAllBookingsByMemberID,
-  GetbyCourtID,
-  GetTimeShareById,
-} from "../../API/APIConfigure";
+import { GetAllBookingsByMemberID, GetbyCourtID, GetbySubCourtID, GetTimeSlotByID, UpdateBookingStatus } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [bookings, setBookings] = useState([]);
-  const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
+  const [courtDetails, setCourtDetails] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const navigate = useNavigate();
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-  const fetchBookings = async () => {
+  useEffect(() => {
+    const fetchBookings = async () => {
+      setIsLoading(true);
+      try {
+        const response = await GetAllBookingsByMemberID(userInfo.id);
+        console.log(response);
+        setBookings(Array.isArray(response.data) ? response.data : []);
+        fetchCourtDetails(response.data);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to fetch bookings");
+      }
+      setIsLoading(false);
+    };
+    fetchBookings();
+  }, [userInfo.id]);
+
+  const fetchCourtDetails = async (bookings) => {
     setIsLoading(true);
-    try {
-      const response = await GetAllBookingsByMemberID(userInfo.id);
-      console.log(response);
-      const bookingsWithRealestate = await Promise.all(
-        response.data.map(async (booking) => {
-          const timeshare = await GetTimeShareById(booking.timeSlotId);
-          const realestate = await GetbyCourtID(booking.subCourtId);
-          return { ...booking, realestate, timeshare };
-        })
-      );
-      setBookings(bookingsWithRealestate || []);
-    } catch (err) {
-      toast.error("Failed to fetch booking information");
-      console.error(err);
+    const courtDetailsMap = { ...courtDetails };
+    for (const booking of bookings) {
+      if (!courtDetailsMap[booking.courtId]) {
+        try {
+          console.log(booking);
+          const subCourtResponse = await GetbySubCourtID(booking.subCourtId);
+          console.log(subCourtResponse.data.name);
+          const courtResponse = await GetbyCourtID(subCourtResponse.data.courtId);
+          console.log(courtResponse);
+          const timeSlotResponse = await GetTimeSlotByID(booking.timeSlotId);
+          console.log(timeSlotResponse);
+          if (courtResponse.data && subCourtResponse.data) {
+            courtDetailsMap[booking.courtId] = courtResponse.data.courtName;
+            courtDetailsMap[booking.subCourtId] = subCourtResponse.data.name;
+            courtDetailsMap[booking.timeSlotId] = timeSlotResponse.data.startTime - timeSlotResponse.data.endTime;
+          } else {
+            console.error(`Court or subCourt with id ${booking.courtId} or ${booking.subCourtId} does not have names`);
+          }
+        } catch (err) {
+          console.error(err);
+          toast.error(`Failed to fetch court details for courtId: ${booking.courtId}`);
+        }
+      }
     }
+
+    setCourtDetails(courtDetailsMap);
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
+  const navigate = useNavigate();
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  const handleChangePage = (event, newPage) => setPage(newPage);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -66,10 +86,11 @@ const Dashboard = () => {
   };
 
   const filteredBookings = bookings.filter((booking) => {
-    return (
-      selectedStatusFilter === "all" ||
-      booking.status.toString() === selectedStatusFilter
-    );
+    if (selectedStatusFilter === "all") {
+      return true; // Show all bookings
+    } else {
+      return booking.status === parseInt(selectedStatusFilter);
+    }
   });
 
   const slicedBookings = filteredBookings.slice(
@@ -81,7 +102,7 @@ const Dashboard = () => {
     0: "Pending",
     1: "Confirmed",
     2: "Cancelled",
-    3: "Checked-in",
+    3: "Checked-in"
   };
 
   const statusColors = {
@@ -91,113 +112,110 @@ const Dashboard = () => {
     3: "green",
   };
 
+  const handleStatusChange = async (bookingId, newStatus) => {
+    try {
+      const response = await UpdateBookingStatus(bookingId, newStatus);
+      if (response.success) {
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) =>
+            booking.bookingId === bookingId
+              ? { ...booking, status: newStatus }
+              : booking
+          )
+        );
+        toast.success("Status updated Successfully");
+      } else {
+        toast.error("Failed to update status");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update status");
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
-        {/* <Select
+        <h2
+          style={{
+            textAlign: "center",
+            color: "#205295",
+            fontSize: "40px",
+            marginTop: "20px",
+            marginBottom: "20px",
+            fontFamily: "Arial, sans-serif",
+            fontWeight: "bold",
+          }}
+        >
+          Booking
+        </h2>
+        <Select
           value={selectedStatusFilter}
           onChange={(e) => setSelectedStatusFilter(e.target.value)}
-          style={{ marginTop: "30px", marginBottom: "20px" }}
+          style={{ marginBottom: "20px" }}
         >
-          <MenuItem value="all">Tất cả</MenuItem>
-          {Object.keys(statusTexts).map((status) => (
-            <MenuItem key={status} value={status}>
-              {statusTexts[status]}
+          <MenuItem value="all">All</MenuItem>
+          {Object.keys(statusTexts).map((key) => (
+            <MenuItem key={key} value={key}>
+              {statusTexts[key]}
             </MenuItem>
           ))}
-        </Select> */}
-
-        <TableContainer component={Paper}>
-          {isLoading ? (
-            <Skeleton
-              animation="wave"
-              variant="rectangular"
-              width={650}
-              height={300}
-            />
-          ) : (
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
-                    BookingID
+        </Select>
+        <TableContainer component={Paper} className="dashboard-container">
+          <Table sx={{ minWidth: 650 }} aria-label="simple table" className="staff-table">
+            <TableHead>
+              <TableRow>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Court
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Timeslot
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Booking Date
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Amount
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Status
+                </TableCell>
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                  Action
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {slicedBookings.map((booking) => (
+                <TableRow key={booking.bookingId}>
+                  <TableCell style={{ fontSize: "13px" }} align="center">
+                    {courtDetails[booking.courtId]}
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
-                    Court
+                  <TableCell style={{ fontSize: "13px" }} align="center">
+                    {courtDetails[booking.timeSlotId]}
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
-                    Sub Court
+                  <TableCell style={{ fontSize: "13px" }} align="center">
+                    {new Date(booking.bookingDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
-                    TimeSlot 
+                  <TableCell style={{ fontSize: "13px" }} align="center">
+                    {booking.amount.toLocaleString()} VND
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "20px",
-                    }}
-                    align="center"
-                  >
-                    Status
+                  <TableCell style={{ fontSize: "15px", color: statusColors[booking.status], fontWeight: "bold" }} align="center">
+                    {statusTexts[booking.status]}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button variant="outlined" color="success" className="edit-btn" onClick={() => navigate(`/user/checkout/${booking.bookingId}`)}>
+                      <VisibilityIcon sx={{ fontSize: 25 }} />
+                    </Button>
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {slicedBookings.map((item) => (
-                  <TableRow key={item.bookingId}>
-                    <TableCell align="center">{item.bookingId}</TableCell>
-                    <TableCell align="center">
-                      {item.realestate ? item.realestate.data.courtName : ""}
-                    </TableCell>
-                    <TableCell align="center">
-                      {item.realestate ? item.realestate.data.subCourtName : ""}
-                    </TableCell>
-                    <TableCell align="center">
-                      {item.timeshare ? `${item.timeshare.startTime} - ${item.timeshare.endTime}` : ""}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        color: statusColors[item.status],
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {statusTexts[item.status]}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Button
-                        variant="outlined"
-                        color="success"
-                        className="edit-btn"
-                        onClick={() => navigate(`/user/checkout/${item.bookingId}`)}
-                      >
-                        <VisibilityIcon sx={{ fontSize: 25 }} />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
+              ))}
+            </TableBody>
+          </Table>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
