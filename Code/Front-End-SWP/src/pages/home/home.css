@@ -70,3 +70,8 @@
 .path-frontpage.fixed-bs .navbar-wrapper .navbar-center {
   height: 90px;
 }
+
+.map-section {
+  width: 100%;
+  height: 100vh;
+}
