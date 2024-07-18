@@ -10,29 +10,31 @@
 }
 
 .text_copy {
-    color: red;
+    color: white;
     text-align: center;
     padding: 10px 0;
 }
 
 .FLists h3 {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 600;
     padding: 0 0 10px 0;
+    color: white;
 }
 
 .FLists .FList {
     padding-bottom: 10px;
     line-height: 24px;
+    color: white;
 }
 
 .fListItem {
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .FList .fListItem a {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .logo_Linkedin {
@@ -53,4 +55,17 @@
 .logo_Insta {
     font-size: 30px;
     color: #BC2A8D;
+}
+.logo_Insta, .logo_Fa,
+.logo_Linkedin, .logo_Youtube {
+    margin-right: 10px;
+}
+
+.Footer {
+    background-color: #0a0f2b;
+    margin-top: -53px;
+}
+
+.FList .fListItem .text1 {
+    vertical-align: super;
 }
