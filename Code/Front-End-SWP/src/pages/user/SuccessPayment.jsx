@@ -9,6 +9,9 @@ const SuccessPayment = ({ amount }) => {
     navigate(`/user/checkout/${id}`); // Chuyển hướng về trang Checkout
   };
 
+  const formattedAmount = Number(amount).toLocaleString('vi-VN');
+
+
   return (
     <div className="container">
       <div className="printer-top"></div>
@@ -19,7 +22,7 @@ const SuccessPayment = ({ amount }) => {
             <div className="success-icon">&#10004;</div>
             <div className="success-title">Payment Complete</div>
             <div className="success-description">
-              Your payment for {amount} VND has been received and sent to CourtSync.
+              Your payment for {formattedAmount} VND has been received and sent to CourtSync.
             </div>
             <div className="order-details">
               <div className="order-number-label">Payment id</div>
