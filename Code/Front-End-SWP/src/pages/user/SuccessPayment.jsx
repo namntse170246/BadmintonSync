@@ -13,6 +13,7 @@ const SuccessPayment = ({ amount }) => {
 
 
   return (
+    <div className="background-success">
     <div className="container">
       <div className="printer-top"></div>
       <div className="paper-container">
@@ -34,6 +35,7 @@ const SuccessPayment = ({ amount }) => {
           <div className="jagged-edge"></div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
