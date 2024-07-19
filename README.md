@@ -52,3 +52,14 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 | Tran Ngoc Long       | UC-21 (TC:12, 13, 14)   |
 | Tran Minh Phuc       | UC-08 (TC:15, 16)   |
 
+**SPRINT 2**
+
+| Name |                UC(TC)               |
+|----------------------|---------------------|
+| Pham Quoc Duy        | UC-05 (TC:3, 4, 5, 6 ,7)  | 
+| Nguyen Phi Hung      | UC-09 (TC : 21, 22) UC10 (TC : 23, 24, 25) | 
+| Nguyen Trung Nam     | UC-06 (TC:8, 9)     |
+| Bui Duc Trieu        | UC-07 (TC:10, 11)   |
+| Tran Ngoc Long       | UC-21 (TC:12, 13, 14)   |
+| Tran Minh Phuc       | UC-08 (TC:15, 16)   |
+
