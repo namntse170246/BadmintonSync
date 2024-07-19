@@ -33,12 +33,12 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 
 | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 |
 |----------|----------|----------|----------|
-| UC-04    | UC-49    | UC-16    | UC-22    | 
-| UC-05    | UC-09    | UC-20    | UC-20    | 
-| UC-21    | UC-10    | UC-23    | UC-03    |
-| UC-07    | UC-12    | UC-18    | UC-28    |
-| UC-06    | UC-14    | UC-19    | UC-09    |
-| UC-08    | UC-15    | UC-17    | UC-25    |
+| UC-04    | UC-19    | UC-16    | UC-29    | 
+| UC-05    | UC-20    | UC-45   | UC-20    | 
+| UC-21    | UC-21    | UC-23    | UC-03    |
+| UC-07    | UC-22    | UC-18    | UC-28    |
+| UC-06    |          | UC-19    | UC-09    |
+| UC-08    |          | UC-17    | UC-25    |
 |          |          |          | UC-27    |
 
 **SPRINT 1**
@@ -60,6 +60,6 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 | Nguyen Phi Hung      | UC-09 (TC : 21, 22) UC10 (TC : 23, 24, 25) | 
 | Nguyen Trung Nam     | UC-06 (TC:8, 9)     |
 | Bui Duc Trieu        | UC-07 (TC:10, 11)   |
-| Tran Ngoc Long       | UC-21 (TC:12, 13, 14)   |
+| Tran Ngoc Long       | UC-21 (TC:19, 20, 21, 22)   |
 | Tran Minh Phuc       | UC-08 (TC:15, 16)   |
 
