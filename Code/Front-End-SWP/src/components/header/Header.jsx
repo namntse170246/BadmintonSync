@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import bg1 from "../../assets/img/banner.png";
+import bg1 from "../../assets/img/wall1.jpg";
+import bg2 from "../../assets/img/wall2.jpg";
+import bg3 from "../../assets/img/wall3.jpg";
+
 import "./header.css";
 
 const Header = ({ isUnVisible }) => {
@@ -9,24 +12,20 @@ const Header = ({ isUnVisible }) => {
         <div className="block-content">
           <div className="banner-block ht_relative">
             <div className="banner-wrapper">
-              <img
-                src={bg1}
-                alt="bg"
-                width={"100%"}
-                height={"100%"}
-                style={{ objectFit: "cover" }}
-              />
               <div className="banner-container">
                 <div className="banner-info">
                   <div className="banner-tit">Welcome to CourtSync</div>
                   <div className="banner-des">
-                    Why play less, when you can play more !
+                    Why play less, when you can play more!
                   </div>
                   <div className="banner-cta">
-                    <Link to="/courts">Discovery ! </Link>
+                    <Link to="/courts">Discover !</Link>
                   </div>
                 </div>
               </div>
+              <img className="banner-image image1" src={bg1} alt="bg1" />
+              <img className="banner-image image2" src={bg2} alt="bg2" />
+              <img className="banner-image image3" src={bg3} alt="bg3" />
             </div>
           </div>
         </div>

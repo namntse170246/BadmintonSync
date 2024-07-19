@@ -175,10 +175,9 @@
   grid-template-rows: 1fr 1fr;
   gap: 16px;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   margin-left: 16%;
   margin-right: 16%;
-  height: 500px; /* Adjust this height as necessary */
 }
 
 .hotelImgWrapper {

@@ -1,6 +1,6 @@
 import instance, { customAxios } from "../setUp/axios";
 
-export const BASE_URL = "https://localhost:7155/";
+export const BASE_URL = "https://duynhon2106-001-site1.dtempurl.com/";
 //ACCOUNT
 const SignInAccount = (userData) => {
   return customAxios.post(`api/User/Login`, userData);
