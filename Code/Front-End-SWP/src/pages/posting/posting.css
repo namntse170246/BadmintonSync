@@ -10,7 +10,7 @@
 .booking-title {
   border-bottom: 1px solid rgb(141, 135, 135);
   padding-bottom: 15px;
-  color: #16056b;
+  color: white;
   font-size: 24px;
   font-weight: 100px;
 }
@@ -25,7 +25,7 @@
   display: block;
   margin-bottom: 10px;
   font-size: 16px;
-  color: #16056b;
+  color: white;
 }
 
 .form-control {

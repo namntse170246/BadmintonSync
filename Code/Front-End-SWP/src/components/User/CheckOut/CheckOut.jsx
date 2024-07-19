@@ -163,7 +163,7 @@ const Checkout = () => {
           {booking && booking.status === 1 && (
             <div className="totalCheckoutAndCancel">
               <div style={{ marginTop: "10px" }}>
-                <div className="Cancel-booking">
+                <div className="CheckIn-button">
                   <button onClick={handleCheckin}>Check In</button>
                 </div>
               </div>
