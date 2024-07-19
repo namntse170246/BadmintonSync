@@ -16,20 +16,20 @@ import {
   CancelBooking,
   CheckinBooking,
   ConfirmBooking,
+  CreateCheckIn,
   GetAllBookingsByID,
   GetbyCourtID,
   GetbySubCourtID,
-  UpdateBookingStatus, // Import delete booking API function
+  UpdateBookingStatus, 
 } from "../../API/APIConfigure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./checkout.css";
-import ButtonCheckin from "./ButtonCheckin";
-import ButtonFeedback from "./ButtonFeedback";
 import Momo from "./Momo.jsx";
+import Payment from "./Payment.jsx";
 
 const Checkout = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -73,7 +73,9 @@ const Checkout = () => {
       case 2:
         return "Cancelled";
       case 3:
-        return "Checked in";
+        return "Check-in";
+      case 4:
+        return "Checked";
       default:
         return "";
     }
@@ -110,14 +112,35 @@ const Checkout = () => {
       toast.error("Failed to cancel booking");
     }
   };
+
+
   const handleCheckin = async () => {
     try {
-      const response = await CheckinBooking(id);
-      console.log("Checkin response:", response);
-      toast.success(response.message);
-      navigate("/user/order", { state: { activeTab: 'order' } }); // Navigate to the order page
+      console.log("Booking before check-in:", booking);
+      const responseCheckinBooking = await CheckinBooking(id);
+      console.log("CheckinBooking response:", responseCheckinBooking);
+  
+      const createDate = new Date().toISOString();
+      const dataCheckin = {
+        subCourtId: booking.subCourtId,
+        bookingId: id,
+        checkInTime: createDate,
+        userId: userInfo.id,
+      };
+  
+      console.log("Data for CreateCheckIn:", dataCheckin);
+      const responseCreateCheckIn = await CreateCheckIn(dataCheckin);
+      console.log("CreateCheckIn response:", responseCreateCheckIn);
+  
+      if (responseCreateCheckIn.success) { 
+        toast.success(responseCreateCheckIn.message);
+        navigate("/user/order", { state: { activeTab: 'order' } }); 
+      } else {
+        toast.error("Failed to create check-in");
+      }
     } catch (error) {
-      toast.error("Failed to cancel booking");
+      console.error("Error during check-in:", error);
+      toast.error("Failed to check-in booking");
     }
   };
 
@@ -147,7 +170,7 @@ const Checkout = () => {
               <FontAwesomeIcon style={{ fontSize: "20px", marginRight: "10px", color: "#707d84" }} icon={faUserTie} /> Customer Info:{" "}
             </h2>
             <h1>{userInfo.name}</h1>
-            <h2><FontAwesomeIcon style={{ color: "#707d84"}} icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
+            <h2><FontAwesomeIcon style={{ color: "#707d84" }} icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
           </div>
           <div className="_line"></div>
 
@@ -163,7 +186,7 @@ const Checkout = () => {
           {booking && booking.status === 1 && (
             <div className="totalCheckoutAndCancel">
               <div style={{ marginTop: "10px" }}>
-                <div className="CheckIn-button">
+                <div className="Cancel-booking">
                   <button onClick={handleCheckin}>Check In</button>
                 </div>
               </div>
@@ -172,10 +195,7 @@ const Checkout = () => {
           {booking && booking.status === 0 && (
             <div className="payment-container">
               <div className="payment-booking">
-                <VNPay amount={total} id={userInfo.id} bookingId={id} />
-              </div>
-              <div className="payment-booking">
-                <Momo amount={total} id={userInfo.id} bookingId={id} />
+                <Payment amount={total} id={userInfo.id} bookingId={id} />
               </div>
               <div className="Cancel-booking">
                 <button onClick={handleCancel}>Cancel and go back</button>
