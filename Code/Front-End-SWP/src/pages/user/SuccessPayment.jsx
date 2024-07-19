@@ -14,7 +14,7 @@ const SuccessPayment = ({ amount }) => {
 
   return (
     <div className="background-success">
-    <div className="container">
+    <div className="container-success">
       <div className="printer-top"></div>
       <div className="paper-container">
         <div className="printer-bottom"></div>
