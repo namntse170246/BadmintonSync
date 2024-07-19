@@ -37,6 +37,7 @@ const Dashboard = () => {
     try {
       const response = await GetAllCourts();
       const ownedCourts = response.data.filter(court => court.ownerId === ownerId);
+      console.log(ownedCourts);
       setCourts(ownedCourts || []);
     } catch (err) {
       toast.error("Failed to fetch courts");
@@ -130,6 +131,19 @@ const Dashboard = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
+          <h2
+            style={{
+              textAlign: "center",
+              color: "#205295",
+              fontSize: "40px",
+              marginTop: "20px",
+              marginBottom: "20px",
+              fontFamily: "Arial, sans-serif",
+              fontWeight: "bold",
+            }}
+          >
+            Sub Courts
+          </h2>
         <TextField
           label="Search Sub Court Name"
           value={searchTerm}
@@ -169,24 +183,11 @@ const Dashboard = () => {
             <CreateSubCourtComponent
               isOpen={open}
               onClose={handleClose}
-              fetchSubCourts={fetchCourts}
+              fetchSubCourts={fetchSubCourts}
             />
           </DialogContent>
         </Dialog>
         <TableContainer component={Paper}>
-          <h2
-            style={{
-              textAlign: "center",
-              color: "#205295",
-              fontSize: "40px",
-              marginTop: "20px",
-              marginBottom: "20px",
-              fontFamily: "Arial, sans-serif",
-              fontWeight: "bold",
-            }}
-          >
-            Sub Courts
-          </h2>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>

@@ -161,6 +161,9 @@ export const ConfirmBooking = async (bookingID) => {
 export const CheckinBooking = async (bookingID) => {
   return customAxios.put(`/api/Booking/${bookingID}/checkin`);
 };
+export const CreateCheckIn = async (data) => {
+  return customAxios.post(`api/CheckIn`, data);
+};
 
 export const GetAllBookingsByID = (bookingID) => {
   return customAxios.get(`api/Booking/${bookingID}`);

@@ -1,0 +1,24 @@
+.payment-container {
+    text-align: center;
+    margin-top: -4%;
+  }
+  
+  .payment-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  .payment-button {
+    width: 90%;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #d82d8b;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    background-image: url(https://static.mservice.io/jk/momo2020/img/intro/qrcode-pattern.png);
+  }
+  
