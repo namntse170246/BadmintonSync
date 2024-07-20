@@ -1,149 +1,4 @@
-/* .header {
-    background-color: #003580;
-    color: white;
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-.headerContainer {
-    width: 100%;
-    max-width: 1024px;
-    margin: 20px 0px 100px 0px;
-}
-
-.headerContainer.listMode {
-    margin: 20px 0px 0px 0px;
-}
-
-.headerList {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 50px;
-}
-
-.headerListItem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-}
-.headerTitile {
-    font-weight: 700;
-    font-size: 48px;
-    line-height: 62px;
-    color: #fff;
-}
-.headerListItem.active {
-    border: 1px solid white;
-    padding: 10px;
-    border-radius: 20px;
-}
-
-.headerDesc {
-    margin: 20px 0px;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 32px;
-    font-style: normal;
-}
-
-.headerBtn {
-    background-color: #0071c2;
-    color: white;
-    font-weight: 500;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.headerSearch {
-    height: 60px;
-    background-color: white;
-    border: 3px solid #febb02;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 10px 0px;
-    border-radius: 5px;
-    position: absolute;
-    bottom: -25px;
-    width: 100%;
-    max-width: 1024px;
-}
-
-.headerIcon {
-    color: lightgray;
-}
-
-.headerSearchItem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.headerSearchInput {
-    border: none;
-    outline: none;
-}
-
-.headerSearchText {
-    color: lightgray;
-    cursor: pointer;
-}
-
-.date {
-    position: absolute;
-    top: 50px;
-    z-index: 2;
-}
-
-.options {
-    z-index: 2;
-    position: absolute;
-    top: 50px;
-    background-color: white;
-    color: gray;
-    border-radius: 5px;
-    -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
-}
-
-.optionItem {
-    width: 200px;
-    display: flex;
-    justify-content: space-between;
-    margin: 10px;
-}
-
-.optionCounter {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    color: black;
-}
-
-.optionCounterButton {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #0071c2;
-    color: #0071c2;
-    cursor: pointer;
-    background-color: white;
-}
-
-.optionCounterButton:disabled {
-    cursor: not-allowed;
-} */
-
-.header-img-bg {
-  height: 624px;
-  width: 100%;
-}
-.ht_relative {
+.header-element-contain {
   position: relative;
 }
 
@@ -154,7 +9,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* Make sure the overflowing content is hidden */
 }
+
 .banner-wrapper::before {
   content: "";
   position: absolute;
@@ -168,6 +25,7 @@
     linear-gradient(0deg, rgba(48, 47, 67, 0.17), rgba(48, 47, 67, 0.17));
   z-index: 2;
 }
+
 .banner-container {
   position: absolute;
   z-index: 2;
@@ -177,9 +35,11 @@
   width: 100%;
   margin: 0 auto;
 }
+
 .banner-info {
   /* padding-left: 8px; */
 }
+
 .banner-info .banner-tit {
   /* font-family: "EB Garamond"; */
   font-style: normal;
@@ -189,6 +49,7 @@
   color: #fff;
   margin-bottom: 30px;
 }
+
 .banner-info .banner-des {
   font-size: 16px;
   line-height: 20px;
@@ -196,6 +57,7 @@
   color: #fff;
   margin-bottom: 30px;
 }
+
 .banner-info .banner-cta a {
   border: 1px solid #fff;
   min-width: 130px;
@@ -204,13 +66,56 @@
   align-items: center;
   color: #fff;
   padding-left: 24px;
-  padding-right: 39px;
+  padding-right: 24px;
   /* font-family: "EB Garamond"; */
   font-weight: 600;
   font-size: 16px;
   line-height: 21px;
   transition: 0.5s;
+  text-decoration: none;
 }
+
 .banner-info .banner-cta a {
   background-position-x: calc(100% - 13px);
+}
+
+.banner-image {
+  position: absolute;
+  top: 0;
+  left: 100%; /* Start from the right outside the viewport */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  animation: slideAnimation 12s infinite;
+}
+
+.banner-image.image1 {
+  animation-delay: 0s;
+}
+
+.banner-image.image2 {
+  animation-delay: 4s;
+}
+
+.banner-image.image3 {
+  animation-delay: 8s;
+}
+
+@keyframes slideAnimation {
+  0% {
+    left: 100%; /* Start off-screen to the right */
+  }
+  10% {
+    left: 0; /* Fully visible */
+  }
+  30% {
+    left: 0; /* Stay visible */
+  }
+  40% {
+    left: -100%; /* Slide out to the left */
+  }
+  100% {
+    left: -100%; /* Stay off-screen to the left */
+  }
 }

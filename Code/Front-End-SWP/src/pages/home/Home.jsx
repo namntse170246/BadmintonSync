@@ -77,7 +77,9 @@ function Home() {
 
         <TrendPlace />
         <MailList />
-        <img className="map-section" src={mapImage} alt="Map" />
+        <div className="map">
+          <img src={mapImage} alt="Map" />
+        </div>
         <div className="homeContainer" style={{ marginTop: "50px" }}>
           <Footer />
         </div>

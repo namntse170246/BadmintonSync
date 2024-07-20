@@ -186,140 +186,143 @@ const Posting = () => {
     <>
       <Navbar />
       <div className="background">
-      <div className="posting_container">
-        <div className="booking-form">
-          <h1 className="booking-title">Booking Details</h1>
+        <div className="posting_container">
+          <div className="booking-form">
+            <h1 className="booking-title">Booking Details</h1>
 
-          <form className="booking-request-form">
-            <div className="form-section">
-              <label htmlFor="bookingDate">Select a date</label>
-              <input
-                type="date"
-                id="bookingDate"
-                name="bookingDate"
-                value={selectedDate}
-                onChange={handleDateChange}
-                required
-                className="form-control"
-                min={todayDate}
+            <form className="booking-request-form">
+              <div className="form-section">
+                <label htmlFor="bookingDate">Select a date</label>
+                <input
+                  type="date"
+                  id="bookingDate"
+                  name="bookingDate"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  required
+                  className="form-control"
+                  min={todayDate}
+                />
+              </div>
+
+              <div className="form-section">
+                <label htmlFor="timeSlot">
+                  Select a start time and duration
+                </label>
+                <select
+                  id="timeSlot"
+                  name="timeSlot"
+                  value={selectedTimeSlot}
+                  onChange={handleTimeSlotChange}
+                  required
+                  className="form-control"
+                >
+                  <option value="">- Select time slot -</option>
+                  {timeSlots.map((slot) => (
+                    <option key={slot.timeSlotId} value={slot.timeSlotId}>
+                      {slot.startTime} - {slot.endTime}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-section court-list">
+                <label htmlFor="court">Select your preferred court(s)</label>
+                {selectedTimeSlot &&
+                  selectedDate &&
+                  subCourts
+                    .filter(
+                      (court) =>
+                        court.timeSlotId.toString() === selectedTimeSlot
+                    )
+                    .filter(
+                      (court) =>
+                        !BookedSubCourts.some(
+                          (bookedCourt) =>
+                            bookedCourt.subCourtId === court.subCourtId
+                        )
+                    )
+                    .map((court) => (
+                      <div key={court.subCourtId} className="court-option">
+                        <p>{court.name}</p>
+                        <p>{court.pricePerHour}$</p>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleCourtSelection(
+                              court.subCourtId,
+                              court.pricePerHour
+                            )
+                          }
+                          className={`btn ${
+                            selectedCourt === court.subCourtId
+                              ? "btn-primary"
+                              : "btn-secondary"
+                          }`}
+                        >
+                          {selectedCourt === court.subCourtId
+                            ? "Added to Cart"
+                            : "Add to Cart"}
+                        </button>
+                      </div>
+                    ))}
+              </div>
+            </form>
+          </div>
+
+          <form onSubmit={handleSubmit} className="booking-summary">
+            <h2>Booking Summary</h2>
+            <div className="court-image">
+              <div className="court-info">
+                <p> {CourtInfo.courtName}</p>
+                <p style={{ fontSize: "12px" }}>{CourtInfo.location}</p>
+              </div>
+              <img
+                className="img-fluid"
+                src={`https://duynhon2106-001-site1.dtempurl.com/Uploads/${firstImageUrl}`}
+                alt={CourtInfo.courtName}
               />
             </div>
-
-            <div className="form-section">
-              <label htmlFor="timeSlot">Select a start time and duration</label>
-              <select
-                id="timeSlot"
-                name="timeSlot"
-                value={selectedTimeSlot}
-                onChange={handleTimeSlotChange}
-                required
+            <p>Date: {selectedDate}</p>
+            <p>Time: {getTimeSlotString(selectedTimeSlot)}</p>
+            <p>
+              Court:{" "}
+              {
+                subCourts.find((court) => court.subCourtId === selectedCourt)
+                  ?.name
+              }
+            </p>
+            <p className="total">Price: {total.toLocaleString()}</p>
+            {voucherApplied && (
+              <div>
+                <p>Discount: {discount.toLocaleString()}%</p>
+                <p>Final Total: {totalFinal.toLocaleString()}</p>
+              </div>
+            )}
+            <div className="form-group">
+              <label htmlFor="voucher">Discount Voucher</label>
+              <input
+                type="text"
+                id="voucher"
+                name="voucher"
+                placeholder="Enter voucher"
+                value={voucher}
+                onChange={handleVoucherChange}
                 className="form-control"
+              />
+              <button
+                type="button"
+                onClick={handleAddVoucher}
+                className="btn btn-primary"
               >
-                <option value="">- Select time slot -</option>
-                {timeSlots.map((slot) => (
-                  <option key={slot.timeSlotId} value={slot.timeSlotId}>
-                    {slot.startTime} - {slot.endTime}
-                  </option>
-                ))}
-              </select>
+                Apply
+              </button>
             </div>
-
-            <div className="form-section court-list">
-              <label htmlFor="court">Select your preferred court(s)</label>
-              {selectedTimeSlot &&
-                selectedDate &&
-                subCourts
-                  .filter(
-                    (court) => court.timeSlotId.toString() === selectedTimeSlot
-                  )
-                  .filter(
-                    (court) =>
-                      !BookedSubCourts.some(
-                        (bookedCourt) =>
-                          bookedCourt.subCourtId === court.subCourtId
-                      )
-                  )
-                  .map((court) => (
-                    <div key={court.subCourtId} className="court-option">
-                      <p>{court.name}</p>
-                      <p>{court.pricePerHour}$</p>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleCourtSelection(
-                            court.subCourtId,
-                            court.pricePerHour
-                          )
-                        }
-                        className={`btn ${
-                          selectedCourt === court.subCourtId
-                            ? "btn-primary"
-                            : "btn-secondary"
-                        }`}
-                      >
-                        {selectedCourt === court.subCourtId
-                          ? "Added to Cart"
-                          : "Add to Cart"}
-                      </button>
-                    </div>
-                  ))}
-            </div>
+            <button type="submit" className="btn btn-primary" id="bookBtn">
+              Book Court
+            </button>
           </form>
         </div>
-
-        <form onSubmit={handleSubmit} className="booking-summary">
-          <h2>Booking Summary</h2>
-          <div className="court-image">
-            <div className="court-info">
-              <p> {CourtInfo.courtName}</p>
-              <p style={{ fontSize: "12px" }}>{CourtInfo.location}</p>
-            </div>
-            <img
-              className="img-fluid"
-              src={`https://localhost:7155/Uploads/${firstImageUrl}`}
-              alt={CourtInfo.courtName}
-            />
-          </div>
-          <p>Date: {selectedDate}</p>
-          <p>Time: {getTimeSlotString(selectedTimeSlot)}</p>
-          <p>
-            Court:{" "}
-            {
-              subCourts.find((court) => court.subCourtId === selectedCourt)
-                ?.name
-            }
-          </p>
-          <p className="total">Price: {total.toLocaleString()}</p>
-          {voucherApplied && (
-            <div>
-              <p>Discount: {discount.toLocaleString()}%</p>
-              <p>Final Total: {totalFinal.toLocaleString()}</p>
-            </div>
-          )}
-          <div className="form-group">
-            <label htmlFor="voucher">Discount Voucher</label>
-            <input
-              type="text"
-              id="voucher"
-              name="voucher"
-              placeholder="Enter voucher"
-              value={voucher}
-              onChange={handleVoucherChange}
-              className="form-control"
-            />
-            <button
-              type="button"
-              onClick={handleAddVoucher}
-              className="btn btn-primary"
-            >
-              Apply
-            </button>
-          </div>
-          <button type="submit" className="btn btn-primary" id="bookBtn">
-            Book Court
-          </button>
-        </form>
-      </div>
       </div>
     </>
   );

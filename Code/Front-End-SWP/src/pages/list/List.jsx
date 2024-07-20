@@ -165,7 +165,10 @@ const List = () => {
 
       <div className="main-home-container">
         <MailList />
-        <img src={mapImage} alt="Map" />
+        <div className="map">
+          <img src={mapImage} alt="Map" />
+        </div>
+
         <div className="homeContainer" style={{ marginTop: "50px" }}>
           <Footer />
         </div>

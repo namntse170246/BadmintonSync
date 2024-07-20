@@ -2,18 +2,42 @@ import { AccountCircle } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useAuth } from "../../hook/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./navbar.css";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import imgLogo from "../../assets/img/logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function Navbar({ className }) {
   const navbarClassName = className ? "home-navbar" : "other";
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [username, setUsername] = useState("");
   const isMenuOpen = Boolean(anchorEl);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await axios.get; // Replace with your method of retrieving the token
+        const response = await axios.get("/api/User/GetCurrentUser", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUsername(response.data.fullName);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUserData();
+    }
+  }, [isLoggedIn]);
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -52,7 +76,6 @@ function Navbar({ className }) {
         handleMenuClose();
         Swal.fire("Logged out!", "You have been logged out.", "success");
         navigate("/");
-        localStorage.clear();
       }
     } catch (error) {
       console.error("Error during logout:", error);
@@ -82,7 +105,6 @@ function Navbar({ className }) {
   );
 
   const handleBookingClick = () => {
-    localStorage.removeItem("searchkey");
     window.location.reload();
   };
 
@@ -103,16 +125,24 @@ function Navbar({ className }) {
           <div className="navbar-right">
             {isLoggedIn ? (
               <div className="btn-icon">
-                <IconButton
+                {username && (
+                  <span style={{ color: "#fff" }}>Welcome {username}</span>
+                )}
+                <FontAwesomeIcon
+                  icon={faCircleUser}
                   edge="end"
                   aria-label="account of current user"
                   aria-controls={menuId}
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
-                  style={{ color: "#fff" }}
+                  style={{
+                    fontSize: "35px",
+                    color: "gray",
+                  }}
                 >
                   <AccountCircle />
-                </IconButton>
+                </FontAwesomeIcon>
+
                 {renderMenu}
               </div>
             ) : (
