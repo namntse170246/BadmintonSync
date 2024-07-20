@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { CheckIn, UpdateCheckIn, GetAllAccounts } from "../../API/APIConfigure";
+import {
+  CheckIn,
+  UpdateCheckIn,
+  GetAllAccounts,
+  GetAllCourts,
+  GetUserByID,
+  GetbySubCourtID,
+  UpdateBookingStatus,
+} from "../../API/APIConfigure";
 import {
   Box,
   Select,
@@ -16,49 +24,121 @@ import {
   Typography,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import { toast } from "react-toastify";
 
 const CheckInComponent = () => {
   const [checkIns, setCheckIns] = useState([]);
-  const [accounts, setAccounts] = useState([]);
+  const [userDetails, setUserDetails] = useState({});
+  const [subCourtDetails, setSubCourtDetails] = useState({});
+  const [subCourtToCourt, setSubCourtToCourt] = useState({});
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [ownedCourts, setOwnedCourts] = useState([]);
 
-  useEffect(() => {
-    fetchCheckIns();
-    fetchAccounts();
-  }, []);
+  const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
 
   const fetchCheckIns = async () => {
     try {
       const response = await CheckIn();
-      setCheckIns(response.data);
-    } catch (error) {
-      console.error("Error fetching check-ins:", error);
+      console.log(response.data);
+      setCheckIns(Array.isArray(response.data) ? response.data : []);
+    } catch (err) {
+      toast.error("Failed to fetch check-ins");
+      console.error(err);
     }
   };
 
-  const fetchAccounts = async () => {
-    try {
-      const response = await GetAllAccounts();
-      setAccounts(response.data);
-    } catch (error) {
-      console.error("Error fetching accounts:", error);
-    }
-  };
+  useEffect(() => {
+    fetchCheckIns();
+  }, []);
 
-  const updateCheckInStatus = async (checkInId) => {
+  useEffect(() => {
+    const fetchCourts = async () => {
+      try {
+        const response = await GetAllCourts();
+        console.log(response.data);
+        const courtsOwnedByOwner = response.data.filter(
+          (court) => court.ownerId === ownerId
+        );
+        setOwnedCourts(courtsOwnedByOwner);
+      } catch (err) {
+        toast.error("Failed to fetch courts owned by owner");
+        console.error(err);
+      }
+    };
+
+    fetchCourts();
+  }, [ownerId]);
+
+  useEffect(() => {
+    const userIds = checkIns.map((item) => item.userId);
+    const uniqueUserIds = Array.from(new Set(userIds));
+
+    const fetchUserDetails = async () => {
+      for (const id of uniqueUserIds) {
+        try {
+          const userData = await GetUserByID(id);
+          console.log(userData);
+          setUserDetails((prevDetails) => ({
+            ...prevDetails,
+            [id]: userData.data.fullName,
+          }));
+        } catch (error) {
+          console.error("Failed to fetch user details", error);
+          toast.error(`Failed to fetch user details for ID: ${id}`);
+        }
+      }
+    };
+
+    if (uniqueUserIds.length > 0) {
+      fetchUserDetails();
+    }
+  }, [checkIns]);
+
+  useEffect(() => {
+    const subCourtIds = checkIns.map((item) => item.subCourtId);
+    const uniqueSubCourtIds = Array.from(new Set(subCourtIds));
+
+    const fetchSubCourtDetails = async () => {
+      for (const id of uniqueSubCourtIds) {
+        try {
+          const subCourtData = await GetbySubCourtID(id);
+          console.log(subCourtData);
+          setSubCourtDetails((prevDetails) => ({
+            ...prevDetails,
+            [id]: subCourtData.data.name,
+          }));
+          setSubCourtToCourt((prevDetails) => ({
+            ...prevDetails,
+            [id]: subCourtData.data.courtId,
+          }));
+        } catch (error) {
+          console.error("Failed to fetch sub-court details", error);
+          toast.error(`Failed to fetch sub-court details for ID: ${id}`);
+        }
+      }
+    };
+
+    if (uniqueSubCourtIds.length > 0) {
+      fetchSubCourtDetails();
+    }
+  }, [checkIns]);
+
+  const updateCheckInStatus = async (checkInId, bookingId) => {
     try {
-      await UpdateCheckIn(checkInId);
+      const dataUpdate = {
+          id: checkInId,
+          checkInStatus: true,
+          checkInTime: checkIns.checkInTime,
+      }
+      console.log(dataUpdate);
+      await UpdateCheckIn(dataUpdate);
+      const response = await UpdateBookingStatus(bookingId, 4);
       fetchCheckIns();
     } catch (error) {
       console.error("Error updating check-in status:", error);
     }
-  };
-
-  const getUserName = (userId) => {
-    const user = accounts.find((account) => account.UserID === userId);
-    return user ? user.UserName : "Unknown";
   };
 
   const handleChangePage = (event, newPage) => {
@@ -80,12 +160,16 @@ const CheckInComponent = () => {
     true: "green",
   };
 
-  const filteredCheckIns =
-    selectedStatusFilter === "all"
-      ? checkIns
-      : checkIns.filter(
-          (checkIn) => String(checkIn.CheckInStatus) === selectedStatusFilter
-        );
+  const filteredCheckIns = checkIns.filter((checkIn) => {
+    const courtId = subCourtToCourt[checkIn.subCourtId];
+    const isOwnerCourt = ownedCourts.some((court) => court.courtId === courtId);
+    return (
+      !checkIn.checkInStatus && // Only show check-ins with checkInStatus = false
+      isOwnerCourt
+    );
+  });
+
+  console.log(filteredCheckIns);
 
   const slicedCheckIns = filteredCheckIns.slice(
     page * rowsPerPage,
@@ -109,7 +193,7 @@ const CheckInComponent = () => {
         >
           Check In
         </Typography>
-        <Select
+        {/* <Select
           value={selectedStatusFilter}
           onChange={(e) => setSelectedStatusFilter(e.target.value)}
           sx={{ mb: 2 }}
@@ -117,7 +201,7 @@ const CheckInComponent = () => {
           <MenuItem value="all">All</MenuItem>
           <MenuItem value="true">Checked</MenuItem>
           <MenuItem value="false">Not Checked</MenuItem>
-        </Select>
+        </Select> */}
         <TableContainer component={Paper} className="dashboard-container">
           <Table
             sx={{ minWidth: 650 }}
@@ -130,19 +214,13 @@ const CheckInComponent = () => {
                   align="center"
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  CheckIn ID
+                  FullName
                 </TableCell>
                 <TableCell
                   align="center"
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  SubCourt ID
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
-                >
-                  Booking ID
+                  SubCourtName
                 </TableCell>
                 <TableCell
                   align="center"
@@ -160,13 +238,7 @@ const CheckInComponent = () => {
                   align="center"
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  User Name
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
-                >
-                  Checked
+                  Action
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -174,13 +246,10 @@ const CheckInComponent = () => {
               {slicedCheckIns.map((checkIn) => (
                 <TableRow key={checkIn.checkInId}>
                   <TableCell align="center" sx={{ fontSize: 13 }}>
-                    {checkIn.checkInId}
+                    {userDetails[checkIn.userId] || checkIn.userId}
                   </TableCell>
                   <TableCell align="center" sx={{ fontSize: 13 }}>
-                    {checkIn.subCourtId}
-                  </TableCell>
-                  <TableCell align="center" sx={{ fontSize: 13 }}>
-                    {checkIn.bookingId}
+                    {subCourtDetails[checkIn.subCourtId] || checkIn.subCourtId}
                   </TableCell>
                   <TableCell align="center" sx={{ fontSize: 13 }}>
                     {checkIn.checkInTime}
@@ -195,15 +264,12 @@ const CheckInComponent = () => {
                   >
                     {statusTexts[checkIn.checkInStatus]}
                   </TableCell>
-                  <TableCell align="center" sx={{ fontSize: 13 }}>
-                    {getUserName(checkIn.userId)}
-                  </TableCell>
                   <TableCell align="center">
                     <Button
                       variant="outlined"
                       color="success"
                       className="edit-btn"
-                      onClick={() => updateCheckInStatus(checkIn.checkInId)}
+                      onClick={() => updateCheckInStatus(checkIn.checkInId, checkIn.bookingId)}
                     >
                       <CheckIcon sx={{ fontSize: 25 }} />
                     </Button>
