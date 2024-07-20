@@ -33,14 +33,19 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 
 | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 |
 |----------|----------|----------|----------|
-| UC-04    | UC-19    | UC-16    | UC-29    | 
-| UC-05    | UC-20    | UC-45   | UC-20    | 
-| UC-21    | UC-21    | UC-23    | UC-03    |
-| UC-07    | UC-22    | UC-18    | UC-28    |
-| UC-06    |          | UC-19    | UC-09    |
-| UC-08    |          | UC-17    | UC-25    |
-|          |          |          | UC-27    |
-
+| UC-04    | UC-49    | UC-18    | UC-67    | 
+| UC-05    | UC-12    | UC-19  | UC-68    | 
+| UC-21    | UC-23    | UC-20    | UC-69    |
+| UC-07    | UC-22    | UC-70    |     |
+| UC-06    | UC-15         | UC-09    |     |
+| UC-08    | UC-20         | UC-66    |     |
+|          |          |         |     |
+|           |         |          |          |
+|           |         |          |          |
+|           |         |          |          |
+|           |        |          |          |
+|           |         |          |          |
+           
 **SPRINT 1**
 
 | Name |                UC(TC)               |
@@ -56,10 +61,22 @@ Dưới đây là bảng phân công công việc cho các thành viên tham gia
 
 | Name |                UC(TC)               |
 |----------------------|---------------------|
-| Pham Quoc Duy        | UC-05 (TC:3, 4, 5, 6 ,7)  | 
-| Nguyen Phi Hung      | UC-09 (TC : 21, 22) UC10 (TC : 23, 24, 25) | 
-| Nguyen Trung Nam     | UC-06 (TC:8, 9)     |
-| Bui Duc Trieu        | UC-07 (TC:10, 11)   |
-| Tran Ngoc Long       | UC-21 (TC:19, 20, 21, 22)   |
-| Tran Minh Phuc       | UC-08 (TC:15, 16)   |
+| Nguyen Phi Hung      | UC-15 (TC : 23, 24); UC22 (TC : 25, 26, 27) | 
+| Tran Ngoc Long       | UC-12 (TC:19, 20, 21, 22)   |
+| Tran Minh Phuc       | UC-23 (TC:17, 18); UC-49 (TC:28, 29)   |
+
+**SPRINT 3**
+
+| Name |                UC(TC)               |
+|----------------------|---------------------|
+| Pham Quoc Duy        | UC-18 (TC:30, 31, 32), UC-19 (TC:33, 34, 35); UC-20 (TC:36, 37, 38)  | 
+
+**SPRINT 4**
+
+| Name |                UC(TC)               |
+|----------------------|---------------------|
+| Nguyen Trung Nam     | UC-66 (TC:39, 40); UC-67 (TC: 41, 42); UC-68 (TC: 43, 44)| 
+| Bui Duc Trieu        | UC-69 (TC:45, 46,47)|             
+
+
 
