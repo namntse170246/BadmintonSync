@@ -164,7 +164,7 @@ const List = () => {
       )}
 
       <div className="main-home-container">
-        <MailList />
+        {/* <MailList /> */}
         <div className="map">
           <img src={mapImage} alt="Map" />
         </div>

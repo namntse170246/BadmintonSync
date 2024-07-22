@@ -19,7 +19,7 @@ function Home() {
   const [isHomeTitleVisible, setIsHomeTitleVisible] = useState(false);
   const homeTitleRef = useRef(null);
   const [isHomePage] = useState(true);
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  // const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,16 +45,16 @@ function Home() {
     localStorage.setItem("searchkey", JSON.stringify(searchTerm));
     navigate("/courts");
   };
-  const handleOnClose = () => {
-    setIsBannerVisible(false);
-  };
+  // const handleOnClose = () => {
+  //   setIsBannerVisible(false);
+  // };
   return (
     <div
       className={`path-frontpage ${isScrolled ? "header-scroll" : ""} ${
         isHomeTitleVisible ? "fixed-bs" : ""
       }`}
     >
-      {isBannerVisible && (
+      {/* {isBannerVisible && (
         <div className="banner-voucher-container">
           <div className="banner_voucher-form">
             <img className="banner-voucher" src={Banner} alt="Voucher Banner" />
@@ -63,7 +63,7 @@ function Home() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       <Navbar className={isHomePage} />
       <Header />
       <Search
@@ -76,7 +76,7 @@ function Home() {
         <Featured homeTitleRef={homeTitleRef} />
 
         <TrendPlace />
-        <MailList />
+        {/* <MailList /> */}
         <div className="map">
           <img src={mapImage} alt="Map" />
         </div>

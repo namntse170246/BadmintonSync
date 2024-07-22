@@ -116,7 +116,7 @@ const Court = () => {
     // Handle image click
     const handleImageClick = (index) => {
       setSelectedImage(
-        "https://duynhon2106-001-site1.dtempurl.com/Uploads/" +
+        "https://localhost:7155/Uploads/" +
           photoUrls[index].trim()
       );
       setModalIsOpen(true);
@@ -129,7 +129,7 @@ const Court = () => {
             <img
               onClick={() => handleImageClick(i)}
               src={
-                "https://duynhon2106-001-site1.dtempurl.com/Uploads/" +
+                "https://localhost:7155/Uploads/" +
                 photoUrl.trim()
               }
               alt={`Hotel ${i}`}
@@ -289,11 +289,11 @@ const Court = () => {
           </div>
         )}
         <FeatureProperties excludeId={id} />
-        <MailList />
+        {/* <MailList /> */}
         <div className="map">
           <img src={mapImage} alt="Map" />
-        </div>
         <Footer />
+        </div>
       </div>
       <Modal
         isOpen={modalIsOpen}

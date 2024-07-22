@@ -1,6 +1,6 @@
 import instance, { customAxios } from "../setUp/axios";
 
-export const BASE_URL = "https://duynhon2106-001-site1.dtempurl.com/";
+export const BASE_URL = "https://localhost:7155/";
 //ACCOUNT
 const SignInAccount = (userData) => {
   return customAxios.post(`api/User/Login`, userData);
@@ -182,8 +182,11 @@ export const UpdateTimeShareStatus = (timeshareID, newStatus) => {
 export const CheckIn = () => {
   return customAxios.get(`api/CheckIn`);
 };
-export const UpdateCheckIn = (checkinId) => {
-  return customAxios.put(`api/CheckIn/${checkinId}`);
+export const UpdateCheckIn = (data) => {
+  return customAxios.put(`api/CheckIn/${data.id}`, {
+    checkInStatus: data.checkInStatus,
+    checkInTime: data.checkInTime,
+  });
 };
 //Trade
 export const GetAllTrade = () => {
