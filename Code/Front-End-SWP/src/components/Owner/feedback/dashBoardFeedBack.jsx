@@ -30,7 +30,7 @@ const Dashboard = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [ownedCourts, setOwnedCourts] = useState([]);
-  
+
   // Get ownerId from localStorage
   const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
 
@@ -172,7 +172,7 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
+
                 >
                   Username
                 </TableCell>
@@ -181,16 +181,20 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
+
                 >
                   Court
                 </TableCell>
                 <TableCell
                   style={{
-                    fontSize: "20px",
-                    fontFamily: "Arial, sans-serif",
+                    fontSize: '20px',
+                    fontFamily: 'Arial, sans-serif',
+                    maxWidth: '300px', // Set maximum width for truncation
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
                   }}
-                  align="center"
+
                 >
                   Feedback
                 </TableCell>
@@ -199,7 +203,7 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
+
                 >
                   Rating
                 </TableCell>
@@ -208,14 +212,23 @@ const Dashboard = () => {
             <TableBody>
               {slicedFeedback.map((item) => (
                 <TableRow key={item.evaluateId}>
-                  <TableCell align="center">
+                  <TableCell >
                     {userDetails[item.userId] || item.userId}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell >
                     {realEstateDetails[item.courtId] || item.courtId}
                   </TableCell>
-                  <TableCell align="center">{item.comment}</TableCell>
-                  <TableCell align="center">
+                  <TableCell
+                    style={{
+                      maxWidth: '300px', // Set maximum width for truncation
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {item.comment}
+                  </TableCell>
+                  <TableCell >
                     <StarRatings
                       rating={item.rating}
                       starDimension="20px"

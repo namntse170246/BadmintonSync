@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GetPaymentByUserID } from '../../../components/API/APIConfigure';
+import { GetAllBookingsByMemberID } from '../../../components/API/APIConfigure';
 import { Link } from 'react-router-dom';
 import './PaymentUserTable.css';
 
@@ -10,10 +10,11 @@ function PaymentUserTable() {
   useEffect(() => {
     const fetchPaymentData = async () => {
       try {
-        const response = await GetPaymentByUserID(userInfo.id);
-        // Sort the data by date in descending order
-        response.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setData(response);
+        const response = await GetAllBookingsByMemberID(userInfo.id);
+
+        // Sort the data by createDate in descending order
+        response.data.sort((a, b) => new Date(b.createDate) - new Date(a.createDate));
+        setData(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -22,14 +23,19 @@ function PaymentUserTable() {
     fetchPaymentData();
   }, [userInfo.id]);
 
+  // Đối tượng ánh xạ trạng thái
   const statusText = {
-    1: { text: 'Chờ thanh toán', button: 'Thanh toán ' },
-    2: { text: 'Đã thanh toán', button: 'Trả phòng' },
+    0: { text: 'Chờ thanh toán', button: 'Thanh toán' },
+    1: { text: 'Đã thanh toán', button: 'Trả phòng' },
+    2: { text: 'Đã hủy', button: 'N/A' }, // Example for "Cancelled" status, button not used
+    3: { text: 'Check-in', button: 'N/A' }, // Example for "Check-in" status, button not used
   };
 
   const statusColor = {
-    1: 'red',
-    2: 'green',
+    0: 'red',
+    1: 'green',
+    2: 'gray', // Color for "Cancelled"
+    3: 'blue', // Color for "Check-in"
   };
 
   return (
@@ -37,7 +43,7 @@ function PaymentUserTable() {
       <div>
         <h2>Lịch sử thanh toán</h2>
       </div>
-      <table width={{ width: '100%' }}>
+      <table width="100%">
         <thead>
           <tr>
             <th>Đặt</th>
@@ -50,19 +56,19 @@ function PaymentUserTable() {
         <tbody>
           {data.map((item, index) => (
             <tr key={index}>
-              <td>{item.title}</td>
+              <td>{item.promotionCode || 'N/A'}</td> {/* Thay đổi tiêu đề cột nếu cần */}
               <td style={{ padding: '0 30px' }}>
-                {new Date(item.date).toLocaleDateString('vi-VN')}
+                {new Date(item.createDate).toLocaleDateString('vi-VN')}
               </td>
               <td style={{ padding: '20px 30px', color: statusColor[item.status] }}>
-                {statusText[item.status].text}
+                {statusText[item.status]?.text || 'Unknown'}
               </td>
-              <td style={{ padding: '0 30px' }}>{item.money.toLocaleString()}VNĐ</td>
+              <td style={{ padding: '0 30px' }}>{item.amount.toLocaleString()} VNĐ</td>
               <td>
-                {item.title !== 'Nâng cấp thành viên' && (
+                {(item.status === 0 || item.status === 1) && (
                   <Link to={`/user/checkout/${item.bookingId}`}>
                     <button className="btn-payment" style={{ color: statusColor[item.status] }}>
-                      {statusText[item.status].button}
+                      {statusText[item.status]?.button || 'N/A'}
                     </button>
                   </Link>
                 )}

@@ -8,9 +8,9 @@ function PaymentUser() {
       <div style={{ marginTop: '50px' }}>
         <ChartPaymentUser />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
         <PaymentUserTable />
-      </div>
+      </div> */}
     </div>
   );
 }

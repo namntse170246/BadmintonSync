@@ -7,8 +7,8 @@ const PaymentResults = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const amount = params.get('amount');
-
+    const amount = params.get('vnp_Amount');
+    console.log(amount);
     setAmount(amount);
   }, []);
 

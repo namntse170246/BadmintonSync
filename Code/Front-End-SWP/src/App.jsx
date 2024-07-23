@@ -181,14 +181,6 @@ function App() {
           </OwnerWrapper>
         }
       />
-      {/* <Route
-        path="/owner/user"
-        element={
-          <OwnerWrapper>
-            <OwnerUser />
-          </OwnerWrapper>
-        }
-      /> */}
       <Route
         path="/owner/account"
         element={

@@ -11,14 +11,18 @@ import {
   TablePagination,
   Button,
   TextField,
-  Dialog, DialogTitle, DialogContent
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Select,
+  MenuItem
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateSubCourtComponent from "./createSubCourt.jsx";
-import { GetAllCourts, GetAllSubCourts, DeleteSubCourt, GetTimeSlotByID, CreateSubCourts } from "../../API/APIConfigure";
+import { GetAllCourts, GetAllSubCourts, DeleteSubCourt, GetTimeSlotByID } from "../../API/APIConfigure";
 
 const Dashboard = () => {
   const [courts, setCourts] = useState([]);
@@ -26,8 +30,12 @@ const Dashboard = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [timeSlots, setTimeSlots] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCourtId, setSelectedCourtId] = useState("");
+  const [selectedSubCourt, setSelectedSubCourt] = useState(null);
+  const [price, setPrice] = useState("");
   const [fullWidth, setFullWidth] = useState(true);
   const [maxWidth, setMaxWidth] = useState("md");
 
@@ -37,7 +45,6 @@ const Dashboard = () => {
     try {
       const response = await GetAllCourts();
       const ownedCourts = response.data.filter(court => court.ownerId === ownerId);
-      console.log(ownedCourts);
       setCourts(ownedCourts || []);
     } catch (err) {
       toast.error("Failed to fetch courts");
@@ -84,7 +91,6 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     try {
       const response = await DeleteSubCourt(id);
-      console.log(response);
       if (response.success) {
         toast.success(response.message);
         fetchSubCourts();
@@ -94,6 +100,35 @@ const Dashboard = () => {
     } catch (err) {
       toast.error("Deletion failed");
       console.error(err);
+    }
+  };
+
+  const handleEditOpen = (subCourt) => {
+    setSelectedSubCourt(subCourt);
+    setPrice(subCourt.pricePerHour);
+    setEditOpen(true);
+  };
+
+  const handleEditClose = () => {
+    setEditOpen(false);
+    setSelectedSubCourt(null);
+  };
+
+  const handleSavePrice = async () => {
+    if (selectedSubCourt) {
+      try {
+        const response = await UpdateSubCourt(selectedSubCourt.subCourtId, { pricePerHour: price });
+        if (response.success) {
+          toast.success(response.message);
+          fetchSubCourts();
+          handleEditClose();
+        } else {
+          toast.error(response.message);
+        }
+      } catch (err) {
+        toast.error("Failed to update price");
+        console.error(err);
+      }
     }
   };
 
@@ -114,12 +149,21 @@ const Dashboard = () => {
     setPage(0);
   };
 
+  const handleCourtChange = (event) => {
+    setSelectedCourtId(event.target.value);
+    setPage(0); // Reset page to 0 when court changes
+  };
+
+  const ownedCourtIds = courts.map(court => court.courtId);
+
+  // Filter sub-courts based on the selected court and owner’s courts
   const filteredSubCourts = subCourts.filter((subCourt) => {
     const court = courts.find((court) => court.courtId === subCourt.courtId);
     return (
       court &&
-      court.ownerId === ownerId &&
-      subCourt.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ownedCourtIds.includes(subCourt.courtId) && // Ensure sub-court belongs to an owned court
+      (selectedCourtId === "" || subCourt.courtId === selectedCourtId) && // Filter by selected court
+      subCourt.name.toLowerCase().includes(searchTerm.toLowerCase()) // Search term filter
     );
   });
 
@@ -131,26 +175,32 @@ const Dashboard = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
-          <h2
-            style={{
-              textAlign: "center",
-              color: "#205295",
-              fontSize: "40px",
-              marginTop: "20px",
-              marginBottom: "20px",
-              fontFamily: "Arial, sans-serif",
-              fontWeight: "bold",
-            }}
-          >
-            Sub Courts
-          </h2>
-        <TextField
-          label="Search Sub Court Name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          variant="outlined"
-          style={{ marginBottom: "20px" }}
-        />
+        <h2
+          style={{
+            textAlign: "center",
+            color: "#205295",
+            fontSize: "40px",
+            marginTop: "20px",
+            marginBottom: "20px",
+            fontFamily: "Arial, sans-serif",
+            fontWeight: "bold",
+          }}
+        >
+          Sub Courts
+        </h2>
+        <Select
+          value={selectedCourtId}
+          onChange={handleCourtChange}
+          displayEmpty
+          style={{ marginTop: "30px", marginLeft: "20px", width: "200px" }}
+        >
+          <MenuItem value="">All Courts</MenuItem>
+          {courts.map((court) => (
+            <MenuItem key={court.courtId} value={court.courtId}>
+              {court.courtName}
+            </MenuItem>
+          ))}
+        </Select>
         <Button
           variant="contained"
           style={{
@@ -177,7 +227,7 @@ const Dashboard = () => {
               color: "#003580",
             }}
           >
-            Create SubCourt
+            Create Sub Court
           </DialogTitle>
           <DialogContent>
             <CreateSubCourtComponent
@@ -186,6 +236,44 @@ const Dashboard = () => {
               fetchSubCourts={fetchSubCourts}
             />
           </DialogContent>
+        </Dialog>
+        <Dialog
+          open={editOpen}
+          onClose={handleEditClose}
+          fullWidth={fullWidth}
+          maxWidth={maxWidth}
+        >
+          <DialogTitle
+            style={{
+              textAlign: "center",
+              fontSize: "20px",
+              fontWeight: "bold",
+              color: "#003580",
+            }}
+          >
+            Edit Price Per Hour
+          </DialogTitle>
+          <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {selectedSubCourt && (
+              <TextField
+                label="Price Per Hour"
+                placeholder="Price Per Hour"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                variant="outlined"
+                type="number"
+                sx={{ flexGrow: 1 }}
+              />
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleEditClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleSavePrice} color="primary">
+              Save
+            </Button>
+          </DialogActions>
         </Dialog>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -196,16 +284,14 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
-                  Sub Court Name
+                  Sub Court
                 </TableCell>
                 <TableCell
                   style={{
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Court Name
                 </TableCell>
@@ -214,7 +300,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Price Per Hour
                 </TableCell>
@@ -223,7 +308,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Time Slot
                 </TableCell>
@@ -232,7 +316,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Action
                 </TableCell>
@@ -241,23 +324,23 @@ const Dashboard = () => {
             <TableBody>
               {slicedSubCourts.map((item) => (
                 <TableRow key={item.subCourtId}>
-                  <TableCell align="center">{item.name}</TableCell>
-                  <TableCell align="center">{courts.find((court) => court.courtId === item.courtId)?.courtName}</TableCell>
-                  <TableCell align="center">{item.pricePerHour}</TableCell>
-                  <TableCell align="center">
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{courts.find((court) => court.courtId === item.courtId)?.courtName}</TableCell>
+                  <TableCell>{item.pricePerHour}</TableCell>
+                  <TableCell>
                     {timeSlots[item.timeSlotId]
                       ? `${timeSlots[item.timeSlotId].startTime} - ${timeSlots[item.timeSlotId].endTime}`
                       : "Loading..."}
                   </TableCell>
-                  <TableCell align="center">
-                    {/* <Button
+                  <TableCell>
+                    <Button
                       variant="outlined"
                       color="success"
                       className="edit-btn"
-                      onClick={() => navigate(`/court/${item.subCourtId}`)}
+                      onClick={() => handleEditOpen(item)}
                     >
-                      <VisibilityIcon sx={{ fontSize: 25 }} />
-                    </Button> */}
+                      Edit
+                    </Button>
                     <Button
                       variant="outlined"
                       color="error"

@@ -13,7 +13,7 @@ export default function OwnerCheckIn() {
       <Box sx={{ display: "flex" }}>
         <Sidebar />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}></Box>
-        <CheckInComponent />
+        <CheckInComponent></CheckInComponent>
       </Box>
     </div>
   );

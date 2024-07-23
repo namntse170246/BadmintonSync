@@ -33,6 +33,10 @@ const Posting = () => {
   const CourtInfo = JSON.parse(DataCourt);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Cuộn lên đầu trang khi trang được tải
+  }, []);
+
+  useEffect(() => {
     const fetchSubCourtsAndTimeSlots = async () => {
       try {
         const subCourtResponse = CourtInfo.subCourts;
@@ -117,16 +121,8 @@ const Posting = () => {
     };
 
     try {
+      console.log(updatedBookingData);
       const response = await CreateBooking(updatedBookingData);
-      const paymentData = {
-        memberId: userInfo.id,
-        money: totalFinal,
-        bookingId: response.id,
-        status: "1",
-        title: "Court Booking Payment",
-        type: "Payment",
-      };
-      // const responsePayment = await CreatePayment(paymentData);
       Swal.fire({
         icon: "success",
         title: "Booking successful",
@@ -158,19 +154,19 @@ const Posting = () => {
   const getTimeSlotString = (timeSlotId) => {
     switch (parseInt(timeSlotId)) {
       case 1:
-        return "5:00 to 7:00";
+        return "5:00-7:00";
       case 2:
-        return "7:00 to 9:00";
+        return "7:00-9:00";
       case 3:
-        return "9:00 to 11:00";
+        return "9:00-11:00";
       case 4:
-        return "13:00 to 15:00";
+        return "13:00-15:00";
       case 5:
-        return "15:00 to 17:00";
+        return "15:00-17:00";
       case 6:
-        return "17:00 to 19:00";
+        return "17:00-19:00";
       case 7:
-        return "19:00 to 21:00";
+        return "19:00-21:00";
       default:
         return "";
     }

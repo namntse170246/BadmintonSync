@@ -15,13 +15,17 @@ import {
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { GetAllBookings, GetUserByID, UpdateBookingStatus } from "../../API/APIConfigure";
+import {
+  GetAllBookings,
+  GetUserByID,
+  GetbySubCourtID
+} from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [bookings, setBookings] = useState([]);
   const [userDetails, setUserDetails] = useState({});
+  const [subCourtDetails, setSubCourtDetails] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
@@ -32,8 +36,16 @@ const Dashboard = () => {
       setIsLoading(true);
       try {
         const response = await GetAllBookings();
-        setBookings(Array.isArray(response.data) ? response.data : []);
-        fetchUserDetails(response.data.map((booking) => booking.userId));
+        console.log(response.data);
+        const bookingsData = Array.isArray(response.data) ? response.data : [];
+        setBookings(bookingsData);
+
+        const userIds = bookingsData.map((booking) => booking.userId);
+        fetchUserDetails(userIds);
+
+        const subCourtIds = Array.from(new Set(bookingsData.map((booking) => booking.subCourtId)));
+        fetchSubCourtDetails(subCourtIds);
+
       } catch (err) {
         console.error(err);
         toast.error("Failed to fetch bookings");
@@ -67,7 +79,27 @@ const Dashboard = () => {
     setIsLoading(false);
   };
 
-  const navigate = useNavigate();
+  const fetchSubCourtDetails = async (subCourtIds) => {
+    const subCourtDetailsMap = { ...subCourtDetails };
+
+    for (const id of subCourtIds) {
+      if (!subCourtDetailsMap[id]) {
+        try {
+          const response = await GetbySubCourtID(id);
+          if (response.data && response.data.name) {
+            subCourtDetailsMap[id] = response.data.name;
+          } else {
+            console.error(`Sub-court with id ${id} does not have a name`);
+          }
+        } catch (err) {
+          console.error(err);
+          toast.error(`Failed to fetch sub-court details for subCourtId: ${id}`);
+        }
+      }
+    }
+
+    setSubCourtDetails(subCourtDetailsMap);
+  };
 
   const handleChangePage = (event, newPage) => setPage(newPage);
 
@@ -78,7 +110,7 @@ const Dashboard = () => {
 
   const filteredBookings = bookings.filter((booking) => {
     if (selectedStatusFilter === "all") {
-      return true; // Show all bookings
+      return true; 
     } else {
       return booking.status === parseInt(selectedStatusFilter);
     }
@@ -93,35 +125,16 @@ const Dashboard = () => {
     0: "Pending",
     1: "Confirmed",
     2: "Cancelled",
-    3: "Checked-in"
+    3: "Check-in",
+    4: "Checked"
   };
 
   const statusColors = {
     0: "orange",
     1: "green",
     2: "red",
-    3: "green"
-  };
-
-  const handleStatusChange = async (bookingId, newStatus) => {
-    try {
-      const response = await UpdateBookingStatus(bookingId, newStatus);
-      if (response.success) {
-        setBookings((prevBookings) =>
-          prevBookings.map((booking) =>
-            booking.bookingId === bookingId
-              ? { ...booking, status: newStatus }
-              : booking
-          )
-        );
-        toast.success("Status updated Successfully");
-      } else {
-        toast.error("Failed to update status");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update status");
-    }
+    3: "green",
+    4: "green"
   };
 
   return (
@@ -156,59 +169,52 @@ const Dashboard = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table" className="staff-table">
             <TableHead>
               <TableRow>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
                   BookingID
                 </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
                   Name
                 </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
-                  SubCourtID
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
+                  Sub Court
                 </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
                   Booking Date
                 </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
                   Amount
                 </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
+                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
                   Status
-                </TableCell>
-                <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }} align="center">
-                  Action
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {slicedBookings.map((booking) => (
                 <TableRow key={booking.bookingId}>
-                  <TableCell style={{ fontSize: "13px" }} align="center">
+                  <TableCell style={{ fontSize: "13px" }} >
                     {booking.bookingId}
                   </TableCell>
-                  <TableCell style={{ fontSize: "13px" }} align="center">
+                  <TableCell style={{ fontSize: "13px" }} >
                     {userDetails[booking.userId] || booking.userId}
                   </TableCell>
-                  <TableCell style={{ fontSize: "13px" }} align="center">
-                    {booking.subCourtId}
+                  <TableCell style={{ fontSize: "13px" }} >
+                    {subCourtDetails[booking.subCourtId] || booking.subCourtId}
                   </TableCell>
-                  <TableCell style={{ fontSize: "13px" }} align="center">
+                  <TableCell style={{ fontSize: "13px" }} >
                     {new Date(booking.bookingDate).toLocaleDateString("vi-VN", {
                       day: "2-digit",
                       month: "2-digit",
                       year: "numeric",
                     })}
                   </TableCell>
-                  <TableCell style={{ fontSize: "13px" }} align="center">
+                  <TableCell style={{ fontSize: "13px" }} >
                     {booking.amount.toLocaleString()} VND
                   </TableCell>
-                  <TableCell style={{ fontSize: "15px", color: statusColors[booking.status], fontWeight: "bold" }} align="center">
+                  <TableCell style={{ fontSize: "15px", color: statusColors[booking.status], fontWeight: "bold" }} >
                     {statusTexts[booking.status]}
                   </TableCell>
-                  <TableCell align="center">
-                    <Button variant="outlined" color="success" className="edit-btn" onClick={() => navigate(`/admin/booking/details/${booking.bookingId}`)}>
-                      <VisibilityIcon sx={{ fontSize: 25 }} />
-                    </Button>
-                  </TableCell>
+              
                 </TableRow>
               ))}
             </TableBody>

@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 const Search = ({ onSearch, searchValue, setSearchValue }) => {
   useEffect(() => {
     const storedSearchTerm = localStorage.getItem("searchkey");
+    console.log(JSON.parse(storedSearchTerm));
     if (storedSearchTerm) {
       setSearchValue(JSON.parse(storedSearchTerm).location);
     }
-  }, []);
+  }, [setSearchValue]);
   const handleSearch = () => {
     onSearch(searchValue);
   };

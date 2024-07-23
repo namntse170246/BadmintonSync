@@ -9,7 +9,7 @@ const SuccessPayment = ({ amount }) => {
     navigate(`/user/checkout/${id}`); // Chuyển hướng về trang Checkout
   };
 
-  const formattedAmount = Number(amount).toLocaleString('vi-VN');
+  const formattedAmount = (Number(amount) / 100).toLocaleString('vi-VN');
 
 
   return (

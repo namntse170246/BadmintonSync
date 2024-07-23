@@ -27,15 +27,15 @@ const Dashboard = () => {
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBookings = async () => {
       setIsLoading(true);
       try {
         const response = await GetAllBookingsByMemberID(userInfo.id);
-        console.log(response);
         setBookings(Array.isArray(response.data) ? response.data : []);
-        fetchCourtDetails(response.data);
+        await fetchBookingDetails(response.data);
       } catch (err) {
         console.error(err);
         toast.error("Failed to fetch bookings");
@@ -45,38 +45,28 @@ const Dashboard = () => {
     fetchBookings();
   }, [userInfo.id]);
 
-  const fetchCourtDetails = async (bookings) => {
+  const fetchBookingDetails = async (bookings) => {
     setIsLoading(true);
-    const courtDetailsMap = { ...courtDetails };
     for (const booking of bookings) {
-      if (!courtDetailsMap[booking.courtId]) {
         try {
-          console.log(booking);
           const subCourtResponse = await GetbySubCourtID(booking.subCourtId);
-          console.log(subCourtResponse.data.name);
           const courtResponse = await GetbyCourtID(subCourtResponse.data.courtId);
-          console.log(courtResponse);
           const timeSlotResponse = await GetTimeSlotByID(booking.timeSlotId);
-          console.log(timeSlotResponse);
-          if (courtResponse.data && subCourtResponse.data) {
-            courtDetailsMap[booking.courtId] = courtResponse.data.courtName;
-            courtDetailsMap[booking.subCourtId] = subCourtResponse.data.name;
-            courtDetailsMap[booking.timeSlotId] = timeSlotResponse.data.startTime - timeSlotResponse.data.endTime;
-          } else {
-            console.error(`Court or subCourt with id ${booking.courtId} or ${booking.subCourtId} does not have names`);
-          }
+
+          booking.subCourtId = courtResponse.data.courtName;
+          booking.timeSlotId = `${timeSlotResponse.data.startTime} - ${timeSlotResponse.data.endTime}`;
         } catch (err) {
           console.error(err);
-          toast.error(`Failed to fetch court details for courtId: ${booking.courtId}`);
+          toast.error(`Failed to fetch details for courtId: ${booking.courtId}`);
         }
-      }
+      
     }
-
-    setCourtDetails(courtDetailsMap);
     setIsLoading(false);
   };
 
-  const navigate = useNavigate();
+  const getTimeSlotString = (timeSlotId) => {
+    return courtDetails[timeSlotId] || "Unknown Time Slot";
+  };
 
   const handleChangePage = (event, newPage) => setPage(newPage);
 
@@ -87,7 +77,7 @@ const Dashboard = () => {
 
   const filteredBookings = bookings.filter((booking) => {
     if (selectedStatusFilter === "all") {
-      return true; // Show all bookings
+      return true;
     } else {
       return booking.status === parseInt(selectedStatusFilter);
     }
@@ -112,27 +102,6 @@ const Dashboard = () => {
     2: "red",
     3: "green",
     4: "green",
-  };
-
-  const handleStatusChange = async (bookingId, newStatus) => {
-    try {
-      const response = await UpdateBookingStatus(bookingId, newStatus);
-      if (response.success) {
-        setBookings((prevBookings) =>
-          prevBookings.map((booking) =>
-            booking.bookingId === bookingId
-              ? { ...booking, status: newStatus }
-              : booking
-          )
-        );
-        toast.success("Status updated Successfully");
-      } else {
-        toast.error("Failed to update status");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update status");
-    }
   };
 
   return (
@@ -191,10 +160,10 @@ const Dashboard = () => {
               {slicedBookings.map((booking) => (
                 <TableRow key={booking.bookingId}>
                   <TableCell style={{ fontSize: "13px" }} align="center">
-                    {courtDetails[booking.courtId]}
+                    {booking.subCourtId}
                   </TableCell>
                   <TableCell style={{ fontSize: "13px" }} align="center">
-                    {courtDetails[booking.timeSlotId]}
+                    {booking.timeSlotId}
                   </TableCell>
                   <TableCell style={{ fontSize: "13px" }} align="center">
                     {new Date(booking.bookingDate).toLocaleDateString("vi-VN", {

@@ -15,10 +15,11 @@ import {
 import StarRatings from 'react-star-ratings';
 import StarIcon from '@mui/icons-material/Star';
 
-function TableFeedback({ data, userDetails }) {
+function TableFeedback({ data }) {
   const [selectedStatusFilter, setSelectedStatusFilter] = useState('all');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
+  console.log(data);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -60,13 +61,14 @@ function TableFeedback({ data, userDetails }) {
         <TableContainer component={Paper}>
           <h2
             style={{
-              textAlign: 'left',
+              textAlign: 'center',
               color: '#205295',
               fontSize: '20px',
               margin: '20px 30px',
               fontFamily: 'Arial, sans-serif',
               fontWeight: 'bold',
             }}
+            
           >
             Feedback
           </h2>
@@ -78,16 +80,20 @@ function TableFeedback({ data, userDetails }) {
                     fontSize: '20px',
                     fontFamily: 'Arial, sans-serif',
                   }}
-                  align="center"
+                  
                 >
-                  Username
+                  Name
                 </TableCell>
                 <TableCell
                   style={{
                     fontSize: '20px',
                     fontFamily: 'Arial, sans-serif',
+                    maxWidth: '300px', // Set maximum width for truncation
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
                   }}
-                  align="center"
+                  
                 >
                   Feedback
                 </TableCell>
@@ -96,7 +102,7 @@ function TableFeedback({ data, userDetails }) {
                     fontSize: '20px',
                     fontFamily: 'Arial, sans-serif',
                   }}
-                  align="center"
+                  
                 >
                   Rating
                 </TableCell>
@@ -105,11 +111,21 @@ function TableFeedback({ data, userDetails }) {
             <TableBody>
               {slicedFeedback.map((data) => (
                 <TableRow key={data.evaluateId}>
-                  <TableCell align="center">
-                    {userDetails[data.userId] || data.userId}
+                  <TableCell >
+                    {data.createdBy}
                   </TableCell>
-                  <TableCell align="center">{data.comment}</TableCell>
-                  <TableCell align="center">
+                  <TableCell
+                    
+                    style={{
+                      maxWidth: '300px', // Set maximum width for truncation
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {data.comment}
+                  </TableCell>
+                  <TableCell >
                     <StarRatings
                       rating={data.rating}
                       starDimension="20px"

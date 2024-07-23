@@ -18,26 +18,29 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { GetAllCourts } from "../../API/APIConfigure";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { GetAllCourts, DeleteCourt } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
 import CreateCourt from "./createCourt";
+import EditCourt from "./EditCourt";
 
 const Dashboard = () => {
   const [courts, setCourts] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedCourt, setSelectedCourt] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteConfirm, setDeleteConfirm] = useState({ open: false, courtId: null });
   const navigate = useNavigate();
-  const [fullWidth, setFullWidth] = useState(true);
-  const [maxWidth, setMaxWidth] = useState("md");
 
   const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
 
   const fetchCourts = async () => {
     try {
       const response = await GetAllCourts();
-      console.log(response);
       setCourts(response.data || []);
     } catch (err) {
       toast.error("Failed to fetch courts");
@@ -53,14 +56,6 @@ const Dashboard = () => {
     setPage(newPage);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -72,7 +67,31 @@ const Dashboard = () => {
       court.courtName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log(filteredCourts);
+  const handleEditClick = (court) => {
+    setSelectedCourt(court);
+    setOpenEdit(true);
+  };
+
+  const handleDeleteClick = (courtId) => {
+    setDeleteConfirm({ open: true, courtId });
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await DeleteCourt(deleteConfirm.courtId);
+      toast.success("Court deleted successfully!");
+      fetchCourts();
+    } catch (err) {
+      toast.error("Failed to delete court");
+      console.error(err);
+    } finally {
+      setDeleteConfirm({ open: false, courtId: null });
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirm({ open: false, courtId: null });
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -105,15 +124,15 @@ const Dashboard = () => {
             float: "right",
             marginTop: "30px",
           }}
-          onClick={handleClickOpen}
+          onClick={() => setOpenCreate(true)}
         >
           Create
         </Button>
         <Dialog
-          open={open}
-          onClose={handleClose}
-          fullWidth={fullWidth}
-          maxWidth={maxWidth}
+          open={openCreate}
+          onClose={() => setOpenCreate(false)}
+          fullWidth
+          maxWidth="md"
         >
           <DialogTitle
             style={{
@@ -127,10 +146,38 @@ const Dashboard = () => {
           </DialogTitle>
           <DialogContent>
             <CreateCourt
-              isOpen={open}
-              onClose={handleClose}
+              isOpen={openCreate}
+              onClose={() => setOpenCreate(false)}
               fetchCourts={fetchCourts}
             />
+          </DialogContent>
+        </Dialog>
+        <EditCourt
+          open={openEdit}
+          onClose={() => setOpenEdit(false)}
+          court={selectedCourt}
+          fetchCourts={fetchCourts}
+        />
+        <Dialog
+          open={deleteConfirm.open}
+          onClose={cancelDelete}
+          fullWidth
+          maxWidth="sm"
+        >
+          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <p>Are you sure you want to delete this court?</p>
+            <Button
+              onClick={confirmDelete}
+              color="error"
+              variant="contained"
+              style={{ marginRight: "10px" }}
+            >
+              Delete
+            </Button>
+            <Button onClick={cancelDelete} color="primary" variant="outlined">
+              Cancel
+            </Button>
           </DialogContent>
         </Dialog>
         <TableContainer component={Paper}>
@@ -142,7 +189,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Court Name
                 </TableCell>
@@ -151,7 +197,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Location
                 </TableCell>
@@ -160,7 +205,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Phone
                 </TableCell>
@@ -169,7 +213,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-                  align="center"
                 >
                   Action
                 </TableCell>
@@ -180,17 +223,35 @@ const Dashboard = () => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((court) => (
                   <TableRow key={court.courtId}>
-                    <TableCell align="center">{court.courtName}</TableCell>
-                    <TableCell align="center">{court.location}</TableCell>
-                    <TableCell align="center">{court.phone}</TableCell>
-                    <TableCell align="center">
+                    <TableCell>{court.courtName}</TableCell>
+                    <TableCell>{court.location}</TableCell>
+                    <TableCell>{court.phone}</TableCell>
+                    <TableCell>
                       <Button
                         variant="outlined"
                         color="success"
-                        className="edit-btn"
+                        className="view-btn"
                         onClick={() => navigate(`/court/${court.courtId}`)}
+                        style={{ marginRight: "8px" }}
                       >
                         <VisibilityIcon sx={{ fontSize: 25 }} />
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="warning"
+                        className="edit-btn"
+                        onClick={() => handleEditClick(court)}
+                        style={{ marginRight: "8px" }}
+                      >
+                        <EditIcon sx={{ fontSize: 25 }} />
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        className="delete-btn"
+                        onClick={() => handleDeleteClick(court.courtId)}
+                      >
+                        <DeleteIcon sx={{ fontSize: 25 }} />
                       </Button>
                     </TableCell>
                   </TableRow>

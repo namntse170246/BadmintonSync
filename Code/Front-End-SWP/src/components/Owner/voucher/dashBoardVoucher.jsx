@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Button, Dialog, DialogTitle, DialogContent, Select, MenuItem } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,8 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
-import { TextField, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
-import "react-toastify/dist/ReactToastify.css";
 import CreateVoucher from "./createVoucher";
 import { GetAllVoucher, GetAllCourts } from "../../API/APIConfigure";
 import DeleteVoucher from "./deleteVoucher";
@@ -16,15 +14,16 @@ import DeleteVoucher from "./deleteVoucher";
 const Dashboard = () => {
   const [voucher, setVoucher] = useState([]);
   const [courts, setCourts] = useState([]);
+  const [selectedCourtId, setSelectedCourtId] = useState(""); // State for selected court
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = useState(true);
   const [maxWidth, setMaxWidth] = useState("md");
 
   const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
 
+  // Fetch owned courts
   const fetchCourts = async () => {
     try {
       const response = await GetAllCourts();
@@ -35,6 +34,7 @@ const Dashboard = () => {
     }
   };
 
+  // Fetch vouchers
   const fetchVouchers = async () => {
     try {
       const response = await GetAllVoucher();
@@ -67,13 +67,16 @@ const Dashboard = () => {
     setPage(0);
   };
 
-  const filteredVouchers = voucher.filter((v) => {
-    const court = courts.find((court) => court.courtId === v.courtId);
-    return (
-      court &&
-      v.promotionCode.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+  const handleCourtChange = (event) => {
+    setSelectedCourtId(event.target.value);
+    setPage(0); // Reset page to 0 when court changes
+  };
+
+  // Filter vouchers based on selected court and owner’s courts
+  const ownedCourtIds = courts.map(court => court.courtId);
+  const filteredVouchers = voucher.filter((v) => 
+    ownedCourtIds.includes(v.courtId) && (selectedCourtId === "" || v.courtId === selectedCourtId)
+  );
 
   const slicedVouchers = filteredVouchers.slice(
     page * rowsPerPage,
@@ -84,12 +87,19 @@ const Dashboard = () => {
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
         <div className="main">
-          <TextField
-            label="Tìm kiếm"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ marginTop: "30px", marginLeft: "20px" }}
-          />
+          <Select
+            value={selectedCourtId}
+            onChange={handleCourtChange}
+            displayEmpty
+            style={{ marginTop: "30px", marginLeft: "20px", width: "200px" }}
+          >
+            <MenuItem value="">All Courts</MenuItem>
+            {courts.map((court) => (
+              <MenuItem key={court.courtId} value={court.courtId}>
+                {court.courtName}
+              </MenuItem>
+            ))}
+          </Select>
           <Button
             variant="contained"
             style={{
@@ -152,7 +162,6 @@ const Dashboard = () => {
                       fontSize: "20px",
                       fontFamily: "Arial, sans-serif",
                     }}
-                    align="center"
                   >
                     Code
                   </TableCell>
@@ -161,7 +170,6 @@ const Dashboard = () => {
                       fontSize: "20px",
                       fontFamily: "Arial, sans-serif",
                     }}
-                    align="center"
                   >
                     Court Name
                   </TableCell>
@@ -170,7 +178,6 @@ const Dashboard = () => {
                       fontSize: "20px",
                       fontFamily: "Arial, sans-serif",
                     }}
-                    align="center"
                   >
                     Description
                   </TableCell>
@@ -179,7 +186,6 @@ const Dashboard = () => {
                       fontSize: "20px",
                       fontFamily: "Arial, sans-serif",
                     }}
-                    align="center"
                   >
                     Percentage
                   </TableCell>
@@ -188,7 +194,6 @@ const Dashboard = () => {
                       fontSize: "20px",
                       fontFamily: "Arial, sans-serif",
                     }}
-                    align="center"
                   >
                     Start Date
                   </TableCell>
@@ -197,7 +202,6 @@ const Dashboard = () => {
                       fontSize: "20px",
                       fontFamily: "Arial, sans-serif",
                     }}
-                    align="center"
                   >
                     End Date
                   </TableCell>
@@ -206,7 +210,6 @@ const Dashboard = () => {
                       fontSize: "20px",
                       fontFamily: "Arial, sans-serif",
                     }}
-                    align="center"
                   >
                     Action
                   </TableCell>
@@ -217,23 +220,22 @@ const Dashboard = () => {
                   const court = courts.find((court) => court.courtId === v.courtId);
                   return (
                     <TableRow key={v.promotionId}>
-                      <TableCell style={{ fontSize: "13px" }} align="center">
+                      <TableCell style={{ fontSize: "13px" }}>
                         {v.promotionCode}
                       </TableCell>
-                      <TableCell style={{ fontSize: "13px" }} align="center">
+                      <TableCell style={{ fontSize: "13px" }}>
                         {court ? court.courtName : "Unknown Court"}
                       </TableCell>
-                      <TableCell style={{ fontSize: "13px" }} align="center">
+                      <TableCell style={{ fontSize: "13px" }}>
                         {v.description}
                       </TableCell>
-                      <TableCell style={{ fontSize: "13px" }} align="center">
+                      <TableCell style={{ fontSize: "13px" }}>
                         {v.percentage}%
                       </TableCell>
                       <TableCell
                         style={{
                           fontSize: "13px",
                         }}
-                        align="center"
                       >
                         {new Date(v.startDate).toLocaleDateString("vi-VN", {
                           day: "2-digit",
@@ -245,7 +247,6 @@ const Dashboard = () => {
                         style={{
                           fontSize: "13px",
                         }}
-                        align="center"
                       >
                         {new Date(v.endDate).toLocaleDateString("vi-VN", {
                           day: "2-digit",
@@ -253,7 +254,7 @@ const Dashboard = () => {
                           year: "numeric",
                         })}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell>
                         <DeleteVoucher
                           voucherId={v.promotionId}
                           fetchVouchers={fetchVouchers}

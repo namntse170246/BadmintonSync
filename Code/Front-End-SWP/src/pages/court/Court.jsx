@@ -214,7 +214,7 @@ const Court = () => {
               <FontAwesomeIcon icon={faSackDollar} className="inforIcon" />
               <div className="inforText">
                 <p>Every Day</p>
-                <p>{data.subCourts[0].pricePerHour}$ /hour</p>
+                <p>{data.subCourts[0].pricePerHour},000 VND</p>
               </div>
             </div>
             <div>
@@ -288,12 +288,17 @@ const Court = () => {
             <FeedBack courtId={data.courtId} />
           </div>
         )}
+        
+        <div className="main-home-container">
         <FeatureProperties excludeId={id} />
-        {/* <MailList /> */}
+
         <div className="map">
           <img src={mapImage} alt="Map" />
-        <Footer />
         </div>
+        <div className="homeContainer" style={{ marginTop: "50px" }}>
+          <Footer />
+        </div>
+      </div>
       </div>
       <Modal
         isOpen={modalIsOpen}

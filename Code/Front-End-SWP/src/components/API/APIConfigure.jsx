@@ -88,6 +88,11 @@ const GetAllSubCourts = (searchValue) => {
     params: { search: searchValue },
   });
 };
+
+export const DeleteCourt = (userID) => {
+  return customAxios.delete(`api/Court/${userID}`);
+};
+
 export const DeleteSubCourt = (userID) => {
   return customAxios.delete(`api/SubCourt/CheckBookingExistAndDelete${userID}`);
 };
@@ -152,8 +157,11 @@ export const UpdateBookingStatus = async (bookingID, status) => {
   });
 };
 
-export const CancelBooking = async (bookingID) => {
-  return customAxios.put(`/api/Booking/${bookingID}/cancel`);
+export const CancelBookingBeforePayment = async (bookingID) => {
+  return customAxios.put(`/api/Booking/${bookingID}/cancelAfterPayment`);
+};
+export const CancelBookingAfterPayment = async (bookingID) => {
+  return customAxios.put(`/api/Booking/${bookingID}/cancelChangeStatusandRefundMoney`);
 };
 export const ConfirmBooking = async (bookingID) => {
   return customAxios.put(`/api/Booking/${bookingID}/confirm`);

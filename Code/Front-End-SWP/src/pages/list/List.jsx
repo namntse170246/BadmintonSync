@@ -40,17 +40,12 @@ const List = () => {
     };
   }, []);
 
-  const toggleDropdown = (dropdown) => {
-    if (dropdown === "date") {
-      setDateDropdown(!dateDropdown);
-    }
-  };
-
   useEffect(() => {
     const storedSearchTerm = localStorage.getItem("searchkey");
+    console.log(storedSearchTerm);
     if (storedSearchTerm) {
       const searchTerm = JSON.parse(storedSearchTerm);
-      setSearchValue(searchTerm.searchValue);
+      setSearchValue(searchTerm.location);
       setIsSearchValueLoaded(true);
     }
     getData();
@@ -96,7 +91,7 @@ const List = () => {
         setShowLoadingPage(false);
         setSearchResult(filteredResults);
         console.log(filteredResults);
-      }, 3000);
+      }, 0);
     } catch (error) {
       console.log(error);
       setShowLoadingPage(false);

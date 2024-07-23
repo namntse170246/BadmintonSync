@@ -7,41 +7,41 @@ import { ConfirmBooking } from "../../API/APIConfigure";
 const Payment = ({ amount, id, bookingId }) => {
   const [loading, setLoading] = useState(false);
 
-  const handlePaymentMomo = async () => {
-    try {
-      setLoading(true);
+  // const handlePaymentMomo = async () => {
+  //   try {
+  //     setLoading(true);
 
-      const paymentData = {
-        userId: id,
-        totalPrice: amount,
-        requiredAmount: amount,
-        paymentRefId: "some-reference-id",
-        paymentMethod: "MoMo",
-        paymentStatus: "Pending",
-        paymentDate: new Date().toISOString(),
-        expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        paymentLanguage: "VN",
-        merchantId: "your-merchant-id",
-        paymentContent: "Payment for services",
-        paymentDestinationId: "destination-id",
-        paidAmount: 0,
-        paymentCurrency: "VND",
-      };
+  //     const paymentData = {
+  //       userId: id,
+  //       totalPrice: amount,
+  //       requiredAmount: amount,
+  //       paymentRefId: "some-reference-id",
+  //       paymentMethod: "MoMo",
+  //       paymentStatus: "Pending",
+  //       paymentDate: new Date().toISOString(),
+  //       expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  //       paymentLanguage: "VN",
+  //       merchantId: "your-merchant-id",
+  //       paymentContent: "Payment for services",
+  //       paymentDestinationId: "destination-id",
+  //       paidAmount: 0,
+  //       paymentCurrency: "VND",
+  //     };
 
-      const response = await axios.post("/api/PaymentMomo", paymentData);
-      if (response.data) {
-        ConfirmBooking(bookingId, 1);
-        window.location.href = response.data;
-      } else {
-        throw new Error("API did not return a payment URL");
-      }
-    } catch (error) {
-      toast.error("An error occurred during the payment process");
-      console.error("Payment error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     const response = await axios.post("/api/PaymentMomo", paymentData);
+  //     if (response.data) {
+  //       ConfirmBooking(bookingId, 1);
+  //       window.location.href = response.data;
+  //     } else {
+  //       throw new Error("API did not return a payment URL");
+  //     }
+  //   } catch (error) {
+  //     toast.error("An error occurred during the payment process");
+  //     console.error("Payment error:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handlePaymentVNPay = async () => {
     try {
@@ -89,19 +89,19 @@ const Payment = ({ amount, id, bookingId }) => {
         }).format(amount)}{" "}
       </h2>
 
-      <button
+      {/* <button
         className="payment-button"
         onClick={handlePaymentMomo}
         disabled={loading}
       >
         {loading ? "Processing..." : "Pay with MoMo"}
-      </button>
+      </button> */}
       <button
         className="payment-button"
         onClick={handlePaymentVNPay}
         disabled={loading}
       >
-        {loading ? "Processing..." : "Pay with MoMo"}
+        {loading ? "Processing..." : "Pay with VNPay"}
       </button>
     </div>
   );

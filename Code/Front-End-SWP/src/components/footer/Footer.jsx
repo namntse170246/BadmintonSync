@@ -33,7 +33,7 @@ function Footer() {
       </div>
 
       <div className="FLists">
-        <h3>Theo dõi chúng tôi trên</h3>
+        <h3>Theo dõi chúng tôi</h3>
         <ul className="FList">
           <li className="fListItem"><FontAwesomeIcon className="logo_Insta" icon={faInstagram} /><a className="text1" href="#"> Instagram</a></li>
           <li className="fListItem"><FontAwesomeIcon className="logo_Linkedin" icon={faLinkedin} /><a className="text1" href="#"> LinkedIn</a></li>

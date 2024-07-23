@@ -95,7 +95,8 @@ const Dashboard = () => {
     0: "Pending",
     1: "Confirmed",
     2: "Cancelled",
-    3: "Checked-in"
+    3: "Check-in",
+    4: "Checked"
   };
 
   const statusColors = {
@@ -103,6 +104,7 @@ const Dashboard = () => {
     1: "green",
     2: "red",
     3: "green",
+    4: "green",
   };
 
   const handleStatusChange = async (bookingId, newStatus) => {

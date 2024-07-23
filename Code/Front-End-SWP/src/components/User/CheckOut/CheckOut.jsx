@@ -1,59 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import VNPay from "./VNPay.jsx";
 import Navbar from "../../navbar/Navbar";
 import MailList from "../../mailList/MailList";
 import Footer from "../../footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from '@fortawesome/free-solid-svg-icons';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 import {
-  CancelBooking,
+  CancelBookingBeforePayment,
+  CancelBookingAfterPayment,
   CheckinBooking,
   ConfirmBooking,
   CreateCheckIn,
   GetAllBookingsByID,
   GetbyCourtID,
   GetbySubCourtID,
-  UpdateBookingStatus, 
+  UpdateBookingStatus,
 } from "../../API/APIConfigure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./checkout.css";
-import Momo from "./Momo.jsx";
 import Payment from "./Payment.jsx";
+import Swal from "sweetalert2";
 
 const Checkout = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const cancelReason = "";
   localStorage.setItem("BookingId", JSON.stringify(id));
 
-  useEffect(() => {
-    const fetchBooking = async () => {
-      try {
-        const response = await GetAllBookingsByID(id);
-        console.log(response);
-        if (response.data) {
-          const subCourt = await GetbySubCourtID(response.data.subCourtId);
-          const court = await GetbyCourtID(subCourt.data.courtId);
-          if (court) {
-            setBooking({ ...response.data, court });
-          }
+  const fetchBooking = async () => {
+    try {
+      const response = await GetAllBookingsByID(id);
+      console.log(response);
+      if (response.data) {
+        const subCourt = await GetbySubCourtID(response.data.subCourtId);
+        const court = await GetbyCourtID(subCourt.data.courtId);
+        if (court) {
+          setBooking({ ...response.data, court });
         }
-        setLoading(false);
-      } catch (err) {
-        toast.error("Error fetching booking information");
-        console.error(err);
       }
-    };
+      setLoading(false);
+    } catch (err) {
+      toast.error("Error fetching booking information");
+      console.error(err);
+    }
+  };
+  useEffect(() => {
 
     fetchBooking();
   }, [id]);
@@ -84,30 +82,65 @@ const Checkout = () => {
   const getTimeSlotString = (timeSlotId) => {
     switch (timeSlotId) {
       case 1:
-        return "5:00 to 7:00";
+        return "5:00 - 7:00";
       case 2:
-        return "7:00 to 9:00";
+        return "7:00 - 9:00";
       case 3:
-        return "9:00 to 11:00";
+        return "9:00 - 11:00";
       case 4:
-        return "13:00 to 15:00";
+        return "13:00 - 15:00";
       case 5:
-        return "15:00 to 17:00";
+        return "15:00 - 17:00";
       case 6:
-        return "17:00 to 19:00";
+        return "17:00 - 19:00";
       case 7:
-        return "19:00 to 21:00";
+        return "19:00 - 21:00";
       default:
         return "Unknown time slot";
     }
   };
 
-  const handleCancel = async () => {
+  const handleCancelBeforePayment = async () => {
     try {
-      const response = await CancelBooking(id);
-      console.log("Cancel response:", response);
-      toast.success(response.message);
-      navigate(-2); // Navigate back to the previous page
+      const result = await Swal.fire({
+        icon: 'warning',
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, cancel it!',
+        cancelButtonText: 'No, keep it',
+        reverseButtons: true
+      });
+
+      if (result.isConfirmed) {
+        const response = await CancelBookingBeforePayment(id);
+        console.log("Cancel response:", response);
+        toast.success(response.message);
+        navigate("/"); // Navigate back to the previous page
+      }
+    } catch (error) {
+      toast.error("Failed to cancel booking");
+    }
+  };
+
+  const handleCancelAfterPayment = async () => {
+    try {
+      const result = await Swal.fire({
+        icon: 'warning',
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, cancel it!',
+        cancelButtonText: 'No, keep it',
+        reverseButtons: true
+      });
+
+      if (result.isConfirmed) {
+        const response = await CancelBookingAfterPayment(id);
+        console.log("Cancel response:", response);
+        toast.success(response.message);
+        navigate("/");
+      }
     } catch (error) {
       toast.error("Failed to cancel booking");
     }
@@ -115,34 +148,46 @@ const Checkout = () => {
 
 
   const handleCheckin = async () => {
-    try {
-      console.log("Booking before check-in:", booking);
-      const responseCheckinBooking = await CheckinBooking(id);
-      console.log("CheckinBooking response:", responseCheckinBooking);
+    const result = await Swal.fire({
+      icon: "warning",
+      title: "Confirm Check-In",
+      text: "Are you sure you want to check-in?",
+      showCancelButton: true,
+      confirmButtonText: "Yes, check in",
+      cancelButtonText: "No, cancel",
+    });
   
-      const createDate = new Date().toISOString();
-      const dataCheckin = {
-        subCourtId: booking.subCourtId,
-        bookingId: id,
-        checkInTime: createDate,
-        userId: userInfo.id,
-      };
+    if (result.isConfirmed) {
+      try {
+        console.log("Booking before check-in:", booking);
+        const responseCheckinBooking = await CheckinBooking(id);
+        console.log("CheckinBooking response:", responseCheckinBooking);
   
-      console.log("Data for CreateCheckIn:", dataCheckin);
-      const responseCreateCheckIn = await CreateCheckIn(dataCheckin);
-      console.log("CreateCheckIn response:", responseCreateCheckIn);
+        const createDate = new Date().toISOString();
+        const dataCheckin = {
+          subCourtId: booking.subCourtId,
+          bookingId: id,
+          checkInTime: createDate,
+          userId: userInfo.id,
+        };
   
-      if (responseCreateCheckIn.success) { 
-        toast.success(responseCreateCheckIn.message);
-        navigate("/user/order", { state: { activeTab: 'order' } }); 
-      } else {
-        toast.error("Failed to create check-in");
+        console.log("Data for CreateCheckIn:", dataCheckin);
+        const responseCreateCheckIn = await CreateCheckIn(dataCheckin);
+        console.log("CreateCheckIn response:", responseCreateCheckIn);
+  
+        if (responseCreateCheckIn.success) {
+          toast.success(responseCreateCheckIn.message);
+          navigate("/user/order", { state: { activeTab: 'order' } });
+        } else {
+          toast.error("Failed to create check-in");
+        }
+      } catch (error) {
+        console.error("Error during check-in:", error);
+        toast.error("Failed to check-in booking");
       }
-    } catch (error) {
-      console.error("Error during check-in:", error);
-      toast.error("Failed to check-in booking");
     }
   };
+  
 
   return (
     <>
@@ -183,11 +228,23 @@ const Checkout = () => {
             />
           </div>
         </div> */}
+          {booking && (booking.status === 3 || booking.status ===4) && (
+            <div className="payment-container">
+              <div style={{ marginTop: "10px" }}>
+                <div className="Cancel-booking">
+                  <button onClick={handleCancelAfterPayment}>Cancel and go back</button>
+                </div>
+              </div>
+            </div>
+          )}
           {booking && booking.status === 1 && (
-            <div className="totalCheckoutAndCancel">
+            <div className="payment-container">
               <div style={{ marginTop: "10px" }}>
                 <div className="Cancel-booking">
                   <button onClick={handleCheckin}>Check In</button>
+                </div>
+                <div className="Cancel-booking">
+                  <button onClick={handleCancelBeforePayment}>Cancel booking</button>
                 </div>
               </div>
             </div>
@@ -198,7 +255,7 @@ const Checkout = () => {
                 <Payment amount={total} id={userInfo.id} bookingId={id} />
               </div>
               <div className="Cancel-booking">
-                <button onClick={handleCancel}>Cancel and go back</button>
+                <button onClick={handleCancelBeforePayment}>Cancel booking</button>
               </div>
             </div>
           )}
