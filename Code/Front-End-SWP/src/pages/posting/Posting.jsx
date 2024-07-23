@@ -2,7 +2,6 @@ import Navbar from "../../components/navbar/Navbar";
 import "./posting.css";
 import {
   CreateBooking,
-  CreatePayment,
   GetAllTimeSlot,
   GetVoucherByCode,
   GetBookedSubCourts, // Import the function to fetch booked courts
@@ -55,16 +54,13 @@ const Posting = () => {
     const fetchBookedSubCourts = async () => {
       if (selectedDate && selectedTimeSlot) {
         try {
-          console.log(selectedDate, selectedTimeSlot);
-          const response = await GetBookedSubCourts(
-            selectedDate,
-            selectedTimeSlot
-          );
-          console.log(response);
+          const response = await GetBookedSubCourts(selectedDate, selectedTimeSlot);
           if (response.success && response.data) {
-            setBookedSubCourts(response.data);
+            const filteredSubCourts = response.data.filter(booking => booking.status !== 2);
+            console.log(filteredSubCourts);
+            setBookedSubCourts(filteredSubCourts);
           } else {
-            setBookedSubCourts([]); // Reset booked courts to empty array if no data found
+            setBookedSubCourts([]);
           }
         } catch (error) {
           console.error("Error fetching booked courts", error);
@@ -86,8 +82,15 @@ const Posting = () => {
   const handleAddVoucher = async () => {
     try {
       const response = await GetVoucherByCode(voucher);
+      console.log(response.data.courtId);
+      console.log(id);
       if (response.success && response.statusCode === 0) {
-        setVoucherData(response.data);
+        if (response.data.courtId == id) {
+          setVoucherData(response.data);
+          toast.success("Applied voucher successfully!");
+        } else {
+          toast.error("Voucher not valid for this court");
+        }
       } else {
         toast.error("Invalid voucher code");
       }
@@ -118,6 +121,7 @@ const Posting = () => {
       bookingDate: selectedDate,
       timeSlotId: parseInt(selectedTimeSlot, 10),
       amount: totalFinal,
+      promotionCode: voucher
     };
 
     try {

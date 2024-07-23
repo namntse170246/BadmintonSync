@@ -156,13 +156,13 @@ const Checkout = () => {
       confirmButtonText: "Yes, check in",
       cancelButtonText: "No, cancel",
     });
-  
+
     if (result.isConfirmed) {
       try {
         console.log("Booking before check-in:", booking);
         const responseCheckinBooking = await CheckinBooking(id);
         console.log("CheckinBooking response:", responseCheckinBooking);
-  
+
         const createDate = new Date().toISOString();
         const dataCheckin = {
           subCourtId: booking.subCourtId,
@@ -170,11 +170,11 @@ const Checkout = () => {
           checkInTime: createDate,
           userId: userInfo.id,
         };
-  
+
         console.log("Data for CreateCheckIn:", dataCheckin);
         const responseCreateCheckIn = await CreateCheckIn(dataCheckin);
         console.log("CreateCheckIn response:", responseCreateCheckIn);
-  
+
         if (responseCreateCheckIn.success) {
           toast.success(responseCreateCheckIn.message);
           navigate("/user/order", { state: { activeTab: 'order' } });
@@ -187,7 +187,7 @@ const Checkout = () => {
       }
     }
   };
-  
+
 
   return (
     <>
@@ -228,7 +228,16 @@ const Checkout = () => {
             />
           </div>
         </div> */}
-          {booking && (booking.status === 3 || booking.status ===4) && (
+          {booking && (booking.status === 4) && (
+            <div className="payment-container">
+              <div style={{ marginTop: "10px" }}>
+                <div className="Checked-booking">
+                  <button >Checked</button>
+                </div>
+              </div>
+            </div>
+          )}
+          {booking && (booking.status === 3) && (
             <div className="payment-container">
               <div style={{ marginTop: "10px" }}>
                 <div className="Cancel-booking">

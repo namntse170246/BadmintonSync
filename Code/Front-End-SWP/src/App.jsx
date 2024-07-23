@@ -8,18 +8,13 @@ import UserPage from "./pages/user/userPage";
 import Admin from "./pages/admin/Admin";
 import User from "./pages/admin/User";
 import Account from "./pages/admin/Account";
-import Wallet from "./pages/admin/Wallet";
-import Booking from "./pages/admin/Booking";
-import DetailsBooking from "./pages/admin/DetailsBooking";
 import Courts from "./pages/admin/Courts";
 import OwnerAdmin from "./pages/owner/Admin";
 // import OwnerUser from "./pages/owner/User";
 import OwnerAccount from "./pages/owner/Account";
-import OwnerWallet from "./pages/owner/Wallet";
 import OwnerFeedback from "./pages/owner/Feedback";
 import OwnerBooking from "./pages/owner/Booking";
 import OwnerVoucher from "./pages/owner/Voucher";
-import OwnerDetailsBooking from "./pages/owner/DetailsBooking";
 import OwnerCourts from "./pages/owner/Courts";
 import OwnerSubCourts from "./pages/owner/SubCourts";
 import OwnerCheckIn from "./pages/owner/CheckIn";
@@ -141,30 +136,6 @@ function App() {
         }
       />
       <Route
-        path="/admin/wallet"
-        element={
-          <AdminWrapper>
-            <Wallet />
-          </AdminWrapper>
-        }
-      />
-      <Route
-        path="/admin/booking"
-        element={
-          <AdminWrapper>
-            <Booking />
-          </AdminWrapper>
-        }
-      />
-      <Route
-        path="/admin/booking/details/:id"
-        element={
-          <AdminWrapper>
-            <DetailsBooking />
-          </AdminWrapper>
-        }
-      />
-      <Route
         path="/admin/courts"
         element={
           <AdminWrapper>
@@ -189,14 +160,7 @@ function App() {
           </OwnerWrapper>
         }
       />
-      <Route
-        path="/owner/wallet"
-        element={
-          <OwnerWrapper>
-            <OwnerWallet />
-          </OwnerWrapper>
-        }
-      />
+
       <Route
         path="/owner/feedback"
         element={
@@ -213,14 +177,7 @@ function App() {
           </OwnerWrapper>
         }
       />
-      <Route
-        path="/owner/booking/details/:id"
-        element={
-          <OwnerWrapper>
-            <OwnerDetailsBooking />
-          </OwnerWrapper>
-        }
-      />
+
       <Route
         path="/owner/voucher"
         element={

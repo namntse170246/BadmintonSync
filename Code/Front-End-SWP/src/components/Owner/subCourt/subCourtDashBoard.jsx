@@ -22,7 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateSubCourtComponent from "./createSubCourt.jsx";
-import { GetAllCourts, GetAllSubCourts, DeleteSubCourt, GetTimeSlotByID } from "../../API/APIConfigure";
+import { GetAllCourts, GetAllSubCourts, DeleteSubCourt, GetTimeSlotByID, UpdateSubCourt } from "../../API/APIConfigure";
 
 const Dashboard = () => {
   const [courts, setCourts] = useState([]);
@@ -117,7 +117,16 @@ const Dashboard = () => {
   const handleSavePrice = async () => {
     if (selectedSubCourt) {
       try {
-        const response = await UpdateSubCourt(selectedSubCourt.subCourtId, { pricePerHour: price });
+        const updatedSubCourtData = {
+          id: selectedSubCourt.subCourtId,
+          name: selectedSubCourt.name,
+          pricePerHour: price,
+          timeSlotId: selectedSubCourt.timeSlotId,
+        }
+        // console.log(selectedSubCourt);
+        console.log(updatedSubCourtData);
+        const response = await UpdateSubCourt(updatedSubCourtData);
+        // console.log(response);
         if (response.success) {
           toast.success(response.message);
           fetchSubCourts();
@@ -156,14 +165,14 @@ const Dashboard = () => {
 
   const ownedCourtIds = courts.map(court => court.courtId);
 
-  // Filter sub-courts based on the selected court and owner’s courts
+
   const filteredSubCourts = subCourts.filter((subCourt) => {
     const court = courts.find((court) => court.courtId === subCourt.courtId);
     return (
       court &&
-      ownedCourtIds.includes(subCourt.courtId) && // Ensure sub-court belongs to an owned court
-      (selectedCourtId === "" || subCourt.courtId === selectedCourtId) && // Filter by selected court
-      subCourt.name.toLowerCase().includes(searchTerm.toLowerCase()) // Search term filter
+      ownedCourtIds.includes(subCourt.courtId) &&
+      (selectedCourtId === "" || subCourt.courtId === selectedCourtId) &&
+      subCourt.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 

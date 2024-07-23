@@ -32,6 +32,13 @@ const CreateVoucher = ({ fetchVouchers, onClose, ownerId }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Ensure percentage is not negative
+    if (name === "percentage" && value < 0) {
+      toast.error("Percentage cannot be negative!");
+      return;
+    }
+
     setVoucher((prevVoucher) => ({
       ...prevVoucher,
       [name]: value,

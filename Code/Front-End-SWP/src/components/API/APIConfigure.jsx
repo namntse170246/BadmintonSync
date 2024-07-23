@@ -63,6 +63,14 @@ const GetBookedSubCourts = (date, timeslotId) => {
   );
 };
 
+export const UpdateSubCourt = (data) => {
+  return customAxios.put(`api/SubCourt/${data.id}`, {
+    name: data.name,
+    pricePerHour: data.pricePerHour,
+    timeslotId: data.timeslotId,
+  });
+};
+
 const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);
 };

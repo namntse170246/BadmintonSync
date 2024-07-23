@@ -14,12 +14,9 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "../../../appStore";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import CategoryIcon from "@mui/icons-material/Category";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import ChecklistIcon from "@mui/icons-material/Checklist";
-// import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import MapIcon from "@mui/icons-material/Map";
@@ -74,7 +71,6 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Sidebar() {
   const theme = useTheme();
-  //const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
   const open = useAppStore((state) => state.dopen);
 
@@ -205,87 +201,8 @@ export default function Sidebar() {
               />
             </ListItemButton>
           </ListItem>
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => {
-              navigate("/owner/user");
-            }}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ManageAccountsIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <InboxIcon />
-              </ManageAccountsIcon>
-              <ListItemText primary="Account" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem> */}
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => {
-              navigate("/admin/trade");
-            }}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ChangeCircleIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <InboxIcon />
-              </ChangeCircleIcon>
-              <ListItemText
-                primary="Trao đổi "
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem> */}
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => {
-              navigate("/owner/wallet");
-            }}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <AccountBalanceWalletIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <InboxIcon />
-              </AccountBalanceWalletIcon>
-              <ListItemText primary="Payment" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
+          
+          
           <ListItem
             disablePadding
             sx={{ display: "block" }}
