@@ -12,8 +12,9 @@ export default function OwnerCheckIn() {
       <Box height={60} />
       <Box sx={{ display: "flex" }}>
         <Sidebar />
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}></Box>
-        <CheckInComponent></CheckInComponent>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <CheckInComponent></CheckInComponent>
+        </Box>
       </Box>
     </div>
   );

@@ -89,6 +89,24 @@ const GetAllSubCourts = (searchValue) => {
   });
 };
 
+export const GetBookingCancellationPercentage = () => {
+  return customAxios.get(`api/Booking/cancel-booking-percentage`);
+};
+export const GetTop5PeopleUseMostAmount = () => {
+  return customAxios.get(`api/User/GetTop5PeopleUseMostAmount`);
+};
+export const GetMonthlyBookingTotals = () => {
+  return customAxios.get(`api/Booking/GetMonthlyBookingTotals`);
+};
+export const GetTotalUserByRoleType3 = () => {
+  return customAxios.get(`api/User/GetTotalUserByRoleType3`);
+};
+export const GetTotalUserInSystem = () => {
+  return customAxios.get(`api/User/GetTotalUserInSystem`);
+};
+export const GetTotalCourtsInSystem = () => {
+  return customAxios.get(`api/User/GetTotalCourtInSystem`);
+};
 export const DeleteCourt = (userID) => {
   return customAxios.delete(`api/Court/${userID}`);
 };
@@ -161,7 +179,9 @@ export const CancelBookingBeforePayment = async (bookingID) => {
   return customAxios.put(`/api/Booking/${bookingID}/cancelAfterPayment`);
 };
 export const CancelBookingAfterPayment = async (bookingID) => {
-  return customAxios.put(`/api/Booking/${bookingID}/cancelChangeStatusandRefundMoney`);
+  return customAxios.put(
+    `/api/Booking/${bookingID}/cancelChangeStatusandRefundMoney`
+  );
 };
 export const ConfirmBooking = async (bookingID) => {
   return customAxios.put(`/api/Booking/${bookingID}/confirm`);

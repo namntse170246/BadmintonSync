@@ -1,36 +1,26 @@
-import Sidebar from '../../components/Admin/sidebar/Sidebar';
-import Navbar from '../../components/Admin/navbar/Navbar';
-import Box from '@mui/material/Box';
-import Booking from '../../components/Admin/dashboard/Booking';
-import TableBooking from '../../components/Admin/dashboard/TableBooking';
-import PieUser from '../../components/Admin/dashboard/PieUser';
-import Total from '../../components/Admin/dashboard/Total';
-import LineChartTotal from '../../components/Admin/dashboard/LineChartTotal';
-import './admin.css';
+import Sidebar from "../../components/Admin/sidebar/Sidebar";
+import Navbar from "../../components/Admin/navbar/Navbar";
+import Box from "@mui/material/Box";
+import "./admin.css";
+import UserDoughnutChart from "../../components/Admin/dashboard/UserDoughnutChart";
+import TotalCourtsDoughnutChart from "../../components/Admin/dashboard/TotalCourtsDoughnutChart";
 export default function Admin() {
   return (
     <div>
       <Navbar />
       <Box height={60} />
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: "flex" }}>
         <Sidebar />
-        <Box component="main" sx={{ flexGrow: 3, p: 3 }}>
-          <div className="adminContainer">
-            <div className="adminTotal">
-              <Total />
-              <LineChartTotal />
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <div className="dashboard-home">
+            <div className="box box10">
+              <h1>Total Accounts </h1>
+              <UserDoughnutChart></UserDoughnutChart>
             </div>
-            <div className="adminPie">
-              <PieUser />
+            <div className="box box11">
+              <h1>Total Courts</h1>
+              <TotalCourtsDoughnutChart />
             </div>
-          </div>
-
-          <div className="adminTableBooking">
-            <div className="adminBooking">
-              <Booking />
-            </div>
-            {/* <div className="adminChart"></div> */}
-            <TableBooking />
           </div>
         </Box>
       </Box>

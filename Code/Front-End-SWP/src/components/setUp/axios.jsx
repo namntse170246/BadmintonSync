@@ -26,7 +26,7 @@ instance.interceptors.response.use(
 
 export const customAxios = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: 20000,
   headers: { "Content-Type": "application/json" },
 });
 
