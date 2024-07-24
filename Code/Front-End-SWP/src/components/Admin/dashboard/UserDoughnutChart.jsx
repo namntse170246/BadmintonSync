@@ -76,7 +76,7 @@ const UserDoughnutChart = () => {
           ))}
       </div>
       <div className="stats">
-        <h2>Total Accounts: {stats.totalAccounts}</h2>
+        <h2>Tổng số tài khoản: {stats.totalAccounts}</h2>
       </div>
     </div>
   );

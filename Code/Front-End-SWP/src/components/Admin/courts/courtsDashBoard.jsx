@@ -86,7 +86,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Court Name
+                  Tên Sân
                 </TableCell>
                 <TableCell
                   style={{
@@ -95,7 +95,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Location
+                  Vị trí
                 </TableCell>
                 <TableCell
                   style={{
@@ -104,7 +104,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Phone
+                  SĐT
                 </TableCell>
                 <TableCell
                   style={{
@@ -113,7 +113,7 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
-                  Action
+                  Hành động
                 </TableCell>
               </TableRow>
             </TableHead>

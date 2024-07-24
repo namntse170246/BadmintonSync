@@ -43,10 +43,10 @@ function Home() {
   };
   return (
     <div
-      className={`path-frontpage ${isScrolled ? "header-scroll" : ""} ${isHomeTitleVisible ? "fixed-bs" : ""
-        }`}
+      className={`path-frontpage ${isScrolled ? "header-scroll" : ""} ${
+        isHomeTitleVisible ? "fixed-bs" : ""
+      }`}
     >
-
       <Navbar className={isHomePage} />
       <Header />
       <Search
@@ -58,7 +58,6 @@ function Home() {
       <div className="main-home-container">
         <Featured homeTitleRef={homeTitleRef} />
 
-        <TrendPlace />
         {/* <MailList /> */}
         <div className="map">
           <img src={mapImage} alt="Map" />

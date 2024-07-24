@@ -84,16 +84,18 @@ const Filter = ({ setSearchResult, setShowLoadingPage }) => {
 
   return (
     <div className="filter-container" ref={dropdownRef}>
-      <label className="filter-label">Select District:</label>
+      <label className="filter-label">Chọn vị trí: </label>
       <div className="dropdown" onClick={() => setDropdownOpen(!dropdownOpen)}>
-        <div className="dropdown-selected">{selectedDistrict || "All"}</div>
+        <div className="dropdown-selected">
+          {selectedDistrict || "Tất cả vị trí"}
+        </div>
         {dropdownOpen && (
           <div className="dropdown-menu">
             <div
               className="dropdown-item"
               onClick={() => handleFilterChange("")}
             >
-              All
+              Tất cả vị trí
             </div>
             {districts.map((district) => (
               <div

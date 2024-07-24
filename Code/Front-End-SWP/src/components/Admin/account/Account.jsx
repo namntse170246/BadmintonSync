@@ -94,7 +94,7 @@ const Account = () => {
           ))}
         </div>
       ) : (
-        <p>Loading account details...</p>
+        <p>Đang tải chi tiết tài khoản...</p>
       )}
       <Button variant="contained" size="large" onClick={handleClickOpen}>
         Edit

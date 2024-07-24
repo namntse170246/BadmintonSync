@@ -25,7 +25,7 @@ const SearchItem = ({ searchResult }) => {
       localStorage.setItem("imageCourt", JSON.stringify(photoUrls));
       navigate(`/court/${courtId}`);
     } catch (error) {
-      console.error("Error fetching court details", error);
+      console.error("Lỗi khi lấy thông tin sân:", error);
     }
   };
 
@@ -37,16 +37,16 @@ const SearchItem = ({ searchResult }) => {
         localStorage.setItem("CourtDetails", JSON.stringify(courtDetails));
         navigate(`/booking/${courtId}`);
       } catch (error) {
-        console.error("Error fetching court details", error);
+        console.error("Lỗi khi lấy thông tin sân:", error);
       }
     } else {
       Swal.fire({
         icon: "error",
-        title: "Please login to book court!",
+        title: "Vui lòng đăng nhập để đặt sân!",
         showConfirmButton: true,
-        confirmButtonText: "Login",
+        confirmButtonText: "Đăng nhập",
         showCancelButton: true,
-        cancelButtonText: "Cancel",
+        cancelButtonText: "Hủy",
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/login-register");
@@ -84,13 +84,13 @@ const SearchItem = ({ searchResult }) => {
                 onClick={() => handleViewCourt(court.courtId)}
                 className="btn-view-details"
               >
-                View
+                Xem
               </button>
               <button
                 onClick={() => handleBookingClick(court.courtId)}
                 className="btn-book-now"
               >
-                Book Now
+                Đặt ngay
               </button>
             </div>
           </div>

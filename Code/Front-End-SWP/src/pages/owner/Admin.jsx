@@ -19,19 +19,19 @@ export default function OwnerAdmin() {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <div className="dashboard-home">
             <div className="box box1">
-              <h1>Top Deals</h1>
+              <h1>Người dùng hàng đầu</h1>
               <TopBox />
             </div>
             <div className="box box3">
               <TotalCourt />
             </div>
             <div className="box box4">
-              <h1>Bookings</h1>
+              <h1>Đặt sân</h1>
               <PieChart></PieChart>
             </div>
 
             <div className="box box7">
-              <h1>Monthly Bookings</h1>
+              <h1>Đặt sân theo tháng</h1>
               <BarChart></BarChart>
             </div>
           </div>

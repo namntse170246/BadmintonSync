@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "./SignUp.css"; // Đảm bảo import file CSS để tùy chỉnh biểu tượng con mắt
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const SignUp = ({ handleToggleForm, setShowLoading }) => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
     password: "",
     confirmPassword: "",
     phone: "",
-    otp: ""
+    otp: "",
   });
   const [errors, setErrors] = useState({
     username: "",
@@ -26,7 +26,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
     password: "",
     confirmPassword: "",
     phone: "",
-    otp: ""
+    otp: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -35,47 +35,47 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
     let newErrors = {};
 
     if (!formData.username) {
-      newErrors.username = "Username cannot be empty.";
+      newErrors.username = "Tên đăng nhập không được để trống.";
     }
 
     if (!formData.fullName) {
-      newErrors.fullName = "Full name cannot be empty.";
+      newErrors.fullName = "Tên đầy đủ không được để trống.";
     }
 
     if (!formData.email) {
-      newErrors.email = "Email cannot be empty.";
+      newErrors.email = "Email không được để trống.";
     } else {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(formData.email)) {
-        newErrors.email = "Invalid email format.";
+        newErrors.email = "Định dạng email không hợp lệ.";
       }
     }
 
     if (!formData.password) {
-      newErrors.password = "Password cannot be empty.";
+      newErrors.password = "Mật khẩu không được để trống.";
     } else if (
       formData.password.length < 6 ||
       !/[A-Z]/.test(formData.password)
     ) {
       newErrors.password =
-        "Password must be at least 6 characters long and contain at least 1 uppercase letter.";
+        "Mật khẩu phải có ít nhất 6 ký tự và chứa ít nhất 1 chữ cái viết hoa.";
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Confirm password cannot be empty.";
+      newErrors.confirmPassword = "Xác nhận mật khẩu không được để trống.";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Password and confirm password do not match.";
+      newErrors.confirmPassword = "Mật khẩu và xác nhận mật khẩu không khớp.";
     }
 
     if (!formData.phone) {
-      newErrors.phone = "Phone number cannot be empty.";
+      newErrors.phone = "Số điện thoại không được để trống.";
     } else if (
       formData.phone.length !== 10 ||
       !/^\d{10}$/.test(formData.phone)
     ) {
-      newErrors.phone = "Phone number must be exactly 10 digits.";
+      newErrors.phone = "Số điện thoại phải có đúng 10 chữ số.";
     }
 
     setErrors(newErrors);
@@ -123,7 +123,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         if (response === null) {
           Swal.fire({
             icon: "error",
-            title: "An error occurred while signing up.",
+            title: "Đã xảy ra lỗi khi đăng ký.",
           });
         } else if (response.success === false) {
           Swal.fire({
@@ -133,7 +133,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         } else {
           Swal.fire({
             icon: "success",
-            title: "Sign up Successfully!",
+            title: "Đăng ký thành công!",
           }).then((result) => {
             if (result.isConfirmed) {
               navigate(`/otp-verification/${formData.email}`);
@@ -146,7 +146,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
         console.log(err.message);
         Swal.fire({
           icon: "error",
-          title: "An error occurred while signing up.",
+          title: "Đã xảy ra lỗi khi đăng ký.",
         });
       }
     }
@@ -163,18 +163,16 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="sign-in-up-form">
-        <h1 className="sign-up-title">Create Account</h1>
-        <div className="social-container">
-          <a href="#" className="social">
-            <GoogleIcon />
-          </a>
-        </div>
+        <h1 className="sign-up-title" style={{ paddingBottom: "20px" }}>
+          Tạo tài khoản
+        </h1>
+
         <div className="infield">
           <div className="infield-text">
             <input
               className="input-infield"
               type="text"
-              placeholder="Username"
+              placeholder="Tên đăng nhập"
               id="username"
               value={formData.username}
               onChange={handleChange}
@@ -192,7 +190,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type="text"
-              placeholder="Full Name"
+              placeholder="Tên đầy đủ"
               id="fullName"
               value={formData.fullName}
               onChange={handleChange}
@@ -228,7 +226,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder="Mật khẩu"
               id="password"
               value={formData.password}
               onChange={handleChange}
@@ -255,7 +253,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm Password"
+              placeholder="Xác nhận mật khẩu"
               id="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -282,7 +280,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             <input
               className="input-infield"
               type="text"
-              placeholder="Phone"
+              placeholder="Số điện thoại"
               id="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -295,7 +293,7 @@ const SignUp = ({ handleToggleForm, setShowLoading }) => {
             )}
           </div>
         </div>
-        <button className="btn-form">Sign up</button>
+        <button className="btn-form">Đăng ký</button>
       </form>
     </>
   );

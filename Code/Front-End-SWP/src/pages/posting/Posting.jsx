@@ -4,7 +4,7 @@ import {
   CreateBooking,
   GetAllTimeSlot,
   GetVoucherByCode,
-  GetBookedSubCourts, // Import the function to fetch booked courts
+  GetBookedSubCourts, // Nhập hàm để lấy sân đã đặt
 } from "../../components/API/APIConfigure";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
@@ -17,7 +17,7 @@ const Posting = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [subCourts, setSubCourts] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [BookedSubCourts, setBookedSubCourts] = useState([]); // State to store booked courts
+  const [BookedSubCourts, setBookedSubCourts] = useState([]); // Trạng thái để lưu sân đã đặt
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [selectedCourt, setSelectedCourt] = useState("");
@@ -43,7 +43,7 @@ const Posting = () => {
         const timeSlotResponse = await GetAllTimeSlot();
         setTimeSlots(timeSlotResponse.data);
       } catch (error) {
-        console.error("Error fetching data", error);
+        console.error("Lỗi khi lấy dữ liệu", error);
       }
     };
 
@@ -54,16 +54,21 @@ const Posting = () => {
     const fetchBookedSubCourts = async () => {
       if (selectedDate && selectedTimeSlot) {
         try {
-          const response = await GetBookedSubCourts(selectedDate, selectedTimeSlot);
+          const response = await GetBookedSubCourts(
+            selectedDate,
+            selectedTimeSlot
+          );
           if (response.success && response.data) {
-            const filteredSubCourts = response.data.filter(booking => booking.status !== 2);
+            const filteredSubCourts = response.data.filter(
+              (booking) => booking.status !== 2
+            );
             console.log(filteredSubCourts);
             setBookedSubCourts(filteredSubCourts);
           } else {
             setBookedSubCourts([]);
           }
         } catch (error) {
-          console.error("Error fetching booked courts", error);
+          console.error("Lỗi khi lấy dữ liệu sân đã đặt", error);
         }
       }
     };
@@ -87,15 +92,15 @@ const Posting = () => {
       if (response.success && response.statusCode === 0) {
         if (response.data.courtId == id) {
           setVoucherData(response.data);
-          toast.success("Applied voucher successfully!");
+          toast.success("Áp dụng mã giảm giá thành công!");
         } else {
-          toast.error("Voucher not valid for this court");
+          toast.error("Mã giảm giá không hợp lệ cho sân này");
         }
       } else {
-        toast.error("Invalid voucher code");
+        toast.error("Mã giảm giá không hợp lệ");
       }
     } catch (error) {
-      console.error("Error fetching voucher data", error);
+      console.error("Lỗi khi lấy dữ liệu mã giảm giá", error);
     }
   };
 
@@ -103,7 +108,7 @@ const Posting = () => {
     if (voucherData) {
       const { percentage } = voucherData;
       if (!voucherApplied) {
-        toast.success("Voucher applied Successfully");
+        toast.success("Mã giảm giá đã được áp dụng thành công");
         setDiscount(percentage);
         setVoucherApplied(true);
         setTotalFinal(total - (total * percentage) / 100);
@@ -121,7 +126,7 @@ const Posting = () => {
       bookingDate: selectedDate,
       timeSlotId: parseInt(selectedTimeSlot, 10),
       amount: totalFinal,
-      promotionCode: voucher
+      promotionCode: voucher,
     };
 
     try {
@@ -129,14 +134,14 @@ const Posting = () => {
       const response = await CreateBooking(updatedBookingData);
       Swal.fire({
         icon: "success",
-        title: "Booking successful",
+        title: "Đặt sân thành công",
       }).then(() => {
         navigate(`/user/checkout/${response.data.bookingId}`);
       });
     } catch (err) {
       Swal.fire({
         icon: "error",
-        title: "Please fill in all the details",
+        title: "Vui lòng điền đầy đủ thông tin",
       });
     }
   };
@@ -188,11 +193,11 @@ const Posting = () => {
       <div className="background">
         <div className="posting_container">
           <div className="booking-form">
-            <h1 className="booking-title">Booking Details</h1>
+            <h1 className="booking-title">Chi tiết đặt sân</h1>
 
             <form className="booking-request-form">
               <div className="form-section">
-                <label htmlFor="bookingDate">Select a date</label>
+                <label htmlFor="bookingDate">Chọn ngày</label>
                 <input
                   type="date"
                   id="bookingDate"
@@ -207,7 +212,7 @@ const Posting = () => {
 
               <div className="form-section">
                 <label htmlFor="timeSlot">
-                  Select a start time and duration
+                  Chọn thời gian bắt đầu và thời gian
                 </label>
                 <select
                   id="timeSlot"
@@ -217,7 +222,7 @@ const Posting = () => {
                   required
                   className="form-control"
                 >
-                  <option value="">- Select time slot -</option>
+                  <option value="">- Chọn khoảng thời gian -</option>
                   {timeSlots.map((slot) => (
                     <option key={slot.timeSlotId} value={slot.timeSlotId}>
                       {slot.startTime} - {slot.endTime}
@@ -227,7 +232,7 @@ const Posting = () => {
               </div>
 
               <div className="form-section court-list">
-                <label htmlFor="court">Select your preferred court(s)</label>
+                <label htmlFor="court">Chọn sân ưa thích của bạn</label>
                 {selectedTimeSlot &&
                   selectedDate &&
                   subCourts
@@ -245,7 +250,7 @@ const Posting = () => {
                     .map((court) => (
                       <div key={court.subCourtId} className="court-option">
                         <p>{court.name}</p>
-                        <p>{court.pricePerHour}$</p>
+                        <p>{court.pricePerHour.toLocaleString("vi-VN")} VND</p>
                         <button
                           type="button"
                           onClick={() =>
@@ -261,8 +266,8 @@ const Posting = () => {
                           }`}
                         >
                           {selectedCourt === court.subCourtId
-                            ? "Added to Cart"
-                            : "Add to Cart"}
+                            ? "Đã thêm vào giỏ hàng"
+                            : "Thêm vào giỏ hàng"}
                         </button>
                       </div>
                     ))}
@@ -271,7 +276,7 @@ const Posting = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="booking-summary">
-            <h2>Booking Summary</h2>
+            <h2>Tóm tắt đặt sân</h2>
             <div className="court-image">
               <div className="court-info">
                 <p> {CourtInfo.courtName}</p>
@@ -283,29 +288,29 @@ const Posting = () => {
                 alt={CourtInfo.courtName}
               />
             </div>
-            <p>Date: {selectedDate}</p>
-            <p>Time: {getTimeSlotString(selectedTimeSlot)}</p>
+            <p>Ngày: {selectedDate}</p>
+            <p>Thời gian: {getTimeSlotString(selectedTimeSlot)}</p>
             <p>
-              Court:{" "}
+              Sân:{" "}
               {
                 subCourts.find((court) => court.subCourtId === selectedCourt)
                   ?.name
               }
             </p>
-            <p className="total">Price: {total.toLocaleString()}</p>
+            <p className="total">Giá: {total.toLocaleString()}</p>
             {voucherApplied && (
               <div>
-                <p>Discount: {discount.toLocaleString()}%</p>
-                <p>Final Total: {totalFinal.toLocaleString()}</p>
+                <p>Giảm giá: {discount.toLocaleString()}%</p>
+                <p>Tổng cộng: {totalFinal.toLocaleString()}</p>
               </div>
             )}
             <div className="form-group">
-              <label htmlFor="voucher">Discount Voucher</label>
+              <label htmlFor="voucher">Mã giảm giá</label>
               <input
                 type="text"
                 id="voucher"
                 name="voucher"
-                placeholder="Enter voucher"
+                placeholder="Nhập mã giảm giá"
                 value={voucher}
                 onChange={handleVoucherChange}
                 className="form-control"
@@ -315,11 +320,11 @@ const Posting = () => {
                 onClick={handleAddVoucher}
                 className="btn btn-primary"
               >
-                Apply
+                Áp dụng
               </button>
             </div>
             <button type="submit" className="btn btn-primary" id="bookBtn">
-              Book Court
+              Đặt sân
             </button>
           </form>
         </div>

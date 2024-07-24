@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Paper,
@@ -11,12 +11,12 @@ import {
   TablePagination,
   Select,
   MenuItem,
-} from '@mui/material';
-import StarRatings from 'react-star-ratings';
-import StarIcon from '@mui/icons-material/Star';
+} from "@mui/material";
+import StarRatings from "react-star-ratings";
+import StarIcon from "@mui/icons-material/Star";
 
 function TableFeedback({ data }) {
-  const [selectedStatusFilter, setSelectedStatusFilter] = useState('all');
+  const [selectedStatusFilter, setSelectedStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   console.log(data);
@@ -32,7 +32,10 @@ function TableFeedback({ data }) {
 
   const filteredFeedback = Array.isArray(data)
     ? data.filter((item) => {
-        return selectedStatusFilter === 'all' || item.rating.toString() === selectedStatusFilter;
+        return (
+          selectedStatusFilter === "all" ||
+          item.rating.toString() === selectedStatusFilter
+        );
       })
     : [];
 
@@ -42,18 +45,18 @@ function TableFeedback({ data }) {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
         <Select
           value={selectedStatusFilter}
           onChange={(e) => setSelectedStatusFilter(e.target.value)}
-          style={{ marginTop: '30px', marginBottom: '20px' }}
+          style={{ marginTop: "30px", marginBottom: "20px" }}
         >
           <MenuItem value="all">Tất cả</MenuItem>
           {[5, 4, 3, 2, 1].map((rating) => (
             <MenuItem key={rating} value={rating.toString()}>
               {[...Array(rating)].map((_, i) => (
-                <StarIcon key={i} style={{ color: 'orange' }} />
+                <StarIcon key={i} style={{ color: "orange" }} />
               ))}
             </MenuItem>
           ))}
@@ -61,71 +64,64 @@ function TableFeedback({ data }) {
         <TableContainer component={Paper}>
           <h2
             style={{
-              textAlign: 'center',
-              color: '#205295',
-              fontSize: '20px',
-              margin: '20px 30px',
-              fontFamily: 'Arial, sans-serif',
-              fontWeight: 'bold',
+              textAlign: "center",
+              color: "#205295",
+              fontSize: "20px",
+              margin: "20px 30px",
+              fontFamily: "Arial, sans-serif",
+              fontWeight: "bold",
             }}
-            
           >
-            Feedback
+            Nhận xét
           </h2>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell
                   style={{
-                    fontSize: '20px',
-                    fontFamily: 'Arial, sans-serif',
+                    fontSize: "20px",
+                    fontFamily: "Arial, sans-serif",
                   }}
-                  
                 >
-                  Name
+                  Tên khách hàng
                 </TableCell>
                 <TableCell
                   style={{
-                    fontSize: '20px',
-                    fontFamily: 'Arial, sans-serif',
-                    maxWidth: '300px', // Set maximum width for truncation
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
+                    fontSize: "20px",
+                    fontFamily: "Arial, sans-serif",
+                    maxWidth: "300px", // Set maximum width for truncation
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
-                  
                 >
-                  Feedback
+                  Nhận xét
                 </TableCell>
                 <TableCell
                   style={{
-                    fontSize: '20px',
-                    fontFamily: 'Arial, sans-serif',
+                    fontSize: "20px",
+                    fontFamily: "Arial, sans-serif",
                   }}
-                  
                 >
-                  Rating
+                  Đánh giá
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {slicedFeedback.map((data) => (
                 <TableRow key={data.evaluateId}>
-                  <TableCell >
-                    {data.createdBy}
-                  </TableCell>
+                  <TableCell>{data.createdBy}</TableCell>
                   <TableCell
-                    
                     style={{
-                      maxWidth: '300px', // Set maximum width for truncation
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
+                      maxWidth: "300px", // Set maximum width for truncation
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {data.comment}
                   </TableCell>
-                  <TableCell >
+                  <TableCell>
                     <StarRatings
                       rating={data.rating}
                       starDimension="20px"

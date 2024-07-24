@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
@@ -24,8 +25,7 @@ import CheckOut from "./pages/user/CheckOut";
 import PaymentResults from "./pages/user/PaymentResult";
 import LoadingPage from "./components/LoadingPage/LoadingPage";
 import HorizontalNonLinearStepper from "./components/step/HorizontalNonLinearStepper";
-import { useEffect } from "react";
-import Order from "./pages/user/Order";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 const AdminWrapper = ({ children }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -43,6 +43,7 @@ const UserWrapper = ({ children }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   return userInfo ? children : <ErrorPage />;
 };
+
 function App() {
   useEffect(() => {
     const handlePopstate = () => {
@@ -58,159 +59,161 @@ function App() {
       window.removeEventListener("popstate", handlePopstate);
     };
   }, []);
+
   return (
-    <Routes>
-      <Route path="/*" element={<ErrorPage />} />
-      <Route path="/" element={<Home />} />
-      <Route path="/login-register" element={<Form />} />
-      <Route path="/otp-verification/:email" element={<OTPVerification />} />
-      <Route path="/courts" element={<List />} />
-      <Route path="/court/:id" element={<Court />} />
-      <Route path="/booking/:id" element={<Posting />} />
-      <Route path="/success" element={<PaymentResults />} />
-      <Route path="/step" element={<HorizontalNonLinearStepper />} />
-      {/* User */}
-      <Route
-        path="/user/*"
-        element={
-          <UserWrapper>
-            <UserPage />
-          </UserWrapper>
-        }
-      />
-      <Route
-        path="/user/loading"
-        element={
-          <UserWrapper>
-            <LoadingPage />
-          </UserWrapper>
-        }
-      />
-      <Route
-        path="/user/booking/:id"
-        element={
-          <UserWrapper>
-            <ErrorPage />
-          </UserWrapper>
-        }
-      />
-      <Route
-        path="/user/checkout/:id"
-        element={
-          <UserWrapper>
-            <CheckOut />
-          </UserWrapper>
-        }
-      />
-      {/* <Route
-        path="/user/order"
-        element={
-          <UserWrapper>
-            <Order />
-          </UserWrapper>
-        }
-      /> */}
-      {/* Admin */}
-      <Route
-        path="/admin"
-        element={
-          <AdminWrapper>
-            <Admin />
-          </AdminWrapper>
-        }
-      />
-      <Route
-        path="/admin/user"
-        element={
-          <AdminWrapper>
-            <User />
-          </AdminWrapper>
-        }
-      />
-      <Route
-        path="/admin/account"
-        element={
-          <AdminWrapper>
-            <Account />
-          </AdminWrapper>
-        }
-      />
-      <Route
-        path="/admin/courts"
-        element={
-          <AdminWrapper>
-            <Courts />
-          </AdminWrapper>
-        }
-      />
-      {/* Owner */}
-      <Route
-        path="/owner"
-        element={
-          <OwnerWrapper>
-            <OwnerAdmin />
-          </OwnerWrapper>
-        }
-      />
-      <Route
-        path="/owner/account"
-        element={
-          <OwnerWrapper>
-            <OwnerAccount />
-          </OwnerWrapper>
-        }
-      />
-
-      <Route
-        path="/owner/feedback"
-        element={
-          <OwnerWrapper>
-            <OwnerFeedback />
-          </OwnerWrapper>
-        }
-      />
-      <Route
-        path="/owner/booking"
-        element={
-          <OwnerWrapper>
-            <OwnerBooking />
-          </OwnerWrapper>
-        }
-      />
-
-      <Route
-        path="/owner/voucher"
-        element={
-          <OwnerWrapper>
-            <OwnerVoucher />
-          </OwnerWrapper>
-        }
-      />
-      <Route
-        path="/owner/courts"
-        element={
-          <OwnerWrapper>
-            <OwnerCourts />
-          </OwnerWrapper>
-        }
-      />
-      <Route
-        path="/owner/subCourts"
-        element={
-          <OwnerWrapper>
-            <OwnerSubCourts />
-          </OwnerWrapper>
-        }
-      />
-      <Route
-        path="/owner/checkin"
-        element={
-          <OwnerWrapper>
-            <OwnerCheckIn />
-          </OwnerWrapper>
-        }
-      />
-    </Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/*" element={<ErrorPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login-register" element={<Form />} />
+        <Route path="/otp-verification/:email" element={<OTPVerification />} />
+        <Route path="/courts" element={<List />} />
+        <Route path="/court/:id" element={<Court />} />
+        <Route path="/booking/:id" element={<Posting />} />
+        <Route path="/success" element={<PaymentResults />} />
+        <Route path="/step" element={<HorizontalNonLinearStepper />} />
+        {/* User */}
+        <Route
+          path="/user/*"
+          element={
+            <UserWrapper>
+              <UserPage />
+            </UserWrapper>
+          }
+        />
+        <Route
+          path="/user/loading"
+          element={
+            <UserWrapper>
+              <LoadingPage />
+            </UserWrapper>
+          }
+        />
+        <Route
+          path="/user/booking/:id"
+          element={
+            <UserWrapper>
+              <ErrorPage />
+            </UserWrapper>
+          }
+        />
+        <Route
+          path="/user/checkout/:id"
+          element={
+            <UserWrapper>
+              <CheckOut />
+            </UserWrapper>
+          }
+        />
+        {/* <Route
+          path="/user/order"
+          element={
+            <UserWrapper>
+              <Order />
+            </UserWrapper>
+          }
+        /> */}
+        {/* Admin */}
+        <Route
+          path="/admin"
+          element={
+            <AdminWrapper>
+              <Admin />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/admin/user"
+          element={
+            <AdminWrapper>
+              <User />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/admin/account"
+          element={
+            <AdminWrapper>
+              <Account />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/admin/courts"
+          element={
+            <AdminWrapper>
+              <Courts />
+            </AdminWrapper>
+          }
+        />
+        {/* Owner */}
+        <Route
+          path="/owner"
+          element={
+            <OwnerWrapper>
+              <OwnerAdmin />
+            </OwnerWrapper>
+          }
+        />
+        <Route
+          path="/owner/account"
+          element={
+            <OwnerWrapper>
+              <OwnerAccount />
+            </OwnerWrapper>
+          }
+        />
+        <Route
+          path="/owner/feedback"
+          element={
+            <OwnerWrapper>
+              <OwnerFeedback />
+            </OwnerWrapper>
+          }
+        />
+        <Route
+          path="/owner/booking"
+          element={
+            <OwnerWrapper>
+              <OwnerBooking />
+            </OwnerWrapper>
+          }
+        />
+        <Route
+          path="/owner/voucher"
+          element={
+            <OwnerWrapper>
+              <OwnerVoucher />
+            </OwnerWrapper>
+          }
+        />
+        <Route
+          path="/owner/courts"
+          element={
+            <OwnerWrapper>
+              <OwnerCourts />
+            </OwnerWrapper>
+          }
+        />
+        <Route
+          path="/owner/subCourts"
+          element={
+            <OwnerWrapper>
+              <OwnerSubCourts />
+            </OwnerWrapper>
+          }
+        />
+        <Route
+          path="/owner/checkin"
+          element={
+            <OwnerWrapper>
+              <OwnerCheckIn />
+            </OwnerWrapper>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

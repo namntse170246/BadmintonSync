@@ -40,7 +40,7 @@ const TotalCourt = () => {
     <DashboardItem elevation={3}>
       <div>
         <Typography variant="h5" component="h3">
-          Total Courts
+          Tống số sân
         </Typography>
         <Typography variant="h2" component="p">
           {ownerCourtsCount}

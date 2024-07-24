@@ -25,6 +25,7 @@ import Modal from "react-modal";
 import { useAuth } from "../../hook/AuthContext";
 import Swal from "sweetalert2";
 import mapImage from "../../../src/assets/img/map1.jpg";
+
 Modal.setAppElement("#root");
 
 const Court = () => {
@@ -38,7 +39,7 @@ const Court = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
   const [userLoggedIn, setUserLoggedIn] = useState(isLoggedIn);
-  const userId = JSON.parse(localStorage.getItem("userInfo")).id;
+
   useEffect(() => {
     setUserLoggedIn(isLoggedIn);
   }, [isLoggedIn]);
@@ -49,11 +50,11 @@ const Court = () => {
       e.preventDefault();
       Swal.fire({
         icon: "error",
-        title: "You need login to book court!",
+        title: "Bạn cần đăng nhập để đặt sân!",
         showConfirmButton: true,
-        confirmButtonText: "Login",
+        confirmButtonText: "Đăng nhập",
         showCancelButton: true,
-        cancelButtonText: "Cancel",
+        cancelButtonText: "Hủy",
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/login-register");
@@ -76,7 +77,7 @@ const Court = () => {
         const response = await GetbyCourtID(id);
         setData(response.data);
       } catch (error) {
-        console.error("Error fetching data", error);
+        console.error("Lỗi khi lấy dữ liệu", error);
       }
     };
 
@@ -106,19 +107,18 @@ const Court = () => {
   };
 
   const HotelImages = ({ data }) => {
-    // Handle photo URLs
+    // Xử lý URL ảnh
     const photoUrls = data ? data.image.split(",") : [];
 
-    // Save to local storage
+    // Lưu vào local storage
     useEffect(() => {
       localStorage.setItem("imageReal", JSON.stringify(photoUrls));
     }, [photoUrls]);
 
-    // Handle image click
+    // Xử lý khi nhấp vào ảnh
     const handleImageClick = (index) => {
       setSelectedImage(
-        "https://localhost:7155/Uploads/" +
-          photoUrls[index].trim()
+        "https://localhost:7155/Uploads/" + photoUrls[index].trim()
       );
       setModalIsOpen(true);
     };
@@ -129,10 +129,7 @@ const Court = () => {
           <div className="hotelImgWrapper" key={i}>
             <img
               onClick={() => handleImageClick(i)}
-              src={
-                "https://localhost:7155/Uploads/" +
-                photoUrl.trim()
-              }
+              src={"https://localhost:7155/Uploads/" + photoUrl.trim()}
               alt={`Hotel ${i}`}
               className="hotelImg"
             />
@@ -168,7 +165,7 @@ const Court = () => {
         {data && (
           <div>
             <div className="announcement">
-              <p className="announcementTitle">Announcement</p>
+              <p className="announcementTitle">Thông báo</p>
               <p className="announcementContent">{data.announcement}</p>
             </div>
             <HotelImages data={data} />
@@ -177,21 +174,21 @@ const Court = () => {
               <div className="infor">
                 <FontAwesomeIcon icon={faHouseChimney} className="inforIcon" />
                 <div className="inforText">
-                  <p>Address</p>
+                  <p>Địa chỉ</p>
                   <span>{data.location}</span>
                 </div>
               </div>
               <div className="infor">
                 <FontAwesomeIcon icon={faPhone} className="inforIcon" />
                 <div className="inforText">
-                  <p>Phone Number</p>
+                  <p>Số điện thoại</p>
                   <span>{data.phone}</span>
                 </div>
               </div>
               <div className="infor">
                 <FontAwesomeIcon icon={faHeart} className="inforIcon" />
                 <div className="inforText">
-                  <p>Social Media</p>
+                  <p>Mạng xã hội</p>
                   <a
                     target="_blank"
                     href="https://www.facebook.com/hungtran0706/"
@@ -201,27 +198,27 @@ const Court = () => {
                   </a>
                 </div>
               </div>
-              <p className="hotelTitle">Openning Hours</p>
+              <p className="hotelTitle">Giờ mở cửa</p>
               <div className="infor">
                 <FontAwesomeIcon icon={faClock} className="inforIcon" />
                 <div className="inforText">
-                  <p>Daily</p>
+                  <p>Hàng ngày</p>
                   <p>{data.openingHours}</p>
                 </div>
               </div>
-              <p className="hotelTitle">Pricing</p>
+              <p className="hotelTitle">Giá</p>
             </div>
             <div className="infor">
               <FontAwesomeIcon icon={faSackDollar} className="inforIcon" />
               <div className="inforText">
-                <p>Every Day</p>
+                <p>Mỗi ngày</p>
                 <p>{data.subCourts[0].pricePerHour},000 VND</p>
               </div>
             </div>
             <div>
               <div className="Viewinfor" onClick={PolicyClick}>
                 <FontAwesomeIcon icon={faBook} className="ViewinforIcon" />
-                <div>View Policy</div>
+                <div>Xem Chính sách</div>
                 <FontAwesomeIcon
                   icon={faAngleRight}
                   className="ViewinforIcon"
@@ -230,78 +227,78 @@ const Court = () => {
               {showPopup && (
                 <div className="popup-overlay">
                   <div className="popup-content">
-                    <h2>Policy</h2>
+                    <h2>Chính sách</h2>
                     <hr className="header-line" />
-                    <h3>Booking & Reschedule Rules</h3>
+                    <h3>Quy định đặt chỗ & thay đổi lịch</h3>
                     <ul>
-                      <li>No refunds or carry forward of unused sessions.</li>
                       <li>
-                        Changes to booking time require 48 hours notice and are
-                        subject to court availability.
+                        Không hoàn tiền hoặc chuyển nhượng phiên chưa sử dụng.
                       </li>
                       <li>
-                        Non-seasonal bookings can be rescheduled once only.
+                        Thay đổi thời gian đặt chỗ cần thông báo trước 48 giờ và
+                        phụ thuộc vào tình trạng sẵn có của sân.
                       </li>
                       <li>
-                        Seasonal bookings are not eligible for rescheduling.
+                        Đặt chỗ không theo mùa có thể thay đổi một lần duy nhất.
                       </li>
+                      <li>Đặt chỗ theo mùa không đủ điều kiện thay đổi.</li>
                     </ul>
-                    <h3>Centre Policy</h3>
+                    <h3>Chính sách trung tâm</h3>
                     <ul>
                       <li>
-                        Only non-marking shoes are allowed on the badminton
-                        court.
+                        Chỉ cho phép sử dụng giày không để lại dấu trên sân
+                        badminton.
                       </li>
                       <li>
-                        Players are responsible for any damages caused to the
-                        facility during play.
+                        Người chơi chịu trách nhiệm về bất kỳ thiệt hại nào gây
+                        ra cho cơ sở trong quá trình chơi.
                       </li>
                       <li>
-                        Do not leave valuables unattended; we are not
-                        responsible for theft.
+                        Không để tài sản quý giá không được trông coi; chúng tôi
+                        không chịu trách nhiệm về việc mất trộm.
                       </li>
                       <li>
-                        Onsite parking is available; park in designated areas at
-                        your own risk.
+                        Có bãi đậu xe tại chỗ; đậu xe ở khu vực được chỉ định là
+                        rủi ro của bạn.
                       </li>
                       <li>
-                        Violations may result in warnings, fines, suspension, or
-                        expulsion.
+                        Vi phạm có thể dẫn đến cảnh cáo, phạt tiền, đình chỉ
+                        hoặc khai trừ.
                       </li>
-                      <li>Management decisions on penalties are final.</li>
+                      <li>
+                        Quyết định của ban quản lý về hình phạt là cuối cùng.
+                      </li>
                     </ul>
                     <button className="closeButton" onClick={ClosePolicyClick}>
-                      Close
+                      Đóng
                     </button>
                   </div>
                 </div>
               )}
             </div>
 
-            {(data.ownerId !== userId) && (
-              <button className="bookNow">
+            <button className="bookNow">
               <Link
                 to={`/booking/${data.courtId}`}
                 onClick={handleBookingClick}
               >
-                Booking
+                Đặt sân
               </Link>
             </button>
-            )}
             <FeedBack courtId={data.courtId} />
           </div>
         )}
-        
-        <div className="main-home-container">
-        <FeatureProperties excludeId={id} />
 
-        <div className="map">
-          <img src={mapImage} alt="Map" />
+        <div className="main-home-container">
+          <FeatureProperties excludeId={id} />
+
+          <div className="map">
+            <img src={mapImage} alt="Map" />
+          </div>
+          <div className="homeContainer" style={{ marginTop: "50px" }}>
+            <Footer />
+          </div>
         </div>
-        <div className="homeContainer" style={{ marginTop: "50px" }}>
-          <Footer />
-        </div>
-      </div>
       </div>
       <Modal
         isOpen={modalIsOpen}
@@ -312,7 +309,7 @@ const Court = () => {
       >
         <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
         <button className="closeButton" onClick={() => setModalIsOpen(false)}>
-          Close
+          Đóng
         </button>
       </Modal>
     </div>

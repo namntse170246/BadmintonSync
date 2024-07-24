@@ -596,4 +596,5 @@ strong {
 .map img {
   width: 100%;
   height: 500px;
+  padding-top: 70px;
 }

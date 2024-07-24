@@ -6,9 +6,9 @@ import Navbar from "../../components/navbar/Navbar";
 import SearchItem from "../../components/searchItem/SearchItem";
 import Filter from "../Filter/Filter";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
-import MailList from "../../components/mailList/MailList";
 import mapImage from "../../../src/assets/img/map1.jpg";
 import Footer from "../../components/footer/Footer";
+import Pagination from "./Pagination";
 
 const List = () => {
   const [searchResult, setSearchResult] = useState([]);
@@ -18,6 +18,8 @@ const List = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [showLoadingPage, setShowLoadingPage] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // Add state for current page
+  const itemsPerPage = 9; // Number of items per page
 
   const dropdownRef = useRef(null);
   const dateDropdownRef = useRef(null);
@@ -108,6 +110,11 @@ const List = () => {
     getData();
   };
 
+  // Calculate current page items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = searchResult.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <div className="main-section">
       <div className="container-header">
@@ -137,7 +144,7 @@ const List = () => {
                   width: "40%",
                 }}
                 src="https://cdni.iconscout.com/illustration/premium/thumb/search-not-found-6275834-5210416.png"
-                alt="No matching search results found"
+                alt="Không tìm thấy kết quả tìm kiếm phù hợp"
               />
               <div
                 style={{
@@ -149,11 +156,19 @@ const List = () => {
                   fontWeight: "bold",
                 }}
               >
-                No matching search results found
+                Không tìm thấy kết quả tìm kiếm phù hợp
               </div>
             </>
           ) : (
-            <SearchItem searchResult={searchResult} />
+            <>
+              <SearchItem searchResult={currentItems} />
+              <Pagination
+                totalItems={searchResult.length}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </>
           )}
         </>
       )}

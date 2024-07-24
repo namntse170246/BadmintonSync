@@ -1,0 +1,19 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.page-number {
+  border: none;
+  background-color: transparent;
+  margin: 0 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.page-number.active {
+  font-weight: bold;
+  color: blue;
+}

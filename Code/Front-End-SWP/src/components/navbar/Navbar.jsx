@@ -22,7 +22,7 @@ function Navbar({ className }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = await axios.get; // Replace with your method of retrieving the token
+        const token = await axios.get; // Thay thế bằng phương thức lấy token của bạn
         const response = await axios.get("/api/User/GetCurrentUser", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ function Navbar({ className }) {
         });
         setUsername(response.data.fullName);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Lỗi khi lấy dữ liệu người dùng:", error);
       }
     };
 
@@ -61,25 +61,25 @@ function Navbar({ className }) {
   const handleLogout = async () => {
     try {
       const result = await Swal.fire({
-        title: "Log out",
-        text: "Do you want to log out?",
+        title: "Đăng xuất",
+        text: "Bạn có muốn đăng xuất không?",
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, log out!",
-        cancelButtonText: "No",
+        confirmButtonText: "Có, đăng xuất!",
+        cancelButtonText: "Không",
       });
 
       if (result.isConfirmed) {
         await logout();
         handleMenuClose();
-        Swal.fire("Logged out!", "You have been logged out.", "success");
+        Swal.fire("Đã đăng xuất!", "Bạn đã đăng xuất.", "success");
         navigate("/");
       }
     } catch (error) {
-      console.error("Error during logout:", error);
-      Swal.fire("Error", "Error logging out.", "error");
+      console.error("Lỗi khi đăng xuất:", error);
+      Swal.fire("Lỗi", "Lỗi khi đăng xuất.", "error");
     }
   };
 
@@ -99,8 +99,8 @@ function Navbar({ className }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMyAccount}>My Account</MenuItem>
-      <MenuItem onClick={handleLogout}>Log out</MenuItem>
+      <MenuItem onClick={handleMyAccount}>Tài khoản của tôi</MenuItem>
+      <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
     </Menu>
   );
 
@@ -126,12 +126,12 @@ function Navbar({ className }) {
             {isLoggedIn ? (
               <div className="btn-icon">
                 {username && (
-                  <span style={{ color: "#fff" }}>Welcome {username}</span>
+                  <span style={{ color: "#fff" }}>Chào {username}</span>
                 )}
                 <FontAwesomeIcon
                   icon={faCircleUser}
                   edge="end"
-                  aria-label="account of current user"
+                  aria-label="tài khoản hiện tại"
                   aria-controls={menuId}
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
@@ -150,7 +150,7 @@ function Navbar({ className }) {
                 className="right-panel-open-btn booking-btn ht_mirror ht_tablet_hide"
                 onClick={handleLogin}
               >
-                Sign in
+                Đăng nhập
               </button>
             )}
           </div>

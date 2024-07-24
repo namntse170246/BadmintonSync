@@ -68,7 +68,7 @@ const EditAccount = ({
           size="large"
           onClick={handleClose}
         >
-          Cancel
+          Hủy
         </Button>
         <Button
           variant="contained"
@@ -76,7 +76,7 @@ const EditAccount = ({
           size="large"
           onClick={handleSubmit}
         >
-          Save
+          Lưu
         </Button>
       </DialogActions>
     </Dialog>

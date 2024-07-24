@@ -7,27 +7,27 @@ const Featured = ({ homeTitleRef }) => {
         <div className="exp-block">
           <div className="home-container">
             <h2 className="homepage-tit wow animate__animated animate__fadeInUp">
-              Outstanding Location
+              Những địa điểm nổi bật
             </h2>
             <div className="exp-content wow animate__animated animate__fadeInUp">
               <div className="exp-item exp-item-1 _741x500">
                 <div className="img-wrapper_1">
                   <img
                     className="img1"
-                    src="https://localhost:7155/Uploads/c1217359-7b4d-4cff-b009-e0d11e016bd6.png"
+                    src="https://localhost:7155/Uploads/37ecefc9-f37c-4554-bfee-bab686d149c4.png"
                     alt=""
                   />
                 </div>
                 <div className="info-wrapper">
                   <div className="exp-item-tit eb-garamond three_dots_1">
-                    New Added Court 🎉
+                    Sân mới được thêm vào 🎉
                   </div>
                   <div className="exp-item-des three_dots_1">
-                    Bring the best experience!
+                    Mang lại trải nghiệm tốt nhất!
                   </div>
                   <div className="exp-item-cta">
                     <Link to="/courts" className="eb-garamond three_dots_1">
-                      Discovery!
+                      Khám phá!
                     </Link>
                   </div>
                 </div>
@@ -36,7 +36,7 @@ const Featured = ({ homeTitleRef }) => {
                 <div className="img-wrapper_2">
                   <img
                     className="img1"
-                    src="https://localhost:7155/Uploads/7cda1327-8c78-4ab1-985a-c59763f07463.png"
+                    src="https://localhost:7155/Uploads/ead8ebe3-3ea5-4a2f-ba70-2d6255735603.png"
                     alt=""
                   />
                 </div>
@@ -52,14 +52,14 @@ const Featured = ({ homeTitleRef }) => {
                 </div>
                 <div className="info-wrapper">
                   <div className="exp-item-tit eb-garamond three_dots_1">
-                    Promotion 😉
+                    Khuyến mãi 😉
                   </div>
                   <div className="exp-item-des three_dots_1">
-                    Comfortable space with modern equipment!
+                    Không gian thoải mái với trang thiết bị hiện đại!
                   </div>
                   <div className="exp-item-cta">
                     <Link to="/courts" className="eb-garamond three_dots_1">
-                      Discovery!
+                      Khám phá!
                     </Link>
                   </div>
                 </div>

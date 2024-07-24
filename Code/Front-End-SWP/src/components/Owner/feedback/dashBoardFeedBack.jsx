@@ -53,7 +53,9 @@ const Dashboard = () => {
     const fetchCourts = async () => {
       try {
         const response = await GetAllCourts();
-        const courtsOwnedByOwner = response.data.filter(court => court.ownerId === ownerId);
+        const courtsOwnedByOwner = response.data.filter(
+          (court) => court.ownerId === ownerId
+        );
         setOwnedCourts(courtsOwnedByOwner);
       } catch (err) {
         toast.error("Failed to fetch courts owned by owner");
@@ -123,11 +125,14 @@ const Dashboard = () => {
   };
 
   const filteredFeedback = feedback.filter((item) => {
-    const isOwnerCourt = ownedCourts.find(court => court.courtId === item.courtId);
+    const isOwnerCourt = ownedCourts.find(
+      (court) => court.courtId === item.courtId
+    );
     return (
-      selectedStatusFilter === "all" ||
-      item.rating.toString() === selectedStatusFilter
-    ) && isOwnerCourt;
+      (selectedStatusFilter === "all" ||
+        item.rating.toString() === selectedStatusFilter) &&
+      isOwnerCourt
+    );
   });
 
   const slicedFeedback = filteredFeedback.slice(
@@ -172,7 +177,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-
                 >
                   Username
                 </TableCell>
@@ -181,20 +185,18 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-
                 >
                   Court
                 </TableCell>
                 <TableCell
                   style={{
-                    fontSize: '20px',
-                    fontFamily: 'Arial, sans-serif',
-                    maxWidth: '300px', // Set maximum width for truncation
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
+                    fontSize: "20px",
+                    fontFamily: "Arial, sans-serif",
+                    maxWidth: "300px", // Set maximum width for truncation
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
-
                 >
                   Feedback
                 </TableCell>
@@ -203,7 +205,6 @@ const Dashboard = () => {
                     fontSize: "20px",
                     fontFamily: "Arial, sans-serif",
                   }}
-
                 >
                   Rating
                 </TableCell>
@@ -212,23 +213,23 @@ const Dashboard = () => {
             <TableBody>
               {slicedFeedback.map((item) => (
                 <TableRow key={item.evaluateId}>
-                  <TableCell >
+                  <TableCell>
                     {userDetails[item.userId] || item.userId}
                   </TableCell>
-                  <TableCell >
+                  <TableCell>
                     {realEstateDetails[item.courtId] || item.courtId}
                   </TableCell>
                   <TableCell
                     style={{
-                      maxWidth: '300px', // Set maximum width for truncation
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
+                      maxWidth: "300px", // Set maximum width for truncation
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {item.comment}
                   </TableCell>
-                  <TableCell >
+                  <TableCell>
                     <StarRatings
                       rating={item.rating}
                       starDimension="20px"

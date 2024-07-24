@@ -37,10 +37,10 @@ const SignIn = ({ setShowLoading }) => {
   const handleValidateFields = () => {
     let newErrors = {};
     if (!formData.username) {
-      newErrors.username = "Username cannot be empty.";
+      newErrors.username = "Tên đăng nhập không được để trống.";
     }
     if (!formData.password) {
-      newErrors.password = "Password cannot be empty.";
+      newErrors.password = "Mật khẩu không được để trống.";
     }
     setErrors(newErrors);
     return newErrors;
@@ -65,7 +65,7 @@ const SignIn = ({ setShowLoading }) => {
           if (response === null) {
             Swal.fire({
               icon: "error",
-              title: "Incorrect username or password.",
+              title: "Tên đăng nhập hoặc mật khẩu không chính xác.",
             });
           } else if (response.success === false) {
             Swal.fire({
@@ -75,7 +75,7 @@ const SignIn = ({ setShowLoading }) => {
           } else {
             Swal.fire({
               icon: "success",
-              title: "Login Successfully!",
+              title: "Đăng nhập thành công!",
             }).then((result) => {
               if (result.isConfirmed) {
                 localStorage.removeItem("userInfo");
@@ -101,7 +101,7 @@ const SignIn = ({ setShowLoading }) => {
               } else {
                 Swal.fire({
                   icon: "error",
-                  title: "Error occurred",
+                  title: "Đã xảy ra lỗi",
                 });
               }
             });
@@ -110,7 +110,7 @@ const SignIn = ({ setShowLoading }) => {
       } catch (error) {
         Swal.fire({
           icon: "error",
-          title: "Incorrect username or password.",
+          title: "Tên đăng nhập hoặc mật khẩu không chính xác.",
         });
       }
     }
@@ -119,19 +119,16 @@ const SignIn = ({ setShowLoading }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="sign-in-up-form">
-        <h1 className="sign-up-title">Sign in</h1>
-        <div className="social-container">
-          <a href="#" className="social">
-            <GoogleIcon />
-          </a>
-        </div>
-        <span className="introduce">or use your account</span>
+        <h1 className="sign-up-title" style={{ paddingBottom: "20px" }}>
+          Đăng nhập
+        </h1>
+
         <div className="infield">
           <div className="infield-text">
             <input
               className="input-infield"
               type="text"
-              placeholder="Username"
+              placeholder="Tên đăng nhập"
               name="Username"
               id="username"
               onChange={handleChange}
@@ -150,7 +147,7 @@ const SignIn = ({ setShowLoading }) => {
             <input
               className="input-infield"
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder="Mật khẩu"
               id="password"
               onChange={handleChange}
             />
@@ -163,10 +160,7 @@ const SignIn = ({ setShowLoading }) => {
           </div>
         </div>
 
-        <a href="#" className="forgot">
-          Forgot password ?
-        </a>
-        <button className="btn-form">Sign in</button>
+        <button className="btn-form">Đăng nhập</button>
       </form>
     </>
   );
