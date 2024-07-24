@@ -10,7 +10,8 @@ import {
   TableRow,
   TablePagination,
   Button,
-  TextField,
+  MenuItem,
+  Select,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -32,11 +33,21 @@ const Dashboard = () => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedCourt, setSelectedCourt] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, courtId: null });
   const navigate = useNavigate();
 
   const ownerId = JSON.parse(localStorage.getItem("userInfo")).id;
+
+  const statusTexts = {
+    0: "Đang chờ",
+    1: "Đã xác thực",
+  };
+
+  const statusColors = {
+    0: "orange",
+    1: "green",
+  };
 
   const fetchCourts = async () => {
     try {
@@ -61,10 +72,14 @@ const Dashboard = () => {
     setPage(0);
   };
 
+  const handleStatusFilterChange = (event) => {
+    setStatusFilter(event.target.value);
+  };
+
   const filteredCourts = courts.filter(
     (court) =>
       court.ownerId === ownerId &&
-      court.courtName.toLowerCase().includes(searchTerm.toLowerCase())
+      (statusFilter === "all" || court.status === statusFilter)
   );
 
   const handleEditClick = (court) => {
@@ -109,13 +124,18 @@ const Dashboard = () => {
         >
           Courts
         </h2>
-        <TextField
-          label="Search Court Name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+        <Select
+          value={statusFilter}
+          onChange={handleStatusFilterChange}
+          displayEmpty
+          inputProps={{ "aria-label": "Status" }}
           variant="outlined"
-          style={{ marginBottom: "20px" }}
-        />
+          style={{ marginBottom: "20px", width: "200px" }}
+        >
+          <MenuItem value="all">All Statuses</MenuItem>
+          <MenuItem value={0}>Đang chờ</MenuItem>
+          <MenuItem value={1}>Đã xác thực</MenuItem>
+        </Select>
         <Button
           variant="contained"
           style={{
@@ -214,6 +234,14 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
+                  Status
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: "Arial, sans-serif",
+                  }}
+                >
                   Action
                 </TableCell>
               </TableRow>
@@ -226,6 +254,9 @@ const Dashboard = () => {
                     <TableCell>{court.courtName}</TableCell>
                     <TableCell>{court.location}</TableCell>
                     <TableCell>{court.phone}</TableCell>
+                    <TableCell style={{ color: statusColors[court.status] }}>
+                      {statusTexts[court.status]}
+                    </TableCell>
                     <TableCell>
                       <Button
                         variant="outlined"

@@ -64,6 +64,7 @@
   color: white;
   border: none;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 .Checked-booking button {

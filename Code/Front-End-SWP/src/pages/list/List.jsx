@@ -76,7 +76,9 @@ const List = () => {
       }
 
       const normalizedSearchValue = keepDiacritics(searchValue.toLowerCase());
-      const filteredResults = response.data.filter((item) => {
+      const filteredResults = response.data
+      .filter((item) => item.status !== 0)
+      .filter((item) => {
         return (
           (item.courtName &&
             keepDiacritics(item.courtName.toLowerCase()).includes(

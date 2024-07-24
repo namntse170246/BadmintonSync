@@ -146,7 +146,7 @@ const Dashboard = () => {
                     style={{
                       fontSize: "20px",
                     }}
-                    align="center"
+                    
                   >
                     Username
                   </TableCell>
@@ -154,50 +154,50 @@ const Dashboard = () => {
                     style={{
                       fontSize: "20px",
                     }}
-                    align="center"
+                    
                   >
-                    Full Name
+                    Tên
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: "20px",
                     }}
-                    align="center"
+                    
                   >
-                    Phone
+                    SĐT
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: "20px",
                     }}
-                    align="center"
+                    
                   >
-                    Role
+                    Vai trò
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: "20px",
                     }}
-                    align="center"
+                    
                   >
-                    Status
+                    Trạng thái
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {slicedUser.map((user) => (
                   <TableRow key={user.userId}>
-                    <TableCell style={{ fontSize: "13px" }} align="center">
+                    <TableCell style={{ fontSize: "13px" }} >
                       {user.userName}
                     </TableCell>
 
-                    <TableCell style={{ fontSize: "13px" }} align="center">
+                    <TableCell style={{ fontSize: "13px" }} >
                       {user.fullName}
                     </TableCell>
-                    <TableCell style={{ fontSize: "13px" }} align="center">
+                    <TableCell style={{ fontSize: "13px" }} >
                       {user.phone}
                     </TableCell>
-                    <TableCell style={{ fontSize: "13px" }} align="center">
+                    <TableCell style={{ fontSize: "13px" }} >
                       <Select
                         value={user.roleType}
                         onChange={(e) => handleRoleChange(user.userName, e.target.value)}
@@ -208,7 +208,7 @@ const Dashboard = () => {
                         <MenuItem value="Staff">Staff</MenuItem>
                       </Select>
                     </TableCell>
-                    <TableCell style={{ fontSize: "13px" }} align="center">
+                    <TableCell style={{ fontSize: "13px" }} >
                       <Select
                         value={user.userStatus === "0" ? "Active" : "Disable"}
                         onChange={(e) => handleStatusChange(user.userName, e.target.value)}

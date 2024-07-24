@@ -7,6 +7,8 @@ import {
   GetUserByID,
   GetbySubCourtID,
   UpdateBookingStatus,
+  CancelBookingBeforePayment,
+  DeleteCheckIn,  // Import DeleteCheckIn
 } from "../../API/APIConfigure";
 import {
   Box,
@@ -21,10 +23,11 @@ import {
   TableBody,
   TablePagination,
   Button,
-  Typography,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const CheckInComponent = () => {
   const [checkIns, setCheckIns] = useState([]);
@@ -141,6 +144,33 @@ const CheckInComponent = () => {
     }
   };
 
+  const handleCancelBooking = async (bookingId, checkInId) => {
+    const result = await Swal.fire({
+      icon: "warning",
+      title: "Cancel Booking",
+      text: "Are you sure you want to cancel this booking?",
+      showCancelButton: true,
+      confirmButtonText: "Yes, cancel it!",
+      cancelButtonText: "No, keep it",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        // First, delete the check-in
+        const response = await CancelBookingBeforePayment(bookingId);
+        console.log(response);
+        await DeleteCheckIn(checkInId);
+        // Then, cancel the booking
+        console.log(response);
+        toast.success(response.message);
+        fetchCheckIns();  // Refresh check-ins list
+      } catch (error) {
+        toast.error("Failed to cancel booking");
+      }
+    }
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -179,7 +209,7 @@ const CheckInComponent = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
-      <h2
+        <h2
           style={{
             textAlign: "center",
             color: "#205295",
@@ -240,7 +270,6 @@ const CheckInComponent = () => {
                     {new Date(checkIn.checkInTime).toLocaleString("vi-VN")}
                   </TableCell>
                   <TableCell
-                  
                     sx={{
                       fontSize: 15,
                       color: statusColors[checkIn.checkInStatus],
@@ -257,6 +286,14 @@ const CheckInComponent = () => {
                       onClick={() => updateCheckInStatus(checkIn.checkInId, checkIn.bookingId)}
                     >
                       <CheckIcon sx={{ fontSize: 25 }} />
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      sx={{ ml: 1 }}
+                      onClick={() => handleCancelBooking(checkIn.bookingId, checkIn.checkInId)}
+                    >
+                      <CancelIcon sx={{ fontSize: 25 }} />
                     </Button>
                   </TableCell>
                 </TableRow>

@@ -106,6 +106,15 @@ export const CreatedCourt = async (data) => {
   }
 };
 
+const UpdateStatusCourt = (id, status) => {
+  return customAxios.put(`api/Court/${id}/UpdateStatusCourt`, {
+    status: status
+  });
+};
+
+const DeleteCheckIn = (id) => {
+  return instance.delete(`api/CheckIn/${id}`);
+}
 
 const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);
@@ -303,8 +312,8 @@ export const UpdateStatusPremium = (userID, newStatus) => {
   });
 };
 
-export const CreateFeedback = (data) => {
-  return customAxios.post(`api/Feedbacks/Createfeedback`, data);
+export const CreateFeedback = (id, data) => {
+  return customAxios.post(`api/Evaluate/${id}`, data);
 };
 
 export {
@@ -314,8 +323,10 @@ export {
   GetAllAccounts,
   GetCurrentUser,
   DeleteAccount,
+  DeleteCheckIn,
   UpdateRole,
   UpdateStatus,
+  UpdateStatusCourt,
   GetAllBookings,
   GetBookedSubCourts,
   GetAllVoucher,

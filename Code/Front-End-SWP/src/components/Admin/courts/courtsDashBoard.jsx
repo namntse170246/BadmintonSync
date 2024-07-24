@@ -10,19 +10,23 @@ import {
   TableRow,
   TablePagination,
   Button,
-  TextField,
+  MenuItem,
+  FormControl,
+  Select,
+  InputLabel,
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { GetAllCourts } from "../../API/APIConfigure";
+import { GetAllCourts, UpdateStatusCourt } from "../../API/APIConfigure";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
   const [courts, setCourts] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const navigate = useNavigate();
 
   const fetchCourts = async () => {
@@ -32,6 +36,34 @@ const Dashboard = () => {
     } catch (err) {
       toast.error("Failed to fetch courts");
       console.error(err);
+    }
+  };
+
+  const handleUpdate = async (id, status) => {
+    const result = await Swal.fire({
+      icon: "warning",
+      title: "Bạn có chắc chắn không?",
+      text: "Bạn sẽ không thể khôi phục lại!",
+      showCancelButton: true,
+      confirmButtonText: "Có, xác nhận!",
+      cancelButtonText: "Không, giữ lại",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const responseUpdate = await UpdateStatusCourt(id, status);
+        console.log(responseUpdate);
+        if (responseUpdate.success) {
+          toast.success("Xác nhận thành công!");
+          fetchCourts();
+        } else {
+          toast.error("Lỗi xác nhận");
+        }
+      } catch (err) {
+        toast.error("Lỗi khi xác nhận sân");
+        console.error(err);
+      }
     }
   };
 
@@ -48,8 +80,18 @@ const Dashboard = () => {
     setPage(0);
   };
 
+  const statusTexts = {
+    0: "Đang chờ",
+    1: "Đã xác thực"
+  };
+
+  const statusColors = {
+    0: "orange",
+    1: "green"
+  };
+
   const filteredCourts = courts.filter((court) =>
-    court.courtName.toLowerCase().includes(searchTerm.toLowerCase())
+    statusFilter === "" ? true : court.status === parseInt(statusFilter)
   );
 
   return (
@@ -68,13 +110,18 @@ const Dashboard = () => {
         >
           Courts
         </h2>
-        <TextField
-          label="Search Court Name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          variant="outlined"
-          style={{ marginBottom: "20px" }}
-        />
+        <FormControl fullWidth style={{ marginBottom: "20px" }}>
+          <InputLabel>Trạng thái</InputLabel>
+          <Select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            label="Status"
+          >
+            <MenuItem value="">Tất cả</MenuItem>
+            <MenuItem value={0}>Đang chờ</MenuItem>
+            <MenuItem value={1}>Đã xác thực</MenuItem>
+          </Select>
+        </FormControl>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -113,6 +160,15 @@ const Dashboard = () => {
                   }}
                   align="center"
                 >
+                  Trạng thái
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: "Arial, sans-serif",
+                  }}
+                  align="center"
+                >
                   Hành động
                 </TableCell>
               </TableRow>
@@ -125,6 +181,12 @@ const Dashboard = () => {
                     <TableCell align="center">{court.courtName}</TableCell>
                     <TableCell align="center">{court.location}</TableCell>
                     <TableCell align="center">{court.phone}</TableCell>
+                    <TableCell
+                      align="center"
+                      style={{ color: statusColors[court.status], fontWeight: "bold" }}
+                    >
+                      {statusTexts[court.status]}
+                    </TableCell>
                     <TableCell align="center">
                       <Button
                         variant="outlined"
@@ -134,6 +196,16 @@ const Dashboard = () => {
                       >
                         <VisibilityIcon sx={{ fontSize: 25 }} />
                       </Button>
+                      {court.status === 0 && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          style={{ marginLeft: "10px" }}
+                          onClick={() => handleUpdate(court.courtId, 1)}
+                        >
+                          Xác nhận
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}

@@ -28,7 +28,6 @@ const Checkout = () => {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const cancelReason = "";
   localStorage.setItem("BookingId", JSON.stringify(id));
 
   const fetchBooking = async () => {
@@ -112,7 +111,7 @@ const Checkout = () => {
         const response = await CancelBookingBeforePayment(id);
         console.log("Kết quả hủy đặt sân trước thanh toán:", response);
         toast.success(response.message);
-        navigate("/"); // Quay lại trang trước đó
+        fetchBooking();
       }
     } catch (error) {
       toast.error("Hủy đặt sân thất bại");
@@ -172,7 +171,7 @@ const Checkout = () => {
 
         if (responseCreateCheckIn.success) {
           toast.success(responseCreateCheckIn.message);
-          navigate("/user/order", { state: { activeTab: "order" } });
+          fetchBooking();
         } else {
           toast.error("Tạo check-in thất bại");
         }
@@ -236,12 +235,13 @@ const Checkout = () => {
             <div className="feedback-booking">
               <ButtonFeedback
                 status={booking.status}
-                realID={booking.courtId}
+                subCourtId={booking.subCourtId}
                 bookingID={booking.bookingId}
+                fetchBooking={fetchBooking}
               />
             </div>
           </div>
-          {booking && booking.status === 4 && (
+          {/* {booking && booking.status === 4 && (
             <div className="payment-container">
               <div style={{ marginTop: "10px" }}>
                 <div className="Checked-booking">
@@ -249,13 +249,13 @@ const Checkout = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
           {booking && booking.status === 3 && (
             <div className="payment-container">
               <div style={{ marginTop: "10px" }}>
                 <div className="Cancel-booking">
-                  <button onClick={handleCancelAfterPayment}>
-                    Hủy và quay lại
+                  <button onClick={handleCancelBeforePayment}>
+                    Hủy đặt sân
                   </button>
                 </div>
               </div>

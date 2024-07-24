@@ -59,20 +59,20 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       const result = await Swal.fire({
-        title: "Logout",
-        text: "Do you want to logout?",
+        title: "Đăng xuất",
+        text: "Bạn có muốn đăng xuất?",
         cancelButtonText: "No",
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Logout!",
+        confirmButtonText: "Đúng, đăng xuất!",
       });
 
       if (result.isConfirmed) {
         await logout();
         handleMenuClose();
-        Swal.fire("Logout!", "Logout Successfully!.", "success");
+        Swal.fire("Đăng xuất!", "Đăng xuất thành công!.", "success");
         localStorage.clear();
         navigate("/");
       }
@@ -98,8 +98,8 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleAccount}>My Account</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      <MenuItem onClick={handleAccount}>Tài khoản của tôi</MenuItem>
+      <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
     </Menu>
   );
 
