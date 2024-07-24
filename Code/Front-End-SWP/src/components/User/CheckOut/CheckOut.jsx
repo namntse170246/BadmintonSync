@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "../../navbar/Navbar";
-import MailList from "../../mailList/MailList";
-import Footer from "../../footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from '@fortawesome/free-solid-svg-icons';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
@@ -13,17 +11,16 @@ import {
   CancelBookingBeforePayment,
   CancelBookingAfterPayment,
   CheckinBooking,
-  ConfirmBooking,
   CreateCheckIn,
   GetAllBookingsByID,
   GetbyCourtID,
   GetbySubCourtID,
-  UpdateBookingStatus,
 } from "../../API/APIConfigure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./checkout.css";
 import Payment from "./Payment.jsx";
 import Swal from "sweetalert2";
+import ButtonFeedback from "./ButtonFeedback.jsx";
 
 const Checkout = () => {
   const { id } = useParams();
@@ -219,15 +216,15 @@ const Checkout = () => {
           </div>
           <div className="_line"></div>
 
-          {/* <div className="btn-in-button">
+          <div className="btn-in-button">
           <div className="feedback-booking">
             <ButtonFeedback
               status={booking.status}
-              realID={booking.court.courtId}
+              realID={booking.courtId}
               bookingID={booking.bookingId}
             />
           </div>
-        </div> */}
+        </div>
           {booking && (booking.status === 4) && (
             <div className="payment-container">
               <div style={{ marginTop: "10px" }}>

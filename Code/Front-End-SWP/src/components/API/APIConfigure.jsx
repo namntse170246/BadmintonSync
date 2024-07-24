@@ -63,13 +63,35 @@ const GetBookedSubCourts = (date, timeslotId) => {
   );
 };
 
-export const UpdateSubCourt = (data) => {
-  return customAxios.put(`api/SubCourt/${data.id}`, {
-    name: data.name,
-    pricePerHour: data.pricePerHour,
-    timeslotId: data.timeslotId,
+export const UpdateSubCourt = async (updatedSubCourtData) => {
+  const response = await fetch(`/api/SubCourt/${updatedSubCourtData.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedSubCourtData),
   });
+
+  const data = await response.json();
+  return data;
 };
+
+import axios from 'axios';
+
+export const UpdateCourt = async (id, data) => {
+  try {
+    const response = await axios.put(`https://localhost:7155/api/Court/${id}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to update court:", error);
+    throw error;
+  }
+};
+
 
 const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);

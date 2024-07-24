@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
-import {  } from "../../API/APIConfigure"; // Ensure this API function is created
+import { UpdateCourt } from "../../API/APIConfigure"; // Đảm bảo hàm API này đã được tạo
 import { toast } from "react-toastify";
 
 const EditCourt = ({ open, onClose, court, fetchCourts }) => {
@@ -9,7 +9,7 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
     location: "",
     phone: "",
     openingHours: "",
-    announcement: ""
+    announcement: "",
   });
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
         location: court.location,
         phone: court.phone,
         openingHours: court.openingHours,
-        announcement: court.announcement
+        announcement: court.announcement,
       });
     }
   }, [court]);
@@ -34,14 +34,24 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const courtId = court.courtId;
+
+    // Tạo form data để gửi trong yêu cầu
+    const data = new FormData();
+    data.append('courtName', formData.courtName);
+    data.append('location', formData.location);
+    data.append('phone', formData.phone);
+    data.append('openingHours', formData.openingHours);
+    data.append('announcement', formData.announcement);
+
     try {
-      const response = await UpdateCourt(court.courtId, formData); // Adjust according to your API
+      const response = await UpdateCourt(courtId, data);
       if (response.success) {
         toast.success("Court updated successfully!");
         fetchCourts();
         onClose();
       } else {
-        toast.error("Failed to update court!");
+        toast.error(response.message || "Failed to update court!");
       }
     } catch (error) {
       console.error("Error occurred:", error);

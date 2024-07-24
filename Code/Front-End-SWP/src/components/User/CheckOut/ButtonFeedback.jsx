@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Rating } from "@mui/material";
 import { CreateFeedback, UpdateBookingStatus } from "../../API/APIConfigure";
 import { toast } from "react-toastify";
@@ -48,9 +47,9 @@ const ButtonFeedback = ({ status, realID, bookingID }) => {
   return (
     <div className="feeback-wapper">
       <div>
-        {status === "5" && (
+        {status === 4 && (
           <button className="btn-btn-rating" onClick={handleButtonClick}>
-            Feedback kỳ nghỉ
+            Feedback
           </button>
         )}
       </div>

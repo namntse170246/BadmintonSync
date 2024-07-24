@@ -126,7 +126,6 @@ const Dashboard = () => {
         // console.log(selectedSubCourt);
         console.log(updatedSubCourtData);
         const response = await UpdateSubCourt(updatedSubCourtData);
-        // console.log(response);
         if (response.success) {
           toast.success(response.message);
           fetchSubCourts();
