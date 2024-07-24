@@ -177,3 +177,13 @@
   display: flex;
   justify-content: center;
 }
+.court-list-container {
+  max-height: 200px; /* Adjust this value as needed */
+  overflow-y: auto;
+  margin-top: 10px; /* Optional: add border to the container */
+  padding: 10px; /* Optional: add padding to the container */
+}
+
+.court-option {
+  margin-bottom: 10px; /* Optional: add spacing between court options */
+}

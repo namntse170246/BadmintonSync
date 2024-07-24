@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "../../navbar/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClipboard } from '@fortawesome/free-solid-svg-icons';
-import { faUserTie } from '@fortawesome/free-solid-svg-icons';
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 import {
   CancelBookingBeforePayment,
@@ -44,12 +44,11 @@ const Checkout = () => {
       }
       setLoading(false);
     } catch (err) {
-      toast.error("Error fetching booking information");
+      toast.error("Lỗi khi lấy thông tin đặt sân");
       console.error(err);
     }
   };
   useEffect(() => {
-
     fetchBooking();
   }, [id]);
 
@@ -62,15 +61,15 @@ const Checkout = () => {
   const getStatusString = (status) => {
     switch (status) {
       case 0:
-        return "Awaiting payment";
+        return "Chờ thanh toán";
       case 1:
-        return "Confirmed";
+        return "Đã xác nhận";
       case 2:
-        return "Cancelled";
+        return "Đã hủy";
       case 3:
-        return "Check-in";
+        return "Đã check-in";
       case 4:
-        return "Checked";
+        return "Đã sử dụng";
       default:
         return "";
     }
@@ -93,72 +92,71 @@ const Checkout = () => {
       case 7:
         return "19:00 - 21:00";
       default:
-        return "Unknown time slot";
+        return "Khung giờ không xác định";
     }
   };
 
   const handleCancelBeforePayment = async () => {
     try {
       const result = await Swal.fire({
-        icon: 'warning',
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
+        icon: "warning",
+        title: "Bạn có chắc chắn không?",
+        text: "Bạn sẽ không thể khôi phục lại!",
         showCancelButton: true,
-        confirmButtonText: 'Yes, cancel it!',
-        cancelButtonText: 'No, keep it',
-        reverseButtons: true
+        confirmButtonText: "Có, hủy nó!",
+        cancelButtonText: "Không, giữ lại",
+        reverseButtons: true,
       });
 
       if (result.isConfirmed) {
         const response = await CancelBookingBeforePayment(id);
-        console.log("Cancel response:", response);
+        console.log("Kết quả hủy đặt sân trước thanh toán:", response);
         toast.success(response.message);
-        navigate("/"); // Navigate back to the previous page
+        navigate("/"); // Quay lại trang trước đó
       }
     } catch (error) {
-      toast.error("Failed to cancel booking");
+      toast.error("Hủy đặt sân thất bại");
     }
   };
 
   const handleCancelAfterPayment = async () => {
     try {
       const result = await Swal.fire({
-        icon: 'warning',
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
+        icon: "warning",
+        title: "Bạn có chắc chắn không?",
+        text: "Bạn sẽ không thể khôi phục lại!",
         showCancelButton: true,
-        confirmButtonText: 'Yes, cancel it!',
-        cancelButtonText: 'No, keep it',
-        reverseButtons: true
+        confirmButtonText: "Có, hủy nó!",
+        cancelButtonText: "Không, giữ lại",
+        reverseButtons: true,
       });
 
       if (result.isConfirmed) {
         const response = await CancelBookingAfterPayment(id);
-        console.log("Cancel response:", response);
+        console.log("Kết quả hủy đặt sân sau thanh toán:", response);
         toast.success(response.message);
         navigate("/");
       }
     } catch (error) {
-      toast.error("Failed to cancel booking");
+      toast.error("Hủy đặt sân thất bại");
     }
   };
-
 
   const handleCheckin = async () => {
     const result = await Swal.fire({
       icon: "warning",
-      title: "Confirm Check-In",
-      text: "Are you sure you want to check-in?",
+      title: "Xác nhận Check-In",
+      text: "Bạn có chắc chắn muốn check-in không?",
       showCancelButton: true,
-      confirmButtonText: "Yes, check in",
-      cancelButtonText: "No, cancel",
+      confirmButtonText: "Có, check-in",
+      cancelButtonText: "Không, hủy",
     });
 
     if (result.isConfirmed) {
       try {
-        console.log("Booking before check-in:", booking);
+        console.log("Thông tin đặt sân trước khi check-in:", booking);
         const responseCheckinBooking = await CheckinBooking(id);
-        console.log("CheckinBooking response:", responseCheckinBooking);
+        console.log("Kết quả check-in:", responseCheckinBooking);
 
         const createDate = new Date().toISOString();
         const dataCheckin = {
@@ -168,23 +166,22 @@ const Checkout = () => {
           userId: userInfo.id,
         };
 
-        console.log("Data for CreateCheckIn:", dataCheckin);
+        console.log("Dữ liệu cho CreateCheckIn:", dataCheckin);
         const responseCreateCheckIn = await CreateCheckIn(dataCheckin);
-        console.log("CreateCheckIn response:", responseCreateCheckIn);
+        console.log("Kết quả CreateCheckIn:", responseCreateCheckIn);
 
         if (responseCreateCheckIn.success) {
           toast.success(responseCreateCheckIn.message);
-          navigate("/user/order", { state: { activeTab: 'order' } });
+          navigate("/user/order", { state: { activeTab: "order" } });
         } else {
-          toast.error("Failed to create check-in");
+          toast.error("Tạo check-in thất bại");
         }
       } catch (error) {
-        console.error("Error during check-in:", error);
-        toast.error("Failed to check-in booking");
+        console.error("Lỗi trong quá trình check-in:", error);
+        toast.error("Check-in đặt sân thất bại");
       }
     }
   };
-
 
   return (
     <>
@@ -192,53 +189,74 @@ const Checkout = () => {
       <div className="background">
         <div className="checkout_Wrapper">
           <div className="bookingSummary">
-            <h1>Booking Summary:</h1>
-            <h2>Booking ID {booking.bookingId}</h2>
+            <h1>Tóm tắt đặt sân:</h1>
+            <h2>Mã đặt sân {booking.bookingId}</h2>
           </div>
           <div className="bookingInfo">
-
             <h2 style={{ fontWeight: "bold", fontSize: "20px" }}>
-              <FontAwesomeIcon style={{ marginRight: "10px", fontSize: "20px", color: "#707d84" }} icon={faClipboard} /> Booking Details
+              <FontAwesomeIcon
+                style={{
+                  marginRight: "10px",
+                  fontSize: "20px",
+                  color: "#707d84",
+                }}
+                icon={faClipboard}
+              />{" "}
+              Thông tin đặt sân
             </h2>
             <h1>{booking.court ? booking.court.data.courtName : ""}</h1>
-            <h2>Location: {booking.court ? booking.court.data.location : ""}</h2>
             <h2>
-              Date placed the order: {" "}
-              {new Date(booking.bookingDate).toLocaleDateString()}
+              Địa điểm: {booking.court ? booking.court.data.location : ""}
             </h2>
-            <h2>Slot:  {getTimeSlotString(booking.timeSlotId)}</h2>
-            <h2>Status:  {getStatusString(booking.status)}</h2>
+            <h2>
+              Ngày đặt sân: {new Date(booking.bookingDate).toLocaleDateString()}
+            </h2>
+            <h2>Khung giờ: {getTimeSlotString(booking.timeSlotId)}</h2>
+            <h2>Trạng thái: {getStatusString(booking.status)}</h2>
             <h2 style={{ fontWeight: "bolder", fontSize: "20px" }}>
-              <FontAwesomeIcon style={{ fontSize: "20px", marginRight: "10px", color: "#707d84" }} icon={faUserTie} /> Customer Info:{" "}
+              <FontAwesomeIcon
+                style={{
+                  fontSize: "20px",
+                  marginRight: "10px",
+                  color: "#707d84",
+                }}
+                icon={faUserTie}
+              />{" "}
+              Thông tin khách hàng:{" "}
             </h2>
             <h1>{userInfo.name}</h1>
-            <h2><FontAwesomeIcon style={{ color: "#707d84" }} icon={faPhone} /> +84{userInfo.phone.replace(/^0+/, "")}</h2>
+            <h2>
+              <FontAwesomeIcon style={{ color: "#707d84" }} icon={faPhone} />{" "}
+              +84{userInfo.phone.replace(/^0+/, "")}
+            </h2>
           </div>
           <div className="_line"></div>
 
           <div className="btn-in-button">
-          <div className="feedback-booking">
-            <ButtonFeedback
-              status={booking.status}
-              realID={booking.courtId}
-              bookingID={booking.bookingId}
-            />
+            <div className="feedback-booking">
+              <ButtonFeedback
+                status={booking.status}
+                realID={booking.courtId}
+                bookingID={booking.bookingId}
+              />
+            </div>
           </div>
-        </div>
-          {booking && (booking.status === 4) && (
+          {booking && booking.status === 4 && (
             <div className="payment-container">
               <div style={{ marginTop: "10px" }}>
                 <div className="Checked-booking">
-                  <button >Checked</button>
+                  <button>Đã kiểm tra</button>
                 </div>
               </div>
             </div>
           )}
-          {booking && (booking.status === 3) && (
+          {booking && booking.status === 3 && (
             <div className="payment-container">
               <div style={{ marginTop: "10px" }}>
                 <div className="Cancel-booking">
-                  <button onClick={handleCancelAfterPayment}>Cancel and go back</button>
+                  <button onClick={handleCancelAfterPayment}>
+                    Hủy và quay lại
+                  </button>
                 </div>
               </div>
             </div>
@@ -250,7 +268,9 @@ const Checkout = () => {
                   <button onClick={handleCheckin}>Check In</button>
                 </div>
                 <div className="Cancel-booking">
-                  <button onClick={handleCancelBeforePayment}>Cancel booking</button>
+                  <button onClick={handleCancelBeforePayment}>
+                    Hủy đặt sân
+                  </button>
                 </div>
               </div>
             </div>
@@ -261,7 +281,7 @@ const Checkout = () => {
                 <Payment amount={total} id={userInfo.id} bookingId={id} />
               </div>
               <div className="Cancel-booking">
-                <button onClick={handleCancelBeforePayment}>Cancel booking</button>
+                <button onClick={handleCancelBeforePayment}>Hủy đặt sân</button>
               </div>
             </div>
           )}

@@ -211,9 +211,7 @@ const Posting = () => {
               </div>
 
               <div className="form-section">
-                <label htmlFor="timeSlot">
-                  Chọn thời gian bắt đầu và thời gian
-                </label>
+                <label htmlFor="timeSlot">Chọn khung giờ</label>
                 <select
                   id="timeSlot"
                   name="timeSlot"
@@ -233,44 +231,48 @@ const Posting = () => {
 
               <div className="form-section court-list">
                 <label htmlFor="court">Chọn sân ưa thích của bạn</label>
-                {selectedTimeSlot &&
-                  selectedDate &&
-                  subCourts
-                    .filter(
-                      (court) =>
-                        court.timeSlotId.toString() === selectedTimeSlot
-                    )
-                    .filter(
-                      (court) =>
-                        !BookedSubCourts.some(
-                          (bookedCourt) =>
-                            bookedCourt.subCourtId === court.subCourtId
-                        )
-                    )
-                    .map((court) => (
-                      <div key={court.subCourtId} className="court-option">
-                        <p>{court.name}</p>
-                        <p>{court.pricePerHour.toLocaleString("vi-VN")} VND</p>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleCourtSelection(
-                              court.subCourtId,
-                              court.pricePerHour
-                            )
-                          }
-                          className={`btn ${
-                            selectedCourt === court.subCourtId
-                              ? "btn-primary"
-                              : "btn-secondary"
-                          }`}
-                        >
-                          {selectedCourt === court.subCourtId
-                            ? "Đã thêm vào giỏ hàng"
-                            : "Thêm vào giỏ hàng"}
-                        </button>
-                      </div>
-                    ))}
+                <div className="court-list-container">
+                  {selectedTimeSlot &&
+                    selectedDate &&
+                    subCourts
+                      .filter(
+                        (court) =>
+                          court.timeSlotId.toString() === selectedTimeSlot
+                      )
+                      .filter(
+                        (court) =>
+                          !BookedSubCourts.some(
+                            (bookedCourt) =>
+                              bookedCourt.subCourtId === court.subCourtId
+                          )
+                      )
+                      .map((court) => (
+                        <div key={court.subCourtId} className="court-option">
+                          <p>{court.name}</p>
+                          <p>
+                            {court.pricePerHour.toLocaleString("vi-VN")},000 VND
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleCourtSelection(
+                                court.subCourtId,
+                                court.pricePerHour
+                              )
+                            }
+                            className={`btn ${
+                              selectedCourt === court.subCourtId
+                                ? "btn-primary"
+                                : "btn-secondary"
+                            }`}
+                          >
+                            {selectedCourt === court.subCourtId
+                              ? "Đã thêm vào giỏ hàng"
+                              : "Thêm vào giỏ hàng"}
+                          </button>
+                        </div>
+                      ))}
+                </div>
               </div>
             </form>
           </div>
@@ -297,7 +299,7 @@ const Posting = () => {
                   ?.name
               }
             </p>
-            <p className="total">Giá: {total.toLocaleString()}</p>
+            <p className="total">Giá: {total.toLocaleString()},000 VND</p>
             {voucherApplied && (
               <div>
                 <p>Giảm giá: {discount.toLocaleString()}%</p>
