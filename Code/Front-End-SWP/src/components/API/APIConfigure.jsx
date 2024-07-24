@@ -92,6 +92,20 @@ export const UpdateCourt = async (id, data) => {
   }
 };
 
+export const CreatedCourt = async (data) => {
+  try {
+    const response = await axios.post(`https://localhost:7155/api/Court`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to update court:", error);
+    throw error;
+  }
+};
+
 
 const GetAllVoucher = () => {
   return instance.get(`api/Promotion`);

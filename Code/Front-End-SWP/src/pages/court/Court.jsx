@@ -38,7 +38,7 @@ const Court = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
   const [userLoggedIn, setUserLoggedIn] = useState(isLoggedIn);
-
+  const userId = JSON.parse(localStorage.getItem("userInfo")).id;
   useEffect(() => {
     setUserLoggedIn(isLoggedIn);
   }, [isLoggedIn]);
@@ -84,6 +84,7 @@ const Court = () => {
   }, [id]);
 
   localStorage.setItem("Court", JSON.stringify(data));
+  console.log(data);
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -277,7 +278,8 @@ const Court = () => {
               )}
             </div>
 
-            <button className="bookNow">
+            {(data.ownerId !== userId) && (
+              <button className="bookNow">
               <Link
                 to={`/booking/${data.courtId}`}
                 onClick={handleBookingClick}
@@ -285,6 +287,7 @@ const Court = () => {
                 Booking
               </Link>
             </button>
+            )}
             <FeedBack courtId={data.courtId} />
           </div>
         )}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, MenuItem } from "@mui/material";
-import { CreateSubCourts, GetAllCourts } from "../../API/APIConfigure";
+import { TextField, Button } from "@mui/material";
+import { CreatedCourt, GetAllCourts } from "../../API/APIConfigure";
 import { toast } from "react-toastify";
 
 const CreateCourt = ({ fetchCourts, onClose }) => {
@@ -10,11 +10,10 @@ const CreateCourt = ({ fetchCourts, onClose }) => {
     location: "",
     phone: "",
     openingHours: "",
-    image: "",
     announcement: "",
-    formFiles: []
   });
 
+  const [formFiles, setFormFiles] = useState([]);
   const [courtIds, setCourtIds] = useState([]);
 
   useEffect(() => {
@@ -44,32 +43,46 @@ const CreateCourt = ({ fetchCourts, onClose }) => {
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    setCourtData((prevData) => ({
-      ...prevData,
-      formFiles: files
-    }));
+    setFormFiles(files); // Lưu các tệp đã chọn vào trạng thái
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+formData.append('courtName', courtData.courtName);
+formData.append('location', courtData.location);
+formData.append('phone', courtData.phone);
+formData.append('openingHours', courtData.openingHours);
+formData.append('announcement', courtData.announcement);
+formData.append('ownerId', courtData.ownerId);
+
+// Thêm tất cả các tệp hình ảnh vào FormData
+formFiles.forEach((file, index) => {
+  formData.append('formFiles', file); // Lưu ý: không cần chỉ định tên tệp cho index
+});
+
+// Debug FormData
+for (let pair of formData.entries()) {
+  console.log(pair[0], pair[1]);
+}
+
+
+    // Thêm tất cả các tệp hình ảnh vào FormData
+    formFiles.forEach((file, index) => {
+      formData.append(`formFiles[${index}]`, file);
+    });
+
     try {
-      const dataToSubmit = {
-        ...courtData,
-        formFiles: courtData.formFiles // You might need to handle file uploads separately
-      };
+      console.log(formData);
+      const response = await CreatedCourt(formData);
 
-      // Remove the following line if `CreateSubCourts` doesn't handle file uploads
-      // const response = await CreateSubCourts(dataToSubmit);
-
-      console.log(dataToSubmit); // Logs individual fields
-
-      // Example response handling, adjust according to your API
-      if (/* response.success */ true) {
+      if (response.success) {
         toast.success("Court created successfully!");
         fetchCourts();
         onClose();
       } else {
-        toast.error("Failed to create court!");
+        toast.error(response.message || "Failed to create court!");
       }
     } catch (error) {
       console.error("Error occurred:", error);
@@ -92,7 +105,7 @@ const CreateCourt = ({ fetchCourts, onClose }) => {
         label="Court Name"
         value={courtData.courtName}
         onChange={handleChange}
-        required
+required
       />
       <TextField
         name="location"
@@ -112,12 +125,6 @@ const CreateCourt = ({ fetchCourts, onClose }) => {
         name="openingHours"
         label="Opening Hours"
         value={courtData.openingHours}
-        onChange={handleChange}
-      />
-      <TextField
-        name="image"
-        label="Image URL"
-        value={courtData.image}
         onChange={handleChange}
       />
       <TextField

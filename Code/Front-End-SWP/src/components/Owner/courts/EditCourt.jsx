@@ -10,6 +10,7 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
     phone: "",
     openingHours: "",
     announcement: "",
+    image: "" // Giữ ảnh cũ
   });
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
         phone: court.phone,
         openingHours: court.openingHours,
         announcement: court.announcement,
+        image: court.image || "", // Gán ảnh cũ
       });
     }
   }, [court]);
@@ -29,6 +31,13 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      image: e.target.files[0] || prevData.image // Cập nhật ảnh nếu có ảnh mới, giữ ảnh cũ nếu không
     }));
   };
 
@@ -43,6 +52,14 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
     data.append('phone', formData.phone);
     data.append('openingHours', formData.openingHours);
     data.append('announcement', formData.announcement);
+
+    // Gửi ảnh mới nếu có
+    if (formData.image instanceof File) {
+      data.append('formFiles', formData.image);
+    } else {
+      // Gửi ảnh cũ dưới dạng một trường nếu không có ảnh mới
+      data.append('image', formData.image);
+    }
 
     try {
       const response = await UpdateCourt(courtId, data);
@@ -84,7 +101,7 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
             required
           />
           <TextField
-            name="location"
+name="location"
             label="Location"
             value={formData.location}
             onChange={handleChange}
@@ -109,6 +126,7 @@ const EditCourt = ({ open, onClose, court, fetchCourts }) => {
             value={formData.announcement}
             onChange={handleChange}
           />
+          
           <Button
             type="submit"
             variant="contained"
