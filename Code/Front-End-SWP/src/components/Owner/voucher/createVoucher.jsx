@@ -82,7 +82,7 @@ const CreateVoucher = ({ fetchVouchers, onClose, ownerId }) => {
       />
       <TextField
         name="description"
-        label="Description"
+        label="Mô tả"
         value={voucher.description}
         onChange={handleChange}
         required
@@ -97,7 +97,7 @@ const CreateVoucher = ({ fetchVouchers, onClose, ownerId }) => {
       />
       <TextField
         name="startDate"
-        label="Start Date"
+        label="Ngày bắt đầu"
         type="date"
         value={voucher.startDate}
         onChange={handleChange}
@@ -108,7 +108,7 @@ const CreateVoucher = ({ fetchVouchers, onClose, ownerId }) => {
       />
       <TextField
         name="endDate"
-        label="End Date"
+        label="Ngày kết thúc"
         type="date"
         value={voucher.endDate}
         onChange={handleChange}
@@ -119,7 +119,7 @@ const CreateVoucher = ({ fetchVouchers, onClose, ownerId }) => {
       />
       <TextField
         name="courtId"
-        label="Court"
+        label="Sân"
         select
         value={voucher.courtId}
         onChange={handleChange}
@@ -137,7 +137,7 @@ const CreateVoucher = ({ fetchVouchers, onClose, ownerId }) => {
         color="primary"
         style={{ alignSelf: "flex-end", marginTop: "16px" }}
       >
-        Create Voucher
+        Tạo khuyến mãi
       </Button>
     </form>
   );

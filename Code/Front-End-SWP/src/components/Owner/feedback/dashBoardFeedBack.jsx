@@ -167,7 +167,7 @@ const Dashboard = () => {
               fontWeight: "bold",
             }}
           >
-            Feedback
+            Phản hồi
           </h2>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -186,7 +186,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Court
+                  Sân
                 </TableCell>
                 <TableCell
                   style={{
@@ -198,7 +198,7 @@ const Dashboard = () => {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Feedback
+                  Phản hồi
                 </TableCell>
                 <TableCell
                   style={{
@@ -206,7 +206,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Rating
+                  Đánh giá
                 </TableCell>
               </TableRow>
             </TableHead>

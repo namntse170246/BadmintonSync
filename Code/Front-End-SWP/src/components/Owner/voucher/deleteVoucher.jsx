@@ -23,7 +23,7 @@ const DeleteVoucher = ({ voucherId, fetchVouchers }) => {
         onClick={handleDeleteVoucher}
         style={{ backgroundColor: "red", color: "white" }}
       >
-        Delete
+        Xóa
       </Button>
     </div>
   );

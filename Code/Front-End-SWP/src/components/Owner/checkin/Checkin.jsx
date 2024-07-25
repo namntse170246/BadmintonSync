@@ -233,27 +233,27 @@ const CheckInComponent = () => {
                 <TableCell
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  FullName
+                  Tên người dùng
                 </TableCell>
                 <TableCell
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  SubCourtName
+                  Sân nhỏ
                 </TableCell>
                 <TableCell
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  CheckIn Time
+                  Thời gian
                 </TableCell>
                 <TableCell
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  Status
+                  Trạng thái
                 </TableCell>
                 <TableCell
                   sx={{ fontSize: 20, fontFamily: "Arial, sans-serif" }}
                 >
-                  Action
+                  Hành động
                 </TableCell>
               </TableRow>
             </TableHead>

@@ -143,7 +143,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </VerifiedIcon>
-              <ListItemText primary="Booking" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Đơn đặt" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem
@@ -169,7 +169,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </MapIcon>
-              <ListItemText primary="Courts" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Sân" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem
@@ -196,7 +196,7 @@ export default function Sidebar() {
                 <InboxIcon />
               </MapIcon>
               <ListItemText
-                primary="SubCourts"
+                primary="Sân nhỏ"
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
@@ -227,7 +227,7 @@ export default function Sidebar() {
                 <InboxIcon />
               </AddCardIcon>
               <ListItemText
-                primary="Promotion"
+                primary="Khuyến mãi"
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
@@ -255,7 +255,7 @@ export default function Sidebar() {
               >
                 <InboxIcon />
               </FeedbackIcon>
-              <ListItemText primary="Feedback" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Phản hồi" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem

@@ -93,7 +93,7 @@ const Dashboard = () => {
             displayEmpty
             style={{ marginTop: "30px", marginLeft: "20px", width: "200px" }}
           >
-            <MenuItem value="">All Courts</MenuItem>
+            <MenuItem value="">Tất cả sân</MenuItem>
             {courts.map((court) => (
               <MenuItem key={court.courtId} value={court.courtId}>
                 {court.courtName}
@@ -110,7 +110,7 @@ const Dashboard = () => {
             }}
             onClick={handleClickOpen}
           >
-            Create
+            Tạo
           </Button>
           <Dialog
             open={open}
@@ -126,7 +126,7 @@ const Dashboard = () => {
                 color: "#003580",
               }}
             >
-              Create Promotion
+              Tạo khuyến mãi
             </DialogTitle>
             <DialogContent>
               <CreateVoucher
@@ -148,7 +148,7 @@ const Dashboard = () => {
                 fontWeight: "bold",
               }}
             >
-              Promotion
+              Khuyến mãi
             </h2>
             <Table
               sx={{ minWidth: 650 }}
@@ -171,7 +171,7 @@ const Dashboard = () => {
                       fontFamily: "Arial, sans-serif",
                     }}
                   >
-                    Court Name
+                    Sân
                   </TableCell>
                   <TableCell
                     style={{
@@ -179,7 +179,7 @@ const Dashboard = () => {
                       fontFamily: "Arial, sans-serif",
                     }}
                   >
-                    Description
+                    Mô tả
                   </TableCell>
                   <TableCell
                     style={{
@@ -187,7 +187,7 @@ const Dashboard = () => {
                       fontFamily: "Arial, sans-serif",
                     }}
                   >
-                    Percentage
+                    Giảm giá
                   </TableCell>
                   <TableCell
                     style={{
@@ -195,7 +195,7 @@ const Dashboard = () => {
                       fontFamily: "Arial, sans-serif",
                     }}
                   >
-                    Start Date
+                    Ngày bắt đầu
                   </TableCell>
                   <TableCell
                     style={{
@@ -203,7 +203,7 @@ const Dashboard = () => {
                       fontFamily: "Arial, sans-serif",
                     }}
                   >
-                    End Date
+                    Ngày kết thúc
                   </TableCell>
                   <TableCell
                     style={{
@@ -211,7 +211,7 @@ const Dashboard = () => {
                       fontFamily: "Arial, sans-serif",
                     }}
                   >
-                    Action
+                    Hành động
                   </TableCell>
                 </TableRow>
               </TableHead>

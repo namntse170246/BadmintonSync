@@ -102,34 +102,34 @@ for (let pair of formData.entries()) {
     >
       <TextField
         name="courtName"
-        label="Court Name"
+        label="Sân"
         value={courtData.courtName}
         onChange={handleChange}
 required
       />
       <TextField
         name="location"
-        label="Location"
+        label="Địa chỉ"
         value={courtData.location}
         onChange={handleChange}
         required
       />
       <TextField
         name="phone"
-        label="Phone"
+        label="SĐT"
         value={courtData.phone}
         onChange={handleChange}
         required
       />
       <TextField
         name="openingHours"
-        label="Opening Hours"
+        label="Thời gian mở"
         value={courtData.openingHours}
         onChange={handleChange}
       />
       <TextField
         name="announcement"
-        label="Announcement"
+        label="Thông báo"
         value={courtData.announcement}
         onChange={handleChange}
       />
@@ -145,7 +145,7 @@ required
         color="primary"
         style={{ alignSelf: "flex-end", marginTop: "16px" }}
       >
-        Create
+        Tạo
       </Button>
     </form>
   );

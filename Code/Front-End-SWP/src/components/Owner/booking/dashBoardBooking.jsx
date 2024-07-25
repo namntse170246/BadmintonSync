@@ -122,9 +122,9 @@ const Dashboard = () => {
   );
 
   const statusTexts = {
-    0: "Pending",
-    1: "Confirmed",
-    2: "Cancelled",
+    0: "Đang chờ",
+    1: "Đã thanh toán",
+    2: "Đã hủy",
     3: "Check-in",
     4: "Checked"
   };
@@ -151,14 +151,14 @@ const Dashboard = () => {
             fontWeight: "bold",
           }}
         >
-          Booking
+          Đặt sân
         </h2>
         <Select
           value={selectedStatusFilter}
           onChange={(e) => setSelectedStatusFilter(e.target.value)}
           style={{ marginBottom: "20px" }}
         >
-          <MenuItem value="all">All</MenuItem>
+          <MenuItem value="all">Tất cả</MenuItem>
           {Object.keys(statusTexts).map((key) => (
             <MenuItem key={key} value={key}>
               {statusTexts[key]}
@@ -173,19 +173,19 @@ const Dashboard = () => {
                   BookingID
                 </TableCell>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
-                  Name
+                  Người dùng
                 </TableCell>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
-                  Sub Court
+                  Sân nhỏ
                 </TableCell>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
-                  Booking Date
+                  Ngày đặt
                 </TableCell>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
-                  Amount
+                  Số tiền
                 </TableCell>
                 <TableCell style={{ fontSize: "20px", fontFamily: "Arial, sans-serif" }}>
-                  Status
+                  Trạng thái
                 </TableCell>
               </TableRow>
             </TableHead>

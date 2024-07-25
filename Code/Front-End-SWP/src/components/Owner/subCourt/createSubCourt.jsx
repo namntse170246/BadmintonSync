@@ -72,14 +72,14 @@ const CreateSubCourtComponent = ({ fetchSubCourts, onClose }) => {
     >
       <TextField
         name="name"
-        label="Sub-Court Name"
+        label="Tên sân nhỏ"
         value={subCourtData.name}
         onChange={handleChange}
         required
       />
       <TextField
         name="courtId"
-        label="Court"
+        label="Sân"
         select
         value={subCourtData.courtId}
         onChange={handleChange}
@@ -93,7 +93,7 @@ const CreateSubCourtComponent = ({ fetchSubCourts, onClose }) => {
       </TextField>
       <TextField
         name="pricePerHour"
-        label="Price Per Hour"
+        label="Giá theo giờ"
         type="number"
         value={subCourtData.pricePerHour}
         onChange={handleChange}
@@ -105,7 +105,7 @@ const CreateSubCourtComponent = ({ fetchSubCourts, onClose }) => {
         color="primary"
         style={{ alignSelf: "flex-end", marginTop: "16px" }}
       >
-        Create
+        Tạo
       </Button>
     </form>
   );

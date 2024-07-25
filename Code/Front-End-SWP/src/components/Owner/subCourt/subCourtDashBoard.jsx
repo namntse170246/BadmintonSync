@@ -194,7 +194,7 @@ const Dashboard = () => {
             fontWeight: "bold",
           }}
         >
-          Sub Courts
+          Tên sân nhỏ
         </h2>
         <Select
           value={selectedCourtId}
@@ -202,7 +202,7 @@ const Dashboard = () => {
           displayEmpty
           style={{ marginTop: "30px", marginLeft: "20px", width: "200px" }}
         >
-          <MenuItem value="">All Courts</MenuItem>
+          <MenuItem value="">Tất cả</MenuItem>
           {courts.map((court) => (
             <MenuItem key={court.courtId} value={court.courtId}>
               {court.courtName}
@@ -219,7 +219,7 @@ const Dashboard = () => {
           }}
           onClick={handleClickOpen}
         >
-          Create
+          Tạo
         </Button>
         <Dialog
           open={open}
@@ -235,7 +235,7 @@ const Dashboard = () => {
               color: "#003580",
             }}
           >
-            Create Sub Court
+            Tạo sân nhỏ
           </DialogTitle>
           <DialogContent>
             <CreateSubCourtComponent
@@ -259,7 +259,7 @@ const Dashboard = () => {
               color: "#003580",
             }}
           >
-            Edit Price Per Hour
+            Chỉnh giá theo giờ
           </DialogTitle>
           <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {selectedSubCourt && (
@@ -276,10 +276,10 @@ const Dashboard = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleEditClose} color="primary">
-              Cancel
+              Hủy
             </Button>
             <Button onClick={handleSavePrice} color="primary">
-              Save
+              Lưu
             </Button>
           </DialogActions>
         </Dialog>
@@ -293,7 +293,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Sub Court
+                  Sân nhỏ
                 </TableCell>
                 <TableCell
                   style={{
@@ -301,7 +301,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Court Name
+                  Sân
                 </TableCell>
                 <TableCell
                   style={{
@@ -309,7 +309,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Price Per Hour
+                  Giá theo giờ
                 </TableCell>
                 <TableCell
                   style={{
@@ -317,7 +317,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Time Slot
+                  Khung giờ
                 </TableCell>
                 <TableCell
                   style={{
@@ -325,7 +325,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Action
+                  Hành động
                 </TableCell>
               </TableRow>
             </TableHead>

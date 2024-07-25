@@ -122,7 +122,7 @@ const Dashboard = () => {
             fontWeight: "bold",
           }}
         >
-          Courts
+          Sân
         </h2>
         <Select
           value={statusFilter}
@@ -132,7 +132,7 @@ const Dashboard = () => {
           variant="outlined"
           style={{ marginBottom: "20px", width: "200px" }}
         >
-          <MenuItem value="all">All Statuses</MenuItem>
+          <MenuItem value="all">Tất cả</MenuItem>
           <MenuItem value={0}>Đang chờ</MenuItem>
           <MenuItem value={1}>Đã xác thực</MenuItem>
         </Select>
@@ -146,7 +146,7 @@ const Dashboard = () => {
           }}
           onClick={() => setOpenCreate(true)}
         >
-          Create
+          Tạo
         </Button>
         <Dialog
           open={openCreate}
@@ -162,7 +162,7 @@ const Dashboard = () => {
               color: "#003580",
             }}
           >
-            Create Court
+            Tạo sân
           </DialogTitle>
           <DialogContent>
             <CreateCourt
@@ -184,19 +184,19 @@ const Dashboard = () => {
           fullWidth
           maxWidth="sm"
         >
-          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogTitle>Xác nhận xóa</DialogTitle>
           <DialogContent>
-            <p>Are you sure you want to delete this court?</p>
+            <p>Bạn có chắc là muốn xóa sân này?</p>
             <Button
               onClick={confirmDelete}
               color="error"
               variant="contained"
               style={{ marginRight: "10px" }}
             >
-              Delete
+              Xóa
             </Button>
             <Button onClick={cancelDelete} color="primary" variant="outlined">
-              Cancel
+              Hủy
             </Button>
           </DialogContent>
         </Dialog>
@@ -210,7 +210,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Court Name
+                  Tên sân
                 </TableCell>
                 <TableCell
                   style={{
@@ -218,7 +218,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Location
+                  Địa chỉ
                 </TableCell>
                 <TableCell
                   style={{
@@ -226,7 +226,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Phone
+                  SĐT
                 </TableCell>
                 <TableCell
                   style={{
@@ -234,7 +234,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Status
+                  Trạng thái
                 </TableCell>
                 <TableCell
                   style={{
@@ -242,7 +242,7 @@ const Dashboard = () => {
                     fontFamily: "Arial, sans-serif",
                   }}
                 >
-                  Action
+                  Hành động
                 </TableCell>
               </TableRow>
             </TableHead>
