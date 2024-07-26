@@ -7,6 +7,7 @@ import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { SignInAccount } from "../API/APIConfigure";
+import { Link } from "react-router-dom";
 
 const SignIn = ({ setShowLoading }) => {
   const navigate = useNavigate();
@@ -161,6 +162,9 @@ const SignIn = ({ setShowLoading }) => {
         </div>
 
         <button className="btn-form">Đăng nhập</button>
+        <Link to="/forgot-password" className="forgot">
+          Forgot password?
+        </Link>
       </form>
     </>
   );
