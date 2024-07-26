@@ -26,6 +26,11 @@ import PaymentResults from "./pages/user/PaymentResult";
 import LoadingPage from "./components/LoadingPage/LoadingPage";
 import HorizontalNonLinearStepper from "./components/step/HorizontalNonLinearStepper";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import ForgotPassword from "./pages/form/ForgotPassword"; 
+import ResetPassword from "./pages/form/ResetPassword";
+import { BrowserRouter as Router } from 'react-router-dom';
+
+
 
 const AdminWrapper = ({ children }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -212,7 +217,10 @@ function App() {
             </OwnerWrapper>
           }
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
+      
     </>
   );
 }
