@@ -77,7 +77,7 @@ function ChartPaymentUser() {
     <div>
       <div>
         <div style={{ marginBottom: '20px' }}>
-          Tổng tiền đã thanh toán : {formatMoney(totalPayment)}
+          Tổng tiền đã thanh toán : {formatMoney(totalPayment *1000)}
         </div>
         <ResponsiveContainer width="100%" height={400}>
           <LineChart

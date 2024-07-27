@@ -173,7 +173,7 @@ const Dashboard = () => {
                     })}
                   </TableCell>
                   <TableCell style={{ fontSize: "13px" }} align="center">
-                    {booking.amount.toLocaleString()} VND
+                    {booking.amount.toLocaleString() *1000} VND
                   </TableCell>
                   <TableCell style={{ fontSize: "15px", color: statusColors[booking.status], fontWeight: "bold" }} align="center">
                     {statusTexts[booking.status]}
