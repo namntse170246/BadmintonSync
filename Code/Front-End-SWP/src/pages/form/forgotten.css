@@ -1,0 +1,85 @@
+/* Khối nội dung chính */
+.Forgotten {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    max-width: 400px;
+    margin: 2rem auto; /* Tự động căn giữa và khoảng cách trên/dưới */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  /* Tiêu đề */
+  .Forgotten h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Form */
+  .Forgotten form {
+    width: 100%;
+  }
+  
+  /* Khối nhập liệu */
+  .Forgotten div {
+    margin-bottom: 1rem;
+  }
+  
+  /* Nhãn */
+  .Forgotten label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Ô nhập liệu */
+  .Forgotten input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Đảm bảo padding không làm cho ô vượt quá chiều rộng */
+  }
+  
+  /* Nút gửi */
+  .Forgotten button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu */
+  }
+  
+  /* Hiệu ứng hover cho nút gửi */
+  .Forgotten button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Thông báo */
+  .Forgotten p {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+  
+  /* Thông báo thành công */
+  .Forgotten .success-message {
+    color: #28a745; /* Màu xanh lá cây */
+  }
+  
+  /* Thông báo lỗi */
+  .Forgotten .error-message {
+    color: #d9534f; /* Màu đỏ */
+  }
+  
