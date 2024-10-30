@@ -14,9 +14,9 @@ function Footer() {
         <div className="FLists">
           <h3>CourtSync</h3>
           <ul className="FList">
-            <li className="fListItem">Điện thoại: 0911237785</li>
+            <li className="fListItem">Điện thoại: 0944056171</li>
             <li className="fListItem">
-              Email:<a href="#">courtb454@gmail.com</a>
+              Email:<a href="#">nguyentrungnam01n@gmail.com</a>
             </li>
             <li className="fListItem">
               Địa chỉ: 447, Lê Văn Việt, Tp. Thủ Đức
